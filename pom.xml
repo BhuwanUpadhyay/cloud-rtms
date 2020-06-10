@@ -325,6 +325,7 @@
                                     </failWhenParentIsSnapshot>
                                     <excludes>
                                         <exclude>io.github.bhuwanupadhyay.rtms:*</exclude>
+                                        <exclude>io.github.bhuwanupadhyay.rtms.inventory:*</exclude>
                                     </excludes>
                                 </requireReleaseDeps>
                             </rules>
