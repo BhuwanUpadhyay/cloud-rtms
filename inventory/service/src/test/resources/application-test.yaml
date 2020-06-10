@@ -1,0 +1,10 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.security.reactive.ReactiveManagementWebSecurityAutoConfiguration
+  datasource:
+    driver-class-name: org.h2.Driver
+  cloud:
+    consul:
+      enabled: false

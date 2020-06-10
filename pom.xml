@@ -7,6 +7,11 @@
     <groupId>io.github.bhuwanupadhyay</groupId>
     <artifactId>cloud-rtms</artifactId>
     <version>${revision}</version>
+    <modules>
+        <module>shared-kernel</module>
+        <module>gateway</module>
+        <module>inventory</module>
+    </modules>
     <packaging>pom</packaging>
 
     <scm>

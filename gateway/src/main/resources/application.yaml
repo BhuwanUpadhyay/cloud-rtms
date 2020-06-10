@@ -1,0 +1,53 @@
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: ['configprops', 'env', 'health', 'info', 'logfile', 'loggers', 'prometheus', 'threaddump']
+  endpoint:
+    health:
+      show-details: when_authorized
+      roles: 'ROLE_ADMIN'
+  info:
+    git:
+      mode: full
+  health:
+    mail:
+      enabled: false
+  metrics:
+    export:
+      # Prometheus is the default metrics backend
+      prometheus:
+        enabled: true
+        step: 60
+    enable:
+      http: true
+      jvm: true
+      logback: true
+      process: true
+      system: true
+    distribution:
+      percentiles-histogram:
+        all: true
+      percentiles:
+        all: 0, 0.5, 0.75, 0.95, 0.99, 1.0
+    tags:
+      application: ${spring.application.name}
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    consul:
+      enabled: false

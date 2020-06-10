@@ -1,0 +1,40 @@
+spring:
+  cloud:
+    consul:
+      discovery:
+        instance-id: "${spring.application.name}:${random.int[1,999999]}"
+        register-health-check: true
+        health-check-path: /actuator/health
+      enabled: true
+      host: localhost
+      port: 8500
+    gateway:
+      routes:
+        - id: business-module-template #<service_name>
+          uri: lb://business-module-template
+          predicates:
+            - Path=/apps/**
+          filters:
+            - RewritePath=/apps/(?<path>.*), /$\{path}
+        - id: inventory
+          uri: lb://inventory
+          predicates:
+            - Path=/inventories/**
+          filters:
+            - RewritePath=/inventories/(?<path>.*), /$\{path}
+      default-filters:
+        - TokenRelay
+    loadbalancer:
+      cache:
+        enabled: true
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8180/auth/realms/rtms
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: gateway
+            client-secret: b44f1ffa-45a7-4c8a-a9b2-0dd0372a325e
