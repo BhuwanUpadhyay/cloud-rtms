@@ -17,10 +17,10 @@ spring:
         register-health-check: true
         health-check-path: /actuator/health
       enabled: true
-      host: consul
+      host: localhost
       port: 8500
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8180/auth/realms/rtms
+          issuer-uri: http://localhost:8180/auth/realms/rtms
