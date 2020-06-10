@@ -1,0 +1,68 @@
+<form [formGroup]="form">
+  <mat-vertical-stepper #stepper [linear]="false">
+    <mat-step [stepControl]="form">
+      <ng-template matStepLabel>Inventory</ng-template>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input formControlName="name" matInput placeholder="Ex. Grocery Store" required />
+      </mat-form-field>
+      <div>
+        <button color="accent" mat-flat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="form">
+      <ng-template matStepLabel>Product Lines</ng-template>
+
+      <mat-table [dataSource]="dataSource" formArrayName="productLines">
+        <ng-container cdkColumnDef="productId">
+          <mat-header-cell *cdkHeaderCellDef> Product</mat-header-cell>
+          <mat-cell *cdkCellDef="let row; let rowIndex = index" [formGroupName]="rowIndex">
+            <mat-form-field>
+              <input formControlName="productId" matInput required />
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="quantity">
+          <mat-header-cell *cdkHeaderCellDef> Quantity</mat-header-cell>
+          <mat-cell *cdkCellDef="let row; let rowIndex = index" [formGroupName]="rowIndex">
+            <mat-form-field>
+              <input formControlName="quantity" matInput required />
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="action">
+          <mat-header-cell *cdkHeaderCellDef> Action</mat-header-cell>
+          <mat-cell *cdkCellDef="let row; let rowIndex = index">
+            <a (click)="removeProductLine(rowIndex)" color="warn" mat-button>
+              <mat-icon>delete</mat-icon>
+            </a>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Header and Row Declarations -->
+        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *cdkRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+      <div>
+        <button color="warn" mat-flat-button matStepperPrevious>Back</button>
+        <button (click)="addProductLine()" color="primary" mat-flat-button>Add Row</button>
+        <button color="accent" mat-flat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Review</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button color="warn" mat-flat-button matStepperPrevious>Back</button>
+        <rtms-hateoas-action
+          [row]="false"
+          [resource]="entity"
+          (linkAction)="onLinkAction($event)"
+        ></rtms-hateoas-action>
+        <button (click)="stepper.reset()" color="accent" mat-flat-button>Reset</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+</form>

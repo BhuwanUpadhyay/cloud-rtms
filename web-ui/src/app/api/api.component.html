@@ -1,0 +1,32 @@
+<rtms-layout>
+  <ng-container ngProjectAs="sidebar">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/rtms">
+        <mat-icon>dashboard</mat-icon>
+        Dashboard
+      </a>
+      <a mat-list-item routerLink="/rtms/inventories">
+        <mat-icon>inventory</mat-icon>
+        Inventories
+      </a>
+      <a mat-list-item routerLink="/rtms/orders">
+        <mat-icon>local_pizza</mat-icon>
+        Orders
+      </a>
+      <a mat-list-item routerLink="/rtms/payments">
+        <mat-icon>payment</mat-icon>
+        Payments
+      </a>
+      <a mat-list-item routerLink="/rtms/shippings">
+        <mat-icon>local_shipping</mat-icon>
+        Shipments
+      </a>
+    </mat-nav-list>
+  </ng-container>
+  <div>
+    <rtms-breadcrumb></rtms-breadcrumb>
+  </div>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</rtms-layout>

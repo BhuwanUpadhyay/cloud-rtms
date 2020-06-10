@@ -1,0 +1,62 @@
+<div style="margin-top: 20px;">
+  <rtms-hateoas-action (linkAction)="onLinkAction($event)" [resource]="resource"></rtms-hateoas-action>
+</div>
+<ng-container *ngIf="data">
+  <div class="table-filter" fxLayout="row" fxLayoutAlign="space-between center">
+    <div style="width: 70%;">
+      <mat-form-field class="search" style="width: 100%;">
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-label>Search</mat-label>
+        <input #search (input)="data.queryBy({ search: search.value })" matInput placeholder="eg. id=12" type="text" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="property">
+        <mat-label>Order by</mat-label>
+        <mat-select (selectionChange)="data.sortBy({ property: $event.value })" value="id">
+          <mat-option value="id">ID</mat-option>
+          <mat-option value="name">Name</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-button-toggle-group (change)="data.sortBy({ order: $event.value })" value="asc">
+        <mat-button-toggle value="asc">
+          <mat-icon>arrow_upward</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="desc">
+          <mat-icon>arrow_downward</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+  <div *ngIf="data.loading$ | async" class="loading-indicator">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  <table [dataSource]="data" mat-table>
+    <ng-container cdkColumnDef="inventoryId">
+      <th *cdkHeaderCellDef mat-header-cell>No.</th>
+      <td *cdkCellDef="let inventory" mat-cell>{{ inventory.inventoryId }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="name">
+      <th *cdkHeaderCellDef mat-header-cell>Name</th>
+      <td *cdkCellDef="let inventory" mat-cell>{{ inventory.name }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="createdAt">
+      <th *cdkHeaderCellDef mat-header-cell>Registration</th>
+      <td *cdkCellDef="let inventory" mat-cell>{{ inventory.createdAt | date }}</td>
+    </ng-container>
+
+    <tr *cdkHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *cdkRowDef="let row; columns: displayedColumns" mat-row></tr>
+  </table>
+  <mat-paginator
+    (page)="data.fetch($event.pageIndex)"
+    *ngIf="data.page$ | async as page"
+    [hidePageSize]="true"
+    [length]="page.totalElements"
+    [pageIndex]="page.number"
+    [pageSize]="page.size"
+  >
+  </mat-paginator>
+</ng-container>

@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ci/docker/app.dockerfile
+    image: bhuwanupadhyay/web-ui:latest
+    ports:
+      - 180:80

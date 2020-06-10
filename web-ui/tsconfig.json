@@ -1,0 +1,29 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "@rtms/utils": ["dist/rtms/utils/rtms-utils", "dist/rtms/utils"],
+      "@rtms/security": ["dist/rtms/security/rtms-security", "dist/rtms/security"],
+      "@rtms/inventories": ["dist/rtms/inventories/rtms-inventories", "dist/rtms/inventories"],
+      "@rtms/layouts": ["dist/rtms/layouts/rtms-layouts", "dist/rtms/layouts"],
+      "@rtms/orders": ["dist/rtms/orders/rtms-orders", "dist/rtms/orders"],
+      "@rtms/payments": ["dist/rtms/payments/rtms-payments", "dist/rtms/payments"],
+      "@rtms/shippings": ["dist/rtms/shippings/rtms-shippings", "dist/rtms/shippings"]
+    }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
+}
