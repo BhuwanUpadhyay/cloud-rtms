@@ -9,15 +9,14 @@ import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.AppWorkflowComman
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.AppCreated;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowExecuted;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
+import java.time.LocalDateTime;
+import java.util.*;
+import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.*;
 
 @SuppressWarnings("ConstantConditions")
 @Entity

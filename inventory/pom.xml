@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>cloud-rtms</artifactId>
-        <groupId>io.github.bhuwanupadhyay</groupId>
+        <groupId>io.github.bhuwanupadhyay.rtms</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.github.bhuwanupadhyay.inventory</groupId>
+    <groupId>io.github.bhuwanupadhyay.rtms.inventory</groupId>
     <artifactId>inventory</artifactId>
     <packaging>pom</packaging>
     <modules>
