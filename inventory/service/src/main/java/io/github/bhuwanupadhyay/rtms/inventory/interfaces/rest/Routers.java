@@ -17,11 +17,11 @@ public class Routers {
   @Bean
   public RouterFunction<ServerResponse> restRouters(RoutersHandler handler) {
     return RouterFunctions.route()
-        .GET("/apps/actions", handler::getActions)
-        .POST("/apps", handler::create)
-        .GET("/apps", handler::list)
-        .GET("/apps/{id}", handler::get)
-        .PUT("/apps/{id}/{action}", handler::workflow)
+        .GET("/inventories/actions", handler::getActions)
+        .POST("/inventories", handler::create)
+        .GET("/inventories", handler::list)
+        .GET("/inventories/{id}", handler::get)
+        .PUT("/inventories/{id}/{action}", handler::workflow)
         .filter(
             (request, next) -> {
               try {

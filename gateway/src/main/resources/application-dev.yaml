@@ -10,14 +10,8 @@ spring:
       port: 8500
     gateway:
       routes:
-        - id: business-module-template #<service_name>
-          uri: lb://business-module-template
-          predicates:
-            - Path=/apps/**
-          filters:
-            - RewritePath=/apps/(?<path>.*), /$\{path}
-        - id: inventory
-          uri: lb://inventory
+        - id: inventory #<service_name>
+          uri: lb://inventory #<service_name>
           predicates:
             - Path=/inventories/**
           filters:

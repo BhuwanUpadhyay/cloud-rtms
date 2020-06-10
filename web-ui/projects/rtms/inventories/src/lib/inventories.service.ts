@@ -38,6 +38,6 @@ export class InventoriesService {
   }
 
   getActions(): Observable<Resource> {
-    return this.http.get<Resource>(`${this.gateway}/apps/actions`);
+    return this.http.get<Resource>(`${this.gateway}/inventories/actions`);
   }
 }

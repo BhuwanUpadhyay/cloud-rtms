@@ -130,15 +130,15 @@ public class RoutersHandler {
   }
 
   private Link linkOfGet(AppId id) {
-    return Link.builder().rel("get").method("GET").path("/apps/" + id.getAppId()).build();
+    return Link.builder().rel("get").method("GET").path("/inventories/" + id.getAppId()).build();
   }
 
   private Link linkOfCreate() {
-    return Link.builder().rel("create").method("POST").path("/apps").build();
+    return Link.builder().rel("create").method("POST").path("/inventories").build();
   }
 
   private Link linkOfList() {
-    return Link.builder().rel("list").method("GET").path("/apps").build();
+    return Link.builder().rel("list").method("GET").path("/inventories").build();
   }
 
   private List<Link> linksOfWorkflow(AppId id, AppStatus status) {
@@ -148,7 +148,7 @@ public class RoutersHandler {
                 Link.builder()
                     .rel(action)
                     .method("PUT")
-                    .path("/apps/" + id.getAppId() + "/" + action)
+                    .path("/inventories/" + id.getAppId() + "/" + action)
                     .build())
         .collect(Collectors.toList());
   }

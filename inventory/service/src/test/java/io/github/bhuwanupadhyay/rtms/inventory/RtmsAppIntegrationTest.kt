@@ -54,7 +54,7 @@ internal class RtmsAppIntegrationTest {
                     .jsonPath("$.appId").isNotEmpty
                     .jsonPath("$._links[0].rel").isEqualTo("get")
                     .jsonPath("$._links[0].method").isEqualTo("GET")
-                    .jsonPath("$._links[0].path").isEqualTo("/apps/$appId")
+                    .jsonPath("$._links[0].path").isEqualTo("/inventories/$appId")
         }
     }
 
@@ -151,7 +151,7 @@ internal class RtmsAppIntegrationTest {
 
         client
                 .get()
-                .uri("/apps?number={number}&size={size}", -1, 0).exchange().expectStatus().isOk.expectBody()
+                .uri("/inventories?number={number}&size={size}", -1, 0).exchange().expectStatus().isOk.expectBody()
                 .jsonPath("$.number").isEqualTo(0)
                 .jsonPath("$.size").isEqualTo(20)
                 .jsonPath("$.totalElements").isEqualTo(2)
@@ -177,7 +177,7 @@ internal class RtmsAppIntegrationTest {
         val contentSize = 1
         client
                 .get()
-                .uri("/apps?number={number}&size={size}", pageNumber, pageSize).exchange().expectStatus().isOk.expectBody()
+                .uri("/inventories?number={number}&size={size}", pageNumber, pageSize).exchange().expectStatus().isOk.expectBody()
                 .jsonPath("$.number").isEqualTo(pageNumber)
                 .jsonPath("$.size").isEqualTo(pageSize)
                 .jsonPath("$.totalElements").isEqualTo(totalElements)
@@ -187,7 +187,7 @@ internal class RtmsAppIntegrationTest {
     private fun create(): BodyContentSpec {
         return client
                 .post()
-                .uri("/apps")
+                .uri("/inventories")
                 .bodyValue(
                         CreateAppResource.builder()
                                 .name("name")
