@@ -13,3 +13,9 @@ help:
 
 build: ## Build the project
 	ci/build.sh -b
+
+infra: ## Run the infrastructure
+	ci/build.sh --infra
+
+run: ## Run the project
+	ci/build.sh --run
