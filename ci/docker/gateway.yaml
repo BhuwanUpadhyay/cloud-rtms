@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  gateway:
+    image: bhuwanupadhyay/gateway:latest
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_PROFILES_ACTIVE: 'prod,docker'
+      SPRING_APPLICATION_NAME: 'gateway'
+      JAVA_TOOL_OPTIONS: '-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n'
