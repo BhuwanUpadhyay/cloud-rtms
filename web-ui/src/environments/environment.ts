@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  authUrl: 'http://localhost:8080/iam/already-exists',
+  authUrl: 'http://localhost:8080',
   gatewayBasePath: '',
 };
 

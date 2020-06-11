@@ -298,6 +298,38 @@
           }
         }
       }
+    },
+    "@rtms/core": {
+      "projectType": "library",
+      "root": "projects/rtms/core",
+      "sourceRoot": "projects/rtms/core/src",
+      "prefix": "rtms",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/rtms/core/tsconfig.lib.json",
+            "project": "projects/rtms/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/rtms/core/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/rtms/core/tsconfig.lib.json",
+              "projects/rtms/core/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "web-ui"

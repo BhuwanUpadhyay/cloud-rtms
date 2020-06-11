@@ -52,4 +52,9 @@ export class LoginService {
     await this.http.post<LoginResponse>(`${this.basePath}/iam/sign-up`, request).toPromise();
     this.isAuthenticated.next(false);
   }
+
+  checkLogin() {
+
+  }
+
 }
