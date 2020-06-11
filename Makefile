@@ -16,6 +16,3 @@ build: ## Build the project
 
 infra: ## Run the infrastructure
 	ci/build.sh --infra
-
-run: ## Run the project
-	ci/build.sh --run

@@ -25,7 +25,7 @@ public class SecurityConfig {
                 new OidcClientInitiatedServerLogoutSuccessHandler(clientRegistrationRepository)));
     // Require authentication for all requests
     http.authorizeExchange()
-        .pathMatchers("/actuator/health")
+        .pathMatchers("/actuator/health", "/iam/already-exists")
         .permitAll()
         .anyExchange()
         .authenticated();

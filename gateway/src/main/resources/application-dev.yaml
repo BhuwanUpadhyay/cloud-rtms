@@ -14,8 +14,8 @@ spring:
           uri: lb://inventory #<service_name>
           predicates:
             - Path=/inventories/**
-          filters:
-            - RewritePath=/inventories/(?<path>.*), /$\{path}
+#          filters:
+#            - RewritePath=/inventories/(?<path>.*), /$\{path}
       default-filters:
         - TokenRelay
     loadbalancer:
