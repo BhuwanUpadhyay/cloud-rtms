@@ -9,7 +9,7 @@ services:
     ports:
       - 5432:5432
   inventory:
-    image: bhuwanupadhyay/inventory:latest
+    image: bhuwanupadhyay/cloud-rtms/inventory:latest
     depends_on:
       - inventory-db
     ports:

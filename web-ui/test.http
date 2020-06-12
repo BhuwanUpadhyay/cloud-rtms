@@ -1,5 +1,0 @@
-#
-POST http://localhost:9080/auth/realms/rtms-uaa/protocol/openid-connect/token
-Content-Type: application/x-www-form-urlencoded
-
-client_id=web_app&username=user&password=user&grant_type=password
