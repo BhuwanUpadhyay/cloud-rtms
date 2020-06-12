@@ -1,57 +1,24 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "importHelpers": true,
+    "module": "esnext",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "module": "esnext",
     "moduleResolution": "node",
-    "importHelpers": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "lib": [
-      "es2018",
+      "es2017",
       "dom"
     ],
-    "paths": {
-      "@rtms/utils": [
-        "dist/rtms/utils/rtms-utils",
-        "dist/rtms/utils"
-      ],
-      "@rtms/security": [
-        "dist/rtms/security/rtms-security",
-        "dist/rtms/security"
-      ],
-      "@rtms/inventories": [
-        "dist/rtms/inventories/rtms-inventories",
-        "dist/rtms/inventories"
-      ],
-      "@rtms/layouts": [
-        "dist/rtms/layouts/rtms-layouts",
-        "dist/rtms/layouts"
-      ],
-      "@rtms/orders": [
-        "dist/rtms/orders/rtms-orders",
-        "dist/rtms/orders"
-      ],
-      "@rtms/payments": [
-        "dist/rtms/payments/rtms-payments",
-        "dist/rtms/payments"
-      ],
-      "@rtms/shippings": [
-        "dist/rtms/shippings/rtms-shippings",
-        "dist/rtms/shippings"
-      ],
-      "@rtms/core": [
-        "dist/rtms/core/rtms-core",
-        "dist/rtms/core"
-      ]
-    }
-  },
-  "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "plugins": [
+      { "name": "tslint-language-service"}
+    ]
   }
 }
