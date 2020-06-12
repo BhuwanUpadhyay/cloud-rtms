@@ -14,7 +14,6 @@ spring:
           uri: lb://inventory #<service_name>
           predicates:
             - Path=/inventories/**
-            - Path=/inventories
           filters:
             - RewritePath=/inventories/(?<path>.*), /$\{path}
       default-filters:

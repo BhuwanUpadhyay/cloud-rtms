@@ -1,0 +1,10 @@
+<mat-toolbar>
+  <ol>
+    <li *ngFor="let breadcrumb of breadcrumbs; last as isLast">
+      <a [routerLink]="breadcrumb.url" mat-list-item>
+        <span>{{ breadcrumb.label }}</span>
+        <span *ngIf="!isLast" class="breadcrumb-arrow">></span>
+      </a>
+    </li>
+  </ol>
+</mat-toolbar>

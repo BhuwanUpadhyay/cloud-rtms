@@ -18,7 +18,11 @@ public class SecurityConfig {
   public SecurityWebFilterChain springSecurityFilterChain(
       ServerHttpSecurity http, ReactiveClientRegistrationRepository clientRegistrationRepository) {
     // Authenticate through configured OpenID Provider
-    http.oauth2Login();
+    http.oauth2Login(
+        spec -> {
+          spec.authenticationSuccessHandler(
+              new RedirectServerAuthenticationSuccessHandler("http://localhost:4300"));
+        });
     // Also logout at the OpenID Connect provider
     http.logout(
         logout ->
