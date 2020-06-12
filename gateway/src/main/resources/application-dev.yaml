@@ -14,8 +14,9 @@ spring:
           uri: lb://inventory #<service_name>
           predicates:
             - Path=/inventories/**
-#          filters:
-#            - RewritePath=/inventories/(?<path>.*), /$\{path}
+            - Path=/inventories
+          filters:
+            - RewritePath=/inventories/(?<path>.*), /$\{path}
       default-filters:
         - TokenRelay
     loadbalancer:
@@ -25,10 +26,11 @@ spring:
     oauth2:
       client:
         provider:
-          keycloak:
+          oidc:
             issuer-uri: http://localhost:8180/auth/realms/rtms
             user-name-attribute: preferred_username
         registration:
-          keycloak:
+          oidc:
             client-id: gateway
             client-secret: b44f1ffa-45a7-4c8a-a9b2-0dd0372a325e
+#            redirect-uri: http://localhost:4300/rtms

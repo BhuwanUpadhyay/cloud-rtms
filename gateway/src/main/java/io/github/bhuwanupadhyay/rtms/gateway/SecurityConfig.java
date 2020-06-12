@@ -7,6 +7,7 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.client.oidc.web.server.logout.OidcClientInitiatedServerLogoutSuccessHandler;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
 import org.springframework.security.web.server.header.XFrameOptionsServerHttpHeadersWriter.Mode;
 
 @Configuration
@@ -25,7 +26,7 @@ public class SecurityConfig {
                 new OidcClientInitiatedServerLogoutSuccessHandler(clientRegistrationRepository)));
     // Require authentication for all requests
     http.authorizeExchange()
-        .pathMatchers("/actuator/health", "/iam/already-exists")
+        .pathMatchers("/actuator/health")
         .permitAll()
         .anyExchange()
         .authenticated();
