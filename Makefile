@@ -17,5 +17,5 @@ build: ## Build the project
 infra: ## Run the infrastructure
 	ci/build.sh --infra
 
-run: ## Run the infrastructure
-	cd web-ui && npm run start
+html: ## Run the documentation
+	http-server -p 8080 -c-1 docs/target/html

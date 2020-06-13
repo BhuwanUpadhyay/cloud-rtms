@@ -313,15 +313,7 @@
                             <rules>
                                 <reactorModuleConvergence>
                                     <message>
-                                        This rule checks that the versions within the
-                                        reactor are consistent furthermore
-                                        it will check that every module within the project
-                                        contains a parent and that
-                                        the parent is part of the reactor build.
-                                        Furthermore it will be checked if
-                                        dependencies are inter module dependencies that
-                                        they using the same version as
-                                        given by the reactor.
+                                        This rule checks that the versions within the reactor are consistent furthermore it will check that every module within the project contains a parent and that the parent is part of the reactor build. Furthermore it will be checked if dependencies are inter module dependencies that they using the same version as given by the reactor.
                                     </message>
                                     <ignoreModuleDependencies>false
                                     </ignoreModuleDependencies>

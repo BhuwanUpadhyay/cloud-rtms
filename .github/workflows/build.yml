@@ -18,15 +18,22 @@ jobs:
         run: ci/build.sh -b
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - uses: actions/setup-node@v1
-        name: Install semantic-release
+#      - uses: actions/setup-node@v1
+#        name: Install semantic-release
+#        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+#        with:
+#          node-version: "12.x"
+#      - name: Release
+#        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+#        run: |
+#          npm install -g semantic-release @semantic-release/{git,changelog,exec}
+#          semantic-release
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
+      - name: Deploy to Docs
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: JamesIves/github-pages-deploy-action@3.4.8
         with:
-          node-version: "12.x"
-      - name: Release
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        run: |
-          npm install -g semantic-release @semantic-release/{git,changelog,exec}
-          semantic-release
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+          ACCESS_TOKEN: ${{ github.token }}
+          BRANCH: master # The branch the action should deploy to.
+          FOLDER: docs/target/html # The folder the action should deploy.
