@@ -1,6 +1,6 @@
-package io.github.bhuwanupadhyay.rtms.order.application.outboundservices;
+package io.github.bhuwanupadhyay.rtms.inventory.application.outboundservices;
 
-import io.github.bhuwanupadhyay.rtms.order.infrastructure.brokers.stream.InventoryEventSource;
+import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.brokers.stream.InventoryEventSource;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainEvent;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainEventPublisher;
 import lombok.RequiredArgsConstructor;

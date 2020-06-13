@@ -1,16 +1,18 @@
-package io.github.bhuwanupadhyay.rtms.order.infrastructure.repositories.jpa;
+package io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
-import io.github.bhuwanupadhyay.rtms.order.domain.commands.InventoryCreateCommand;
-import io.github.bhuwanupadhyay.rtms.order.domain.events.InventoryCreated;
-import io.github.bhuwanupadhyay.rtms.order.domain.model.aggregates.Inventory;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.events.InventoryCreated;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainEventPublisher;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

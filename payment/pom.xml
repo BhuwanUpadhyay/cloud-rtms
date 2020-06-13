@@ -11,10 +11,5 @@
     <groupId>io.github.bhuwanupadhyay.rtms.payment</groupId>
     <artifactId>payment</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>payment-domain</module>
-        <module>payment-service</module>
-    </modules>
-
 
 </project>

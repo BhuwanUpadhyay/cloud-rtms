@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.order.interfaces.events;
+package io.github.bhuwanupadhyay.rtms.customer.interfaces.events;

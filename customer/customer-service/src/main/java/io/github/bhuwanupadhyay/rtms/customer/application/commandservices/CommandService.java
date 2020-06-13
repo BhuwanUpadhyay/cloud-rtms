@@ -1,11 +1,11 @@
-package io.github.bhuwanupadhyay.rtms.order.application.commandservices;
+package io.github.bhuwanupadhyay.rtms.customer.application.commandservices;
 
-import io.github.bhuwanupadhyay.rtms.customer.domain.commands.InventoryCreateCommand;
-import io.github.bhuwanupadhyay.rtms.customer.domain.commands.InventoryWorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.customer.domain.commands.AppCreateCommand;
+import io.github.bhuwanupadhyay.rtms.customer.domain.commands.AppWorkflowCommand;
 
 public interface CommandService<R> {
 
-  R create(InventoryCreateCommand command);
+  R create(AppCreateCommand command);
 
-  R workflow(InventoryWorkflowCommand command);
+  R workflow(AppWorkflowCommand command);
 }

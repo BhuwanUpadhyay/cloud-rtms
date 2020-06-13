@@ -1,2 +1,0 @@
-${AnsiColor.BRIGHT_BLUE}:: RTMS App 🤓  :: Running Spring Boot ${spring-boot.version} ::
-:: https://cloud-rtms.github.io ::${AnsiColor.DEFAULT} by Bhuwan Prasad Upadhyay

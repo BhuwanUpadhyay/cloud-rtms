@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.order.infrastructure.services;
+package io.github.bhuwanupadhyay.rtms.customer.infrastructure.services;

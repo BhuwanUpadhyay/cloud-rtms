@@ -1,6 +1,6 @@
-package io.github.bhuwanupadhyay.rtms.order.infrastructure.aspect;
+package io.github.bhuwanupadhyay.rtms.inventory.infrastructure.aspect;
 
-import io.github.bhuwanupadhyay.rtms.order.infrastructure.config.AppConstants;
+import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.config.AppConstants;
 import java.util.Arrays;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

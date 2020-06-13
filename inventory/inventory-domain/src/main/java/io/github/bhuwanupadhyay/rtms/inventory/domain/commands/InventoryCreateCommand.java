@@ -1,6 +1,6 @@
-package io.github.bhuwanupadhyay.rtms.order.domain.commands;
+package io.github.bhuwanupadhyay.rtms.inventory.domain.commands;
 
-import io.github.bhuwanupadhyay.rtms.order.domain.model.valueobjects.ProductLine;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.ProductLine;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;

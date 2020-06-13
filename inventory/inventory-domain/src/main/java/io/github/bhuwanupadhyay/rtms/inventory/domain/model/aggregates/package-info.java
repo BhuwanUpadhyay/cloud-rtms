@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.order.domain.model.aggregates;
+package io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates;

@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.order.interfaces.rest.dto;
+package io.github.bhuwanupadhyay.rtms.customer.interfaces.rest.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;

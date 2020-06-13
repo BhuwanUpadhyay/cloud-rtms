@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.order.domain.model.valueobjects;
+package io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects;
 
 import io.github.bhuwanupadhyay.rtms.ddd.DomainAsserts;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainError;

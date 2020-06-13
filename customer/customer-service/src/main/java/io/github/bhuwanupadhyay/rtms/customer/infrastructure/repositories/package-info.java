@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.order.infrastructure.repositories;
+package io.github.bhuwanupadhyay.rtms.customer.infrastructure.repositories;

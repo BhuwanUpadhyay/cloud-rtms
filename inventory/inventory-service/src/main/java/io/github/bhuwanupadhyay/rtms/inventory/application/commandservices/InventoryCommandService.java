@@ -1,10 +1,10 @@
-package io.github.bhuwanupadhyay.rtms.order.application.commandservices;
+package io.github.bhuwanupadhyay.rtms.inventory.application.commandservices;
 
-import io.github.bhuwanupadhyay.rtms.order.domain.commands.InventoryCreateCommand;
-import io.github.bhuwanupadhyay.rtms.order.domain.commands.InventoryWorkflowCommand;
-import io.github.bhuwanupadhyay.rtms.order.domain.model.aggregates.Inventory;
-import io.github.bhuwanupadhyay.rtms.order.domain.model.valueobjects.InventoryId;
-import io.github.bhuwanupadhyay.rtms.order.infrastructure.repositories.jpa.InventoryDomainRepository;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryWorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.InventoryId;
+import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.InventoryDomainRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

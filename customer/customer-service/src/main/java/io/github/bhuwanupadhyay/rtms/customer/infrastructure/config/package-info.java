@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.order.infrastructure.config;
+package io.github.bhuwanupadhyay.rtms.customer.infrastructure.config;

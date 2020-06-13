@@ -3,14 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>customer</artifactId>
         <groupId>io.github.bhuwanupadhyay.rtms.customer</groupId>
+        <artifactId>customer</artifactId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>customer-service</artifactId>
-
 
     <properties>
         <pact-jvm-provider-junit5.version>4.0.10</pact-jvm-provider-junit5.version>
@@ -168,5 +167,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

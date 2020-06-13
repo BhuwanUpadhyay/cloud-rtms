@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.order.interfaces.rest.dto;
+package io.github.bhuwanupadhyay.rtms.customer.interfaces.rest.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -7,12 +7,12 @@ import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
 
-@Builder(builderClassName = "Builder")
+@Builder
 @Value
-@JsonDeserialize(builder = Resource.Builder.class)
+@JsonDeserialize(builder = Resource.ResourceBuilder.class)
 public class Resource {
   @Singular private final List<Link> _links;
 
   @JsonPOJOBuilder(withPrefix = "")
-  public static final class Builder {}
+  public static final class ResourceBuilder {}
 }

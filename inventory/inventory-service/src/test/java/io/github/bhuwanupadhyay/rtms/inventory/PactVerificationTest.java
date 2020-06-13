@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.order;
+package io.github.bhuwanupadhyay.rtms.inventory;
 
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;

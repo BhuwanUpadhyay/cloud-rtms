@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.order.application.commandservices;
+package io.github.bhuwanupadhyay.rtms.inventory.application.commandservices;

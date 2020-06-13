@@ -1,6 +1,6 @@
-package io.github.bhuwanupadhyay.rtms.order;
+package io.github.bhuwanupadhyay.rtms.inventory;
 
-import io.github.bhuwanupadhyay.rtms.order.infrastructure.config.ApplicationProperties;
+import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.config.ApplicationProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

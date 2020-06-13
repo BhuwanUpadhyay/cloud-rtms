@@ -1,6 +1,6 @@
-package io.github.bhuwanupadhyay.rtms.order.infrastructure.config;
+package io.github.bhuwanupadhyay.rtms.customer.infrastructure.config;
 
-import io.github.bhuwanupadhyay.rtms.order.infrastructure.aspect.LoggingAspect;
+import io.github.bhuwanupadhyay.rtms.customer.infrastructure.aspect.LoggingAspect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

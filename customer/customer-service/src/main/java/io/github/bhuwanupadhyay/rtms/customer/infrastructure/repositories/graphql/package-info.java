@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.order.infrastructure.repositories.graphql;
+package io.github.bhuwanupadhyay.rtms.customer.infrastructure.repositories.graphql;

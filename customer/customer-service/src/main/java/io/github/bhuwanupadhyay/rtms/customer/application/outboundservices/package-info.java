@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.order.application.outboundservices;
+package io.github.bhuwanupadhyay.rtms.customer.application.outboundservices;

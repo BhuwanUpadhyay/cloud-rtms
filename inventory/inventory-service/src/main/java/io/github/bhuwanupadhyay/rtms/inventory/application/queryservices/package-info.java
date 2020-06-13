@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.order.application.queryservices;
+package io.github.bhuwanupadhyay.rtms.inventory.application.queryservices;
