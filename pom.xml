@@ -17,6 +17,7 @@
         <module>notification</module>
         <module>dashboard</module>
         <module>business-intelligence</module>
+        <module>docs</module>
     </modules>
     <packaging>pom</packaging>
 
