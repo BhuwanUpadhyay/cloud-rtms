@@ -12,10 +12,13 @@ help:
 ##@ Development
 
 build: ## Build the project
-	ci/build.sh -b
+	ci/build.sh -b && ci/build.sh --docker
 
 infra: ## Run the infrastructure
 	ci/build.sh --infra
+
+docker: ## Run the infrastructure
+	ci/build.sh --docker
 
 html: ## Run the documentation
 	ci/build.sh --docs && http-server -p 8080 -c-1 docs/target/html

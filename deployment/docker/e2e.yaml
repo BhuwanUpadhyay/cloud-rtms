@@ -1,6 +1,6 @@
 version: "3.7"
 services:
   rtms-e2e:
-    image: bhuwanupadhyay/cloud-rtms/e2e:latest
+    image: cloudrtms/e2e:latest
     environment:
       GATEWAY_BASE_URL: 'http://gateway:8080'

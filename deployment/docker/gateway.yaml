@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   gateway:
-    image: bhuwanupadhyay/gateway:latest
+    image: cloudrtms/gateway:latest
     ports:
       - 8080:8080
     environment:

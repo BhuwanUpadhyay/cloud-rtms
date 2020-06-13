@@ -5,6 +5,14 @@ case ${option} in
         -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -V \
         clean install
       ;;
+   --docker)
+      for i in "gateway" "inventory/inventory-service"; do
+	      rm -rf ${i}/target/dependency &&  \
+        mkdir -p ${i}/target/dependency && \
+        unzip -qq ${i}/target/*.jar -d ${i}/target/dependency
+	    done
+	    docker-compose build --no-cache
+     ;;
    --docs)
       ./mvnw -s .github/settings.xml \
         -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -V \
