@@ -18,12 +18,36 @@ service:
   port: 80
   internalPort: 8080
 
-docs:
+business-intelligence:
   enabled: false
   image:
     tag: "1.0.0"
 
 customer:
+  enabled: false
+  image:
+    tag: "1.0.0"
+dashboard:
+  enabled: false
+  image:
+    tag: "1.0.0"
+docs:
+  enabled: false
+  image:
+    tag: "1.0.0"
+notification:
+  enabled: false
+  image:
+    tag: "1.0.0"
+order:
+  enabled: false
+  image:
+    tag: "1.0.0"
+payment:
+  enabled: false
+  image:
+    tag: "1.0.0"
+web-ui:
   enabled: false
   image:
     tag: "1.0.0"

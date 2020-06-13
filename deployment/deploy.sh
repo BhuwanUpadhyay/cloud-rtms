@@ -16,9 +16,7 @@ fi
 
 # shellcheck disable=SC2139
 alias helm="$DIR/linux-amd64/helm"
-alias mkctl="microk8s kubectl"
-microk8s.kubectl config view --raw > "$DIR"/config
-export KUBECONFIG="$DIR"/config
+#export KUBECONFIG="$DIR"/config
 
 printf '\n'
 helm version
@@ -39,7 +37,11 @@ case ${option} in
    -d)
         helm upgrade \
         --install -f helm-chart/local.yaml \
-        $NAMESPACE-local helm-chart --force --namespace $NAMESPACE
+        $NAMESPACE-local helm-chart --force \
+#         --namespace $NAMESPACE
+      ;;
+   -r)
+      helm delete $NAMESPACE-local
       ;;
    *)
       echo "`basename ${0}`:usage: [-s secret] | [-d deploy]"
