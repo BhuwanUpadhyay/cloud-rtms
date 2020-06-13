@@ -1,4 +1,4 @@
-= Cloud RTMS: Hand-on workshop on microservice
+= Cloud RTMS: Hand-on Workshop in Microservices
 Bhuwan Prasad Upadhyay <bot.bhuwan@gmail.com>
 :favicon: images/favicon.png
 :doctype: book
@@ -16,7 +16,7 @@ Bhuwan Prasad Upadhyay <bot.bhuwan@gmail.com>
 
 image::images/RTMSOverview.png[scaledwidth="40%", scaledheight="40%",alt="novatec"]
 
-.Welcome to the **Cloud RTMS: Hand-on workshop on microservice**.
+.Welcome to the **Cloud RTMS: Hand-on Workshop in Microservices**.
 
 == Introduction
 

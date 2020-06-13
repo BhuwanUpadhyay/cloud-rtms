@@ -18,4 +18,4 @@ infra: ## Run the infrastructure
 	ci/build.sh --infra
 
 html: ## Run the documentation
-	http-server -p 8080 -c-1 docs/target/html
+	ci/build.sh --docs && http-server -p 8080 -c-1 docs/target/html
