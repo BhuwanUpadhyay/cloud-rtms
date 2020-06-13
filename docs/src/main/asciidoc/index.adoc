@@ -14,11 +14,15 @@ Bhuwan Prasad Upadhyay <bot.bhuwan@gmail.com>
 
 .RTMS Overview
 
-image::images/RTMSOverview.png[scaledwidth="40%", scaledheight="40%",alt="novatec"]
+image::images/RTMSOverview.png[scaledwidth="40%", scaledheight="40%",alt="RTMS Overview"]
 
 .Welcome to the **Cloud RTMS: Hand-on Workshop in Microservices**.
 
 == Introduction
+
+.Modules landscape for **Cloud RTMS**
+
+image::images/ModuleLandscape.png[scaledwidth="40%", scaledheight="40%",alt="Modules landscape for Cloud RTMS"]
 
 == Feedback
 

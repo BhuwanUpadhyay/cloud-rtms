@@ -1,1 +1,6 @@
-include::docs/src/main/asciidoc/index.adoc
+= Cloud RTMS: Hand-on Workshop in Microservices
+
+== Build
+
+
+== Deployment
