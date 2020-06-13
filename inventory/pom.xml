@@ -12,8 +12,8 @@
     <artifactId>inventory</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>domain</module>
-        <module>service</module>
+        <module>inventory-domain</module>
+        <module>inventory-service</module>
     </modules>
 
 

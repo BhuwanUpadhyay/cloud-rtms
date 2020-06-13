@@ -12,8 +12,8 @@
     <artifactId>payment</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>domain</module>
-        <module>service</module>
+        <module>payment-domain</module>
+        <module>payment-service</module>
     </modules>
 
 

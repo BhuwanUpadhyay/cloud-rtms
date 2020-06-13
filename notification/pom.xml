@@ -12,8 +12,8 @@
     <artifactId>notification</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>domain</module>
-        <module>service</module>
+        <module>notification-domain</module>
+        <module>notification-service</module>
     </modules>
 
 

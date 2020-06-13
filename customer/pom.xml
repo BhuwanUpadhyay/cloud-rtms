@@ -12,8 +12,8 @@
     <artifactId>customer</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>domain</module>
-        <module>service</module>
+        <module>customer-domain</module>
+        <module>customer-service</module>
     </modules>
 
 

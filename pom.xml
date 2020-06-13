@@ -332,6 +332,12 @@
                                     <excludes>
                                         <exclude>io.github.bhuwanupadhyay.rtms:*</exclude>
                                         <exclude>io.github.bhuwanupadhyay.rtms.inventory:*</exclude>
+                                        <exclude>io.github.bhuwanupadhyay.rtms.order:*</exclude>
+                                        <exclude>io.github.bhuwanupadhyay.rtms.payment:*</exclude>
+                                        <exclude>io.github.bhuwanupadhyay.rtms.customer:*</exclude>
+                                        <exclude>io.github.bhuwanupadhyay.rtms.dashboard:*</exclude>
+                                        <exclude>io.github.bhuwanupadhyay.rtms.business.intelligence:*</exclude>
+                                        <exclude>io.github.bhuwanupadhyay.rtms.notification:*</exclude>
                                     </excludes>
                                 </requireReleaseDeps>
                             </rules>
