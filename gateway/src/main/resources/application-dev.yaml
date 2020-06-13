@@ -10,12 +10,26 @@ spring:
       port: 8500
     gateway:
       routes:
-        - id: inventory #<service_name>
-          uri: lb://inventory #<service_name>
+        - id: inventory-service
+          uri: lb://inventory-service
           predicates:
-            - Path=/inventories/**
-          filters:
-            - RewritePath=/inventories/(?<path>.*), /$\{path}
+            - Path=/inventories
+        - id: customer-service
+          uri: lb://cusotmer-service
+          predicates:
+            - Path=/customers
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/payments
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/orders
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/notifications
       default-filters:
         - TokenRelay
     loadbalancer:
