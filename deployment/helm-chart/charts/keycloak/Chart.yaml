@@ -27,4 +27,3 @@ dependencies:
     alias: keycloakdb
     version: "8.10.5"
     repository: "https://charts.bitnami.com/bitnami"
-    condition: "keycloakdb.enabled"

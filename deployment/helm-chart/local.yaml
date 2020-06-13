@@ -18,6 +18,11 @@ service:
   port: 80
   internalPort: 8080
 
+keycloak:
+  enabled: true
+  image:
+    tag: "latest"
+
 business-intelligence:
   enabled: false
   image:
