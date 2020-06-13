@@ -20,6 +20,10 @@ image::images/RTMSOverview.png[scaledwidth="40%", scaledheight="40%",alt="RTMS O
 
 == Introduction
 
+. Business Domain
+
+image::images/Domain.png[scaledwidth="40%", scaledheight="40%",alt="Business Domain"]
+
 .Modules landscape for **Cloud RTMS**
 
 image::images/ModuleLandscape.png[scaledwidth="40%", scaledheight="40%",alt="Modules landscape for Cloud RTMS"]
