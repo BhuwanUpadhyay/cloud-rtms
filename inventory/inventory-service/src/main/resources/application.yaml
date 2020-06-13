@@ -48,7 +48,7 @@ management:
 
 spring:
   application:
-    name: inventory
+    name: inventory-service
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
   jpa:

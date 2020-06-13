@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa;
+package io.github.bhuwanupadhyay.rtms.order.infrastructure.repositories.jpa;

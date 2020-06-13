@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest;
+package io.github.bhuwanupadhyay.rtms.order.interfaces.rest;
 
 import io.github.bhuwanupadhyay.rtms.ddd.DomainEntityNotFound;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainException;

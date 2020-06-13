@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects;
+package io.github.bhuwanupadhyay.rtms.order.domain.model.valueobjects;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,14 +1,13 @@
-package io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest;
+package io.github.bhuwanupadhyay.rtms.order.interfaces.rest;
 
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
-import io.github.bhuwanupadhyay.rtms.inventory.application.commandservices.InventoryCommandService;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryWorkflowCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
-import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.InventoryQueryRepository;
-import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.*;
+import io.github.bhuwanupadhyay.rtms.order.application.commandservices.InventoryCommandService;
+import io.github.bhuwanupadhyay.rtms.order.domain.commands.InventoryCreateCommand;
+import io.github.bhuwanupadhyay.rtms.order.domain.commands.InventoryWorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.order.domain.model.aggregates.Inventory;
+import io.github.bhuwanupadhyay.rtms.order.infrastructure.repositories.jpa.InventoryQueryRepository;
+import io.github.bhuwanupadhyay.rtms.order.interfaces.rest.dto.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;

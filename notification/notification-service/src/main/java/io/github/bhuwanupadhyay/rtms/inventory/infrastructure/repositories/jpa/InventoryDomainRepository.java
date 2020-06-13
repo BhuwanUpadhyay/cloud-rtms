@@ -1,7 +1,7 @@
-package io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa;
+package io.github.bhuwanupadhyay.rtms.order.infrastructure.repositories.jpa;
 
-import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.InventoryId;
+import io.github.bhuwanupadhyay.rtms.order.domain.model.aggregates.Inventory;
+import io.github.bhuwanupadhyay.rtms.order.domain.model.valueobjects.InventoryId;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainEventPublisher;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainRepository;
 import java.util.Optional;

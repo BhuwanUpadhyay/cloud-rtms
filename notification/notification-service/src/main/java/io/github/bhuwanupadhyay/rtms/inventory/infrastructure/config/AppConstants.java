@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.inventory.infrastructure.config;
+package io.github.bhuwanupadhyay.rtms.order.infrastructure.config;
 
 public interface AppConstants {
   String SPRING_PROFILE_DEVELOPMENT = "dev";

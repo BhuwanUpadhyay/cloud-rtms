@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.inventory.domain.events;
+package io.github.bhuwanupadhyay.rtms.order.domain.events;

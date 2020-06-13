@@ -1,9 +1,9 @@
 package io.github.bhuwanupadhyay.rtms.inventory
 
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.Actions
-import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.CreateInventoryResource
-import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.ProductLineResource
-import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.WorkflowResource
+import io.github.bhuwanupadhyay.rtms.customer.interfaces.rest.dto.CreateInventoryResource
+import io.github.bhuwanupadhyay.rtms.customer.interfaces.rest.dto.ProductLineResource
+import io.github.bhuwanupadhyay.rtms.customer.interfaces.rest.dto.WorkflowResource
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric

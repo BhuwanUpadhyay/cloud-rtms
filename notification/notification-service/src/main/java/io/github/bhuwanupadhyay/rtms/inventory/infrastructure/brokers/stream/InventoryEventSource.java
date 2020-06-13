@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.inventory.infrastructure.brokers.stream;
+package io.github.bhuwanupadhyay.rtms.order.infrastructure.brokers.stream;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;

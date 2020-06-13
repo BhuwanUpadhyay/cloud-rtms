@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.inventory.domain.commands;
+package io.github.bhuwanupadhyay.rtms.order.domain.commands;

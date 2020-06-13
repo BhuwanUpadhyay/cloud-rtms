@@ -1,6 +1,6 @@
-package io.github.bhuwanupadhyay.rtms.inventory.interfaces.events;
+package io.github.bhuwanupadhyay.rtms.order.interfaces.events;
 
-import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.brokers.stream.InventoryEventSource;
+import io.github.bhuwanupadhyay.rtms.order.infrastructure.brokers.stream.InventoryEventSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.annotation.EnableBinding;

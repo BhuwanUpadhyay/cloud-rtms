@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.inventory.domain.events;
+package io.github.bhuwanupadhyay.rtms.order.domain.events;
 
 import io.github.bhuwanupadhyay.rtms.ddd.DomainEvent;
 import lombok.Builder;

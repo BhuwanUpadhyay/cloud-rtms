@@ -1,6 +1,6 @@
-package io.github.bhuwanupadhyay.rtms.inventory.infrastructure.aspect;
+package io.github.bhuwanupadhyay.rtms.order.infrastructure.aspect;
 
-import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.config.AppConstants;
+import io.github.bhuwanupadhyay.rtms.order.infrastructure.config.AppConstants;
 import java.util.Arrays;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -38,7 +38,7 @@ public class LoggingAspect {
 
   /** Pointcut that matches all Spring beans in the application's main packages. */
   @Pointcut(
-      "within(io.github.bhuwanupadhyay.rtms.inventory.application..*)"
+      "within(io.github.bhuwanupadhyay.rtms.customer.application..*)"
           + " || within(io.github.bhuwanupadhyay.rtms.inventory.infrastructure..*)"
           + " || within(io.github.bhuwanupadhyay.rtms.inventory.interfaces..*)")
   public void applicationPackagePointcut() {

@@ -1,10 +1,9 @@
-package io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates;
+package io.github.bhuwanupadhyay.rtms.order.domain.model.aggregates;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.events.InventoryCreated;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
+import io.github.bhuwanupadhyay.rtms.order.domain.commands.InventoryCreateCommand;
+import io.github.bhuwanupadhyay.rtms.order.domain.events.InventoryCreated;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainAssertions;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

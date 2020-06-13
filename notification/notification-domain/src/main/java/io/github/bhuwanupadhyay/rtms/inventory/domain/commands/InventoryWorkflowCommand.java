@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.inventory.domain.commands;
+package io.github.bhuwanupadhyay.rtms.order.domain.commands;
 
 import lombok.Builder;
 import lombok.Getter;

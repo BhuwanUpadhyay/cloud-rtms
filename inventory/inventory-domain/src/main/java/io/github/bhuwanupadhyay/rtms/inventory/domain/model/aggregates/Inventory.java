@@ -1,14 +1,14 @@
-package io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates;
+package io.github.bhuwanupadhyay.rtms.order.domain.model.aggregates;
 
 import io.github.bhuwanupadhyay.rtms.ddd.AggregateRoot;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainAsserts;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainError;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainException;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryWorkflowCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.events.InventoryCreated;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowExecuted;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
+import io.github.bhuwanupadhyay.rtms.order.domain.commands.InventoryCreateCommand;
+import io.github.bhuwanupadhyay.rtms.order.domain.commands.InventoryWorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.order.domain.events.InventoryCreated;
+import io.github.bhuwanupadhyay.rtms.order.domain.events.WorkflowExecuted;
+
 import java.time.LocalDateTime;
 import java.util.*;
 import javax.persistence.*;

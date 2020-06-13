@@ -1,1 +1,1 @@
-package io.github.bhuwanupadhyay.rtms.inventory.interfaces;
+package io.github.bhuwanupadhyay.rtms.order.interfaces;
