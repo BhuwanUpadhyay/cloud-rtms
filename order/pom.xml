@@ -11,5 +11,9 @@
     <groupId>io.github.bhuwanupadhyay.rtms.order</groupId>
     <artifactId>order</artifactId>
     <packaging>pom</packaging>
+    <modules>
+        <module>order-domain</module>
+        <module>order-service</module>
+    </modules>
 
 </project>

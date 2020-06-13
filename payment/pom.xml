@@ -12,4 +12,9 @@
     <artifactId>payment</artifactId>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>payment-domain</module>
+        <module>payment-service</module>
+    </modules>
+
 </project>
