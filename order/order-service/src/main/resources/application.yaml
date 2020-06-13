@@ -48,7 +48,7 @@ management:
 
 spring:
   application:
-    name: app
+    name: order-service
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
   jpa:

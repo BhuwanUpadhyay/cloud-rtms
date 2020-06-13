@@ -47,7 +47,7 @@ management:
 
 spring:
   application:
-    name: gateway
+    name: gateway-service
   cloud:
     consul:
       enabled: false
