@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: docker.pkg.github.com/cloud-rtms/gateway/gateway
+  repository: cloudrtms/gateway
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "1.0.0"
+  tag: "latest"
 
 imagePullSecrets:
   - name: "github-cloud-rtms"
@@ -21,33 +21,40 @@ service:
 business-intelligence:
   enabled: false
   image:
-    tag: "1.0.0"
-
+    tag: "latest"
+inventory:
+  enabled: false
+  image:
+    tag: "latest"
 customer:
   enabled: false
   image:
-    tag: "1.0.0"
+    tag: "latest"
 dashboard:
   enabled: false
   image:
-    tag: "1.0.0"
+    tag: "latest"
 docs:
   enabled: false
   image:
-    tag: "1.0.0"
+    tag: "latest"
 notification:
   enabled: false
   image:
-    tag: "1.0.0"
+    tag: "latest"
 order:
   enabled: false
   image:
-    tag: "1.0.0"
+    tag: "latest"
 payment:
   enabled: false
   image:
-    tag: "1.0.0"
+    tag: "latest"
 web-ui:
   enabled: false
   image:
-    tag: "1.0.0"
+    tag: "latest"
+monitoring:
+  enabled: false
+  image:
+    tag: "latest"

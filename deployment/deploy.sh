@@ -40,6 +40,9 @@ case ${option} in
         $NAMESPACE-local helm-chart --force \
 #         --namespace $NAMESPACE
       ;;
+   --update)
+        helm dependency update helm-chart
+      ;;
    -r)
       helm delete $NAMESPACE-local
       ;;
