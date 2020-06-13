@@ -6,15 +6,15 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Value;
 
-@Builder
+@Builder(builderClassName = "Builder")
 @Value
-@JsonDeserialize(builder = PageResource.PageResourceBuilder.class)
+@JsonDeserialize(builder = PageResource.Builder.class)
 public class PageResource {
-  private final List<AppResource> content;
+  private final List<InventoryResource> content;
   private final Integer number;
   private final Integer size;
   private final Long totalElements;
 
   @JsonPOJOBuilder(withPrefix = "")
-  public static final class PageResourceBuilder {}
+  public static final class Builder {}
 }

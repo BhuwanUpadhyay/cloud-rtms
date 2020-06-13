@@ -38,9 +38,9 @@ public class LoggingAspect {
 
   /** Pointcut that matches all Spring beans in the application's main packages. */
   @Pointcut(
-      "within(io.github.bhuwanupadhyay.rtms.app.application..*)"
-          + " || within(io.github.bhuwanupadhyay.rtms.app.infrastructure..*)"
-          + " || within(io.github.bhuwanupadhyay.rtms.app.interfaces..*)")
+      "within(io.github.bhuwanupadhyay.rtms.inventory.application..*)"
+          + " || within(io.github.bhuwanupadhyay.rtms.inventory.infrastructure..*)"
+          + " || within(io.github.bhuwanupadhyay.rtms.inventory.interfaces..*)")
   public void applicationPackagePointcut() {
     // Method is empty as this is just a Pointcut, the implementations are in the advices.
   }

@@ -7,12 +7,12 @@ import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
 
-@Builder
+@Builder(builderClassName = "Builder")
 @Value
-@JsonDeserialize(builder = Resource.ResourceBuilder.class)
+@JsonDeserialize(builder = Resource.Builder.class)
 public class Resource {
   @Singular private final List<Link> _links;
 
   @JsonPOJOBuilder(withPrefix = "")
-  public static final class ResourceBuilder {}
+  public static final class Builder {}
 }

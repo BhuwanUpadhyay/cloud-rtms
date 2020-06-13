@@ -7,13 +7,13 @@ import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
 
-@Builder
+@Builder(builderClassName = "Builder")
 @Value
-@JsonDeserialize(builder = CreateAppResource.CreateAppResourceBuilder.class)
-public class CreateAppResource {
-  private String name;
-  @Singular private List<ReleaseVersionResource> releaseVersions;
+@JsonDeserialize(builder = InventoryIdResource.Builder.class)
+public class InventoryIdResource {
+  private final String inventoryId;
+  @Singular private final List<Link> _links;
 
   @JsonPOJOBuilder(withPrefix = "")
-  public static final class CreateAppResourceBuilder {}
+  public static final class Builder {}
 }

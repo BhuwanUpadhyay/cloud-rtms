@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 @EnableDiscoveryClient
 @EnableConfigurationProperties(ApplicationProperties.class)
-public class RtmsAppApplication {
+public class SpringBoot {
 
   public static void main(String[] args) {
-    SpringApplication.run(RtmsAppApplication.class, args);
+    SpringApplication.run(SpringBoot.class, args);
   }
 }

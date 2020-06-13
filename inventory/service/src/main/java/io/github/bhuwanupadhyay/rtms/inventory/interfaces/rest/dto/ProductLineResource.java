@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
 
-@Builder
+@Builder(builderClassName = "Builder")
 @Value
-@JsonDeserialize(builder = ReleaseVersionResource.ReleaseVersionResourceBuilder.class)
-public class ReleaseVersionResource {
-  private final String releaseId;
-  private final String date;
+@JsonDeserialize(builder = ProductLineResource.Builder.class)
+public class ProductLineResource {
+  private final String productId;
+  private final Integer quantity;
 
   @JsonPOJOBuilder(withPrefix = "")
-  public static final class ReleaseVersionResourceBuilder {}
+  public static final class Builder {}
 }

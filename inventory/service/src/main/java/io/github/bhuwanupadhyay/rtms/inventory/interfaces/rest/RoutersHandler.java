@@ -2,14 +2,14 @@ package io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest;
 
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
-import io.github.bhuwanupadhyay.rtms.inventory.application.commandservices.AppCommandService;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.AppCreateCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.AppWorkflowCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.App;
+import io.github.bhuwanupadhyay.rtms.inventory.application.commandservices.InventoryCommandService;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryWorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
-import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.AppQueryRepository;
+import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.InventoryQueryRepository;
 import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.*;
-import java.time.LocalDateTime;
+
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,8 +27,8 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @RequiredArgsConstructor
 public class RoutersHandler {
-  private final AppQueryRepository queryRepository;
-  private final AppCommandService commandService;
+  private final InventoryQueryRepository queryRepository;
+  private final InventoryCommandService commandService;
 
   public Mono<ServerResponse> getActions(ServerRequest request) {
     return ServerResponse.ok()
@@ -37,13 +37,13 @@ public class RoutersHandler {
 
   public Mono<ServerResponse> create(ServerRequest request) {
     return request
-        .bodyToMono(CreateAppResource.class)
+        .bodyToMono(CreateInventoryResource.class)
         .flatMap(
             it -> {
-              AppCreateCommand command = toCommand(it);
-              AppId appId = commandService.create(command);
+              InventoryCreateCommand command = toCommand(it);
+              InventoryId inventoryId = commandService.create(command);
               return ServerResponse.status(HttpStatus.CREATED)
-                  .body(fromValue(toAppIdResource(appId)));
+                  .body(fromValue(toResource(inventoryId)));
             });
   }
 
@@ -51,10 +51,10 @@ public class RoutersHandler {
     int number =
         request.queryParam("number").map(Integer::parseInt).filter(num -> num > -1).orElse(0);
     int size = request.queryParam("size").map(Integer::parseInt).filter(num -> num > 0).orElse(20);
-    Page<App> page = queryRepository.findAll(PageRequest.of(number, size));
-    List<AppResource> content =
+    Page<Inventory> page = queryRepository.findAll(PageRequest.of(number, size));
+    List<InventoryResource> content =
         page.getContent().stream()
-            .map(app -> toAppResource(app, List.of(linkOfGet(app.getId()))))
+            .map(inventory -> toResource(inventory, List.of(linkOfGet(inventory.getId()))))
             .collect(Collectors.toList());
     return ServerResponse.ok()
         .body(
@@ -70,9 +70,9 @@ public class RoutersHandler {
   public Mono<ServerResponse> get(ServerRequest request) {
     String id = request.pathVariable("id");
     return queryRepository
-        .findOne(new AppId(id))
-        .map(app -> toAppResource(app, linksOfWorkflow(app.getId(), app.getStatus())))
-        .map(appResource -> ServerResponse.ok().body(fromValue(appResource)))
+        .findOne(new InventoryId(id))
+        .map(inventory -> toResource(inventory, linksOfWorkflow(inventory.getId(), inventory.getStatus())))
+        .map(inventoryResource -> ServerResponse.ok().body(fromValue(inventoryResource)))
         .orElseGet(() -> ServerResponse.notFound().build());
   }
 
@@ -81,56 +81,58 @@ public class RoutersHandler {
         .bodyToMono(WorkflowResource.class)
         .flatMap(
             it -> {
-              AppWorkflowCommand command =
-                  AppWorkflowCommand.builder()
-                      .appId(request.pathVariable("id"))
+              InventoryWorkflowCommand command =
+                  InventoryWorkflowCommand.builder()
+                      .inventoryId(request.pathVariable("id"))
                       .action(it.getAction())
                       .comment(it.getComment())
                       .payloadJson(it.getPayloadJson())
                       .build();
-              AppId appId = commandService.workflow(command);
-              return ServerResponse.ok().body(fromValue(toAppIdResource(appId)));
+              InventoryId inventoryId = commandService.workflow(command);
+              return ServerResponse.ok().body(fromValue(toResource(inventoryId)));
             });
   }
 
-  private AppCreateCommand toCommand(CreateAppResource it) {
-    return AppCreateCommand.builder()
-        .appName(it.getName())
-        .releaseVersions(
-            it.getReleaseVersions().stream()
+  private InventoryCreateCommand toCommand(CreateInventoryResource it) {
+    return InventoryCreateCommand.builder()
+        .inventoryName(it.getName())
+        .productLines(
+            it.getProductLines().stream()
                 .map(
                     itt ->
-                        new ReleaseVersion(
-                            new ReleaseId(itt.getReleaseId()),
-                            new ReleaseInfo(LocalDateTime.from(iso().parse(itt.getDate())))))
+                        new ProductLine(
+                            new ProductId(itt.getProductId()), new Quantity(itt.getQuantity())))
                 .collect(Collectors.toList()))
         .build();
   }
 
-  private AppIdResource toAppIdResource(AppId appId) {
-    return AppIdResource.builder().appId(appId.getAppId())._link(linkOfGet(appId)).build();
+  private InventoryIdResource toResource(InventoryId inventoryId) {
+    return InventoryIdResource.builder()
+        .inventoryId(inventoryId.getInventoryId())
+        ._link(linkOfGet(inventoryId))
+        .build();
   }
 
-  private AppResource toAppResource(App app, List<Link> links) {
-    return AppResource.builder()
-        .appId(app.getId().getAppId())
-        .createdAt(iso().format(app.getCreatedAt()))
-        .name(app.getAppName().getName())
-        .releaseVersions(
-            app.getReleaseVersions().stream()
+  private InventoryResource toResource(Inventory inventory, List<Link> links) {
+    return InventoryResource.builder()
+        .inventoryId(inventory.getId().getInventoryId())
+        .createdAt(iso().format(inventory.getCreatedAt()))
+        .name(inventory.getInventoryName().getName())
+        .productLines(
+            inventory.getProductLines().stream()
                 .map(
                     version ->
-                        ReleaseVersionResource.builder()
-                            .date(iso().format(version.getReleaseInfo().getDate()))
-                            .releaseId(version.getReleaseId().getReleaseId())
+                        ProductLineResource.builder()
+                            .quantity(version.getQuantity().getQuantity())
+                            .productId(version.getProductId().getProductId())
                             .build())
                 .collect(Collectors.toList()))
         ._links(links)
         .build();
   }
 
-  private Link linkOfGet(AppId id) {
-    return Link.builder().rel("get").method("GET").path("/inventories/" + id.getAppId()).build();
+  private Link linkOfGet(InventoryId id) {
+    return Link.builder().rel("get").method("GET").path("/inventories/" + id.getInventoryId()).build();
   }
 
   private Link linkOfCreate() {
@@ -141,14 +143,14 @@ public class RoutersHandler {
     return Link.builder().rel("list").method("GET").path("/inventories").build();
   }
 
-  private List<Link> linksOfWorkflow(AppId id, AppStatus status) {
+  private List<Link> linksOfWorkflow(InventoryId id, InventoryStatus status) {
     return status.getNextActions().stream()
         .map(
             action ->
                 Link.builder()
                     .rel(action)
                     .method("PUT")
-                    .path("/inventories/" + id.getAppId() + "/" + action)
+                    .path("/inventories/" + id.getInventoryId() + "/" + action)
                     .build())
         .collect(Collectors.toList());
   }

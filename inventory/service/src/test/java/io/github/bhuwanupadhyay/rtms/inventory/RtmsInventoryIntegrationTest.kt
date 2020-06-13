@@ -1,8 +1,8 @@
 package io.github.bhuwanupadhyay.rtms.inventory
 
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.Actions
-import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.CreateAppResource
-import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.ReleaseVersionResource
+import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.CreateInventoryResource
+import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.ProductLineResource
 import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.WorkflowResource
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -24,7 +24,7 @@ import java.util.function.Consumer
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(Alphanumeric::class)
 @ActiveProfiles("test")
-internal class RtmsAppIntegrationTest {
+internal class RtmsInventoryIntegrationTest {
     @LocalServerPort
     private val port = 0
     private lateinit var client: WebTestClient
@@ -49,12 +49,12 @@ internal class RtmsAppIntegrationTest {
     @Test
     fun `return 201 if app created successfully`() {
         val body = create()
-        body.jsonPath("$.appId").value { appId: String ->
+        body.jsonPath("$.inventoryId").value { inventoryId: String ->
             body
-                    .jsonPath("$.appId").isNotEmpty
+                    .jsonPath("$.inventoryId").isNotEmpty
                     .jsonPath("$._links[0].rel").isEqualTo("get")
                     .jsonPath("$._links[0].method").isEqualTo("GET")
-                    .jsonPath("$._links[0].path").isEqualTo("/inventories/$appId")
+                    .jsonPath("$._links[0].path").isEqualTo("/inventories/$inventoryId")
         }
     }
 
@@ -65,7 +65,7 @@ internal class RtmsAppIntegrationTest {
             client
                     .get()
                     .uri(link).exchange().expectStatus().isOk.expectBody()
-                    .jsonPath("$.appId").isNotEmpty
+                    .jsonPath("$.inventoryId").isNotEmpty
                     .jsonPath("$._links[0].rel").isEqualTo(Actions.REPAIR)
                     .jsonPath("$._links[0].method").isEqualTo("PUT")
                     .jsonPath("$._links[0].path").isEqualTo("${link}/${Actions.REPAIR}")
@@ -97,7 +97,7 @@ internal class RtmsAppIntegrationTest {
                                 .jsonPath("$._links[0].path").value<String> {
                                     client.get()
                                             .uri(it).exchange().expectStatus().isOk.expectBody()
-                                            .jsonPath("$.appId").isNotEmpty
+                                            .jsonPath("$.inventoryId").isNotEmpty
                                             .jsonPath("$._links[0].rel").isEqualTo(Actions.SUBMIT)
                                             .jsonPath("$._links[0].method").isEqualTo("PUT")
                                             .jsonPath("$._links[0].path").isEqualTo("${link}/${Actions.SUBMIT}")
@@ -131,7 +131,7 @@ internal class RtmsAppIntegrationTest {
                                 .jsonPath("$._links[0].path").value<String> {
                                     client.get()
                                             .uri(it).exchange().expectStatus().isOk.expectBody()
-                                            .jsonPath("$.appId").isNotEmpty
+                                            .jsonPath("$.inventoryId").isNotEmpty
                                             .jsonPath("$._links[0].rel").isEqualTo(Actions.APPROVE)
                                             .jsonPath("$._links[0].method").isEqualTo("PUT")
                                             .jsonPath("$._links[0].path").isEqualTo("${link}/${Actions.APPROVE}")
@@ -189,12 +189,12 @@ internal class RtmsAppIntegrationTest {
                 .post()
                 .uri("/inventories")
                 .bodyValue(
-                        CreateAppResource.builder()
+                        CreateInventoryResource.builder()
                                 .name("name")
-                                .releaseVersion(
-                                        ReleaseVersionResource.builder()
-                                                .releaseId("releaseId")
-                                                .date("2020-06-03T00:25:23.296286")
+                                .productLine(
+                                        ProductLineResource.builder()
+                                                .productId("productId")
+                                                .quantity(10)
                                                 .build())
                                 .build())
                 .exchange()

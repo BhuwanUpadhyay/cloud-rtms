@@ -7,7 +7,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Getter
-public enum AppStatus {
+public enum InventoryStatus {
   CREATED(List.of(Actions.REPAIR, Actions.SUBMIT)),
   REPAIRED(List.of(Actions.SUBMIT, Actions.BACK_REPAIR)),
   VERIFIED(List.of(Actions.ACCEPT, Actions.REJECT, Actions.SUSPEND)),
@@ -17,25 +17,25 @@ public enum AppStatus {
 
   private final List<String> nextActions;
 
-  public AppStatus nextStatus(String action) {
+  public InventoryStatus nextStatus(String action) {
     switch (action) {
       case Actions.REPAIR -> {
-        return AppStatus.REPAIRED;
+        return InventoryStatus.REPAIRED;
       }
       case Actions.SUBMIT -> {
-        return AppStatus.SUBMITTED;
+        return InventoryStatus.SUBMITTED;
       }
       case Actions.ACCEPT -> {
-        return AppStatus.ACTIVATED;
+        return InventoryStatus.ACTIVATED;
       }
       case Actions.REJECT, Actions.BACK_REPAIR -> {
-        return AppStatus.CREATED;
+        return InventoryStatus.CREATED;
       }
       case Actions.SUSPEND -> {
-        return AppStatus.SUSPENDED;
+        return InventoryStatus.SUSPENDED;
       }
       case Actions.APPROVE -> {
-        return AppStatus.VERIFIED;
+        return InventoryStatus.VERIFIED;
       }
       default -> throw new IllegalStateException("Not support value: " + action);
     }

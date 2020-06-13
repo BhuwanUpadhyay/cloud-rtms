@@ -1,6 +1,6 @@
 package io.github.bhuwanupadhyay.rtms.inventory.application.outboundservices;
 
-import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.brokers.stream.AppEventSource;
+import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.brokers.stream.InventoryEventSource;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainEvent;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainEventPublisher;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@EnableBinding(AppEventSource.class)
+@EnableBinding(InventoryEventSource.class)
 @RequiredArgsConstructor
-public class AppEventPublisherService implements DomainEventPublisher {
-  private final AppEventSource appEventSource;
+public class InventoryEventPublisherService implements DomainEventPublisher {
+  private final InventoryEventSource inventoryEventSource;
   private final ApplicationEventPublisher applicationEventPublisher;
 
   @Override
@@ -25,7 +25,7 @@ public class AppEventPublisherService implements DomainEventPublisher {
       applicationEventPublisher.publishEvent(domainEvent);
     }
     if (domainEvent.isOutsideContext()) {
-      appEventSource.rtmsOutput().send(MessageBuilder.withPayload(domainEvent).build());
+      inventoryEventSource.rtmsOutput().send(MessageBuilder.withPayload(domainEvent).build());
     }
     log.info("Successfully published the event [{}].", domainEvent.getEventClassName());
   }

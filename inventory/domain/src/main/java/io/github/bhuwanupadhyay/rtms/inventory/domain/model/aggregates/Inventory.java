@@ -4,9 +4,9 @@ import io.github.bhuwanupadhyay.rtms.ddd.AggregateRoot;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainAsserts;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainError;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainException;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.AppCreateCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.AppWorkflowCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.events.AppCreated;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryWorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.events.InventoryCreated;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowExecuted;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
 import java.time.LocalDateTime;
@@ -20,66 +20,66 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("ConstantConditions")
 @Entity
-@Table(name = "RTMS_APP")
+@Table(name = "rtms_inventory")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter(AccessLevel.PRIVATE)
 @Getter
 @Slf4j
-public class App extends AggregateRoot<AppId> {
+public class Inventory extends AggregateRoot<InventoryId> {
 
-  @Embedded private AppName appName;
+  @Embedded private InventoryName inventoryName;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  private Set<ReleaseVersion> releaseVersions;
+  private Set<ProductLine> productLines;
 
   @Enumerated(EnumType.STRING)
-  private AppStatus status;
+  private InventoryStatus status;
 
   @ElementCollection(fetch = FetchType.LAZY)
   private List<UserComment> userComments;
 
-  public App(AppId appId, AppCreateCommand command) {
-    super(appId);
-    log.debug("Params => {} {}", appId, command);
+  public Inventory(InventoryId inventoryId, InventoryCreateCommand command) {
+    super(inventoryId);
+    log.debug("Params => {} {}", inventoryId, command);
 
     DomainAsserts.begin(command)
-        .notNull(DomainError.create(this, "AppCreateCommandIsRequired"))
+        .notNull(DomainError.create(this, "InventoryCreateCommandIsRequired"))
         .switchIfNotNull(
-            Optional.ofNullable(command).map(AppCreateCommand::getAppName),
-            DomainError.create(this, "AppNameIsRequired"))
-        .notBlank(DomainError.create(this, "AppNameIsRequired"))
+            Optional.ofNullable(command).map(InventoryCreateCommand::getInventoryName),
+            DomainError.create(this, "InventoryNameIsRequired"))
+        .notBlank(DomainError.create(this, "InventoryNameIsRequired"))
         .switchIfNotNull(
-            Optional.ofNullable(command).map(AppCreateCommand::getReleaseVersions),
-            DomainError.create(this, "ReleaseVersionsIsRequired"))
-        .atLeastOneElement(DomainError.create(this, "AtLeastOneReleaseVersionsIsRequired"))
+            Optional.ofNullable(command).map(InventoryCreateCommand::getProductLines),
+            DomainError.create(this, "ProductLinesIsRequired"))
+        .atLeastOneElement(DomainError.create(this, "AtLeastOneProductLinesIsRequired"))
         .end();
 
-    this.appName = new AppName(command.getAppName());
-    this.releaseVersions = new HashSet<>();
+    this.inventoryName = new InventoryName(command.getInventoryName());
+    this.productLines = new HashSet<>();
     this.userComments = new ArrayList<>();
-    this.releaseVersions.addAll(command.getReleaseVersions());
-    this.status = AppStatus.CREATED;
+    this.productLines.addAll(command.getProductLines());
+    this.status = InventoryStatus.CREATED;
     this.setCreatedAt(LocalDateTime.now());
     this.registerEvent(
-        AppCreated.builder()
-            .appId(this.getId().getAppId())
-            .appName(this.getAppName().getName())
+        InventoryCreated.builder()
+            .inventoryId(this.getId().getInventoryId())
+            .inventoryName(this.getInventoryName().getName())
             .status(this.getStatus().name())
             .build());
     log.info("Executed {} {}", command.getClass().getName(), command);
   }
 
-  public void executeWorkflow(AppWorkflowCommand command) {
+  public void executeWorkflow(InventoryWorkflowCommand command) {
     log.debug("Params => {}", command);
 
     DomainAsserts.begin(command)
-        .notNull(DomainError.create(this, "AppWorkflowCommandIsRequired"))
+        .notNull(DomainError.create(this, "InventoryWorkflowCommandIsRequired"))
         .switchIfNotNull(
-            Optional.ofNullable(command).map(AppWorkflowCommand::getAction),
+            Optional.ofNullable(command).map(InventoryWorkflowCommand::getAction),
             DomainError.create(this, "WorkflowActionIsRequired"))
         .notBlank(DomainError.create(this, "WorkflowActionIsRequired"))
         .switchIfNotNull(
-            Optional.ofNullable(command).map(AppWorkflowCommand::getComment),
+            Optional.ofNullable(command).map(InventoryWorkflowCommand::getComment),
             DomainError.create(this, "WorkflowActionCommentIsRequired"))
         .notBlank(DomainError.create(this, "WorkflowActionCommentIsRequired"))
         .end();

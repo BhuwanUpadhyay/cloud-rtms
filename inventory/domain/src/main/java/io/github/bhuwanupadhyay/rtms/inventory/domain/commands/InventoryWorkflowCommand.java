@@ -7,9 +7,9 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
-public class AppWorkflowCommand {
+public class InventoryWorkflowCommand {
 
-  private final String appId;
+  private final String inventoryId;
   private final String action;
   private final String comment;
   private final String payloadJson;

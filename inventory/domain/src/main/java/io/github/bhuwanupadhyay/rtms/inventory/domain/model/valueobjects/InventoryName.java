@@ -10,23 +10,24 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter(AccessLevel.PRIVATE)
 @Getter
-public class ReleaseId extends ValueObject {
-  private String releaseId;
+public class InventoryName extends ValueObject {
 
-  public ReleaseId(String releaseId) {
-    this.releaseId = releaseId;
+  private String name;
+
+  public InventoryName(String name) {
+    this.name = name;
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ReleaseId releaseId = (ReleaseId) o;
-    return Objects.equals(this.releaseId, releaseId.releaseId);
+    InventoryName that = (InventoryName) o;
+    return Objects.equals(name, that.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(releaseId);
+    return Objects.hash(name);
   }
 }

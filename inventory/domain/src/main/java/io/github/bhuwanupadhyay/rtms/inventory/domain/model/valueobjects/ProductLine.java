@@ -11,27 +11,27 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter(AccessLevel.PRIVATE)
 @Getter
-public class ReleaseVersion extends ValueObject {
+public class ProductLine extends ValueObject {
 
-  @Embedded private ReleaseId releaseId;
-  @Embedded private ReleaseInfo releaseInfo;
+  @Embedded private ProductId productId;
+  @Embedded private Quantity quantity;
 
-  public ReleaseVersion(ReleaseId releaseId, ReleaseInfo releaseInfo) {
-    this.releaseId = releaseId;
-    this.releaseInfo = releaseInfo;
+  public ProductLine(ProductId productId, Quantity quantity) {
+    this.productId = productId;
+    this.quantity = quantity;
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ReleaseVersion that = (ReleaseVersion) o;
-    return Objects.equals(releaseId, that.releaseId)
-        && Objects.equals(releaseInfo, that.releaseInfo);
+    ProductLine that = (ProductLine) o;
+    return Objects.equals(productId, that.productId)
+        && Objects.equals(quantity, that.quantity);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(releaseId, releaseInfo);
+    return Objects.hash(productId, quantity);
   }
 }
