@@ -11,6 +11,12 @@
         <module>shared-kernel</module>
         <module>gateway</module>
         <module>inventory</module>
+        <module>order</module>
+        <module>payment</module>
+        <module>customer</module>
+        <module>notification</module>
+        <module>dashboard</module>
+        <module>business-intelligence</module>
     </modules>
     <packaging>pom</packaging>
 
