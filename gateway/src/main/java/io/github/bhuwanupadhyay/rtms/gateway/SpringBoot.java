@@ -6,9 +6,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class RtmsGatewayApplication {
+public class SpringBoot {
 
   public static void main(String[] args) {
-    SpringApplication.run(RtmsGatewayApplication.class, args);
+    SpringApplication.run(SpringBoot.class, args);
   }
 }

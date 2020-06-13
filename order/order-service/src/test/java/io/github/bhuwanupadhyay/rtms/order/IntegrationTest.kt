@@ -1,9 +1,9 @@
-package io.github.bhuwanupadhyay.rtms.inventory
+package io.github.bhuwanupadhyay.rtms.order
 
-import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.Actions
-import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.CreateInventoryResource
-import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.ProductLineResource
-import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.WorkflowResource
+import io.github.bhuwanupadhyay.rtms.order.domain.model.valueobjects.Actions
+import io.github.bhuwanupadhyay.rtms.order.interfaces.rest.dto.CreateAppResource
+import io.github.bhuwanupadhyay.rtms.order.interfaces.rest.dto.ReleaseVersionResource
+import io.github.bhuwanupadhyay.rtms.order.interfaces.rest.dto.WorkflowResource
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric
@@ -24,7 +24,7 @@ import java.util.function.Consumer
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(Alphanumeric::class)
 @ActiveProfiles("test")
-internal class RtmsInventoryIntegrationTest {
+internal class IntegrationTest {
     @LocalServerPort
     private val port = 0
     private lateinit var client: WebTestClient
@@ -49,12 +49,12 @@ internal class RtmsInventoryIntegrationTest {
     @Test
     fun `return 201 if app created successfully`() {
         val body = create()
-        body.jsonPath("$.inventoryId").value { inventoryId: String ->
+        body.jsonPath("$.appId").value { appId: String ->
             body
-                    .jsonPath("$.inventoryId").isNotEmpty
+                    .jsonPath("$.appId").isNotEmpty
                     .jsonPath("$._links[0].rel").isEqualTo("get")
                     .jsonPath("$._links[0].method").isEqualTo("GET")
-                    .jsonPath("$._links[0].path").isEqualTo("/inventories/$inventoryId")
+                    .jsonPath("$._links[0].path").isEqualTo("/orders/$appId")
         }
     }
 
@@ -65,7 +65,7 @@ internal class RtmsInventoryIntegrationTest {
             client
                     .get()
                     .uri(link).exchange().expectStatus().isOk.expectBody()
-                    .jsonPath("$.inventoryId").isNotEmpty
+                    .jsonPath("$.appId").isNotEmpty
                     .jsonPath("$._links[0].rel").isEqualTo(Actions.REPAIR)
                     .jsonPath("$._links[0].method").isEqualTo("PUT")
                     .jsonPath("$._links[0].path").isEqualTo("${link}/${Actions.REPAIR}")
@@ -97,7 +97,7 @@ internal class RtmsInventoryIntegrationTest {
                                 .jsonPath("$._links[0].path").value<String> {
                                     client.get()
                                             .uri(it).exchange().expectStatus().isOk.expectBody()
-                                            .jsonPath("$.inventoryId").isNotEmpty
+                                            .jsonPath("$.appId").isNotEmpty
                                             .jsonPath("$._links[0].rel").isEqualTo(Actions.SUBMIT)
                                             .jsonPath("$._links[0].method").isEqualTo("PUT")
                                             .jsonPath("$._links[0].path").isEqualTo("${link}/${Actions.SUBMIT}")
@@ -131,7 +131,7 @@ internal class RtmsInventoryIntegrationTest {
                                 .jsonPath("$._links[0].path").value<String> {
                                     client.get()
                                             .uri(it).exchange().expectStatus().isOk.expectBody()
-                                            .jsonPath("$.inventoryId").isNotEmpty
+                                            .jsonPath("$.appId").isNotEmpty
                                             .jsonPath("$._links[0].rel").isEqualTo(Actions.APPROVE)
                                             .jsonPath("$._links[0].method").isEqualTo("PUT")
                                             .jsonPath("$._links[0].path").isEqualTo("${link}/${Actions.APPROVE}")
@@ -151,7 +151,7 @@ internal class RtmsInventoryIntegrationTest {
 
         client
                 .get()
-                .uri("/inventories?number={number}&size={size}", -1, 0).exchange().expectStatus().isOk.expectBody()
+                .uri("/orders?number={number}&size={size}", -1, 0).exchange().expectStatus().isOk.expectBody()
                 .jsonPath("$.number").isEqualTo(0)
                 .jsonPath("$.size").isEqualTo(20)
                 .jsonPath("$.totalElements").isEqualTo(2)
@@ -177,7 +177,7 @@ internal class RtmsInventoryIntegrationTest {
         val contentSize = 1
         client
                 .get()
-                .uri("/inventories?number={number}&size={size}", pageNumber, pageSize).exchange().expectStatus().isOk.expectBody()
+                .uri("/orders?number={number}&size={size}", pageNumber, pageSize).exchange().expectStatus().isOk.expectBody()
                 .jsonPath("$.number").isEqualTo(pageNumber)
                 .jsonPath("$.size").isEqualTo(pageSize)
                 .jsonPath("$.totalElements").isEqualTo(totalElements)
@@ -187,14 +187,14 @@ internal class RtmsInventoryIntegrationTest {
     private fun create(): BodyContentSpec {
         return client
                 .post()
-                .uri("/inventories")
+                .uri("/orders")
                 .bodyValue(
-                        CreateInventoryResource.builder()
+                        CreateAppResource.builder()
                                 .name("name")
-                                .productLine(
-                                        ProductLineResource.builder()
-                                                .productId("productId")
-                                                .quantity(10)
+                                .releaseVersion(
+                                        ReleaseVersionResource.builder()
+                                                .releaseId("releaseId")
+                                                .date("2020-06-03T00:25:23.296286")
                                                 .build())
                                 .build())
                 .exchange()

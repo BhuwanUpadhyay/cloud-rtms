@@ -1,6 +1,6 @@
-package io.github.bhuwanupadhyay.rtms.notification;
+package io.github.bhuwanupadhyay.rtms.order;
 
-import io.github.bhuwanupadhyay.rtms.notification.infrastructure.config.ApplicationProperties;
+import io.github.bhuwanupadhyay.rtms.order.infrastructure.config.ApplicationProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 @EnableDiscoveryClient
 @EnableConfigurationProperties(ApplicationProperties.class)
-public class RtmsAppApplication {
+public class SpringBoot {
 
   public static void main(String[] args) {
-    SpringApplication.run(RtmsAppApplication.class, args);
+    SpringApplication.run(SpringBoot.class, args);
   }
 }

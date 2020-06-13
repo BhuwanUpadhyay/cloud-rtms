@@ -27,7 +27,7 @@ class PactVerificationTest {
   @BeforeAll
   static void start() {
     port = new ServerSocket(0).getLocalPort();
-    new SpringApplicationBuilder(RtmsAppApplication.class)
+    new SpringApplicationBuilder(SpringBoot.class)
         .profiles("test", "pact")
         .properties("server.port=" + port)
         .build()
