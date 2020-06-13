@@ -6,7 +6,7 @@ metadata:
   {{- include "keycloak.labels" . | nindent 4 }}
 data:
   DB_VENDOR: postgres
-  DB_ADDR: {{ include "keycloak.fullname" . }}-keycloakdb
+  DB_ADDR: {{ .Release.Name }}-keycloakdb
   DB_PORT: '5432'
   DB_DATABASE: keycloak
   DB_USER: user
