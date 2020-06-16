@@ -22,13 +22,12 @@ printf '\n'
 helm version
 printf '\n'
 
-NAMESPACE="rtms"
+DEPLOYMENT="rtms"
 
 option="${1}"
 case ${option} in
    -s)
         kubectl create secret docker-registry github-cloud-rtms \
-        -n $NAMESPACE \
         --docker-server=docker.pkg.github.com \
         --docker-username=BhuwanUpadhyay \
         --docker-password="$GITHUB_TOKEN" \
@@ -37,14 +36,13 @@ case ${option} in
    -d)
         helm upgrade \
         --install -f helm-chart/local.yaml \
-        $NAMESPACE-local helm-chart --force \
-#         --namespace $NAMESPACE
+        $DEPLOYMENT helm-chart --force
       ;;
    --update)
         helm dependency update helm-chart
       ;;
    -r)
-      helm delete $NAMESPACE-local
+      helm delete $DEPLOYMENT
       ;;
    *)
       echo "`basename ${0}`:usage: [-s secret] | [-d deploy]"

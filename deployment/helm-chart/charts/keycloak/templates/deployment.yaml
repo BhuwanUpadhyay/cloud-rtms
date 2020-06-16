@@ -40,14 +40,14 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "keycloak.fullname" . }}-config
-          livenessProbe:
-            httpGet:
-              path: /auth/realms/master
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /auth/realms/master
-              port: http
+{{/*          livenessProbe:*/}}
+{{/*            httpGet:*/}}
+{{/*              path: /auth/realms/master*/}}
+{{/*              port: http*/}}
+{{/*          readinessProbe:*/}}
+{{/*            httpGet:*/}}
+{{/*              path: /auth/realms/master*/}}
+{{/*              port: http*/}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
