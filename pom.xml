@@ -11,13 +11,13 @@
         <module>shared-kernel</module>
         <module>gateway</module>
         <module>inventory</module>
-<!--        <module>order</module>-->
-<!--        <module>payment</module>-->
-<!--        <module>customer</module>-->
-<!--        <module>notification</module>-->
-<!--        <module>dashboard</module>-->
-<!--        <module>business-intelligence</module>-->
-<!--        <module>docs</module>-->
+        <!--        <module>order</module>-->
+        <!--        <module>payment</module>-->
+        <!--        <module>customer</module>-->
+        <!--        <module>notification</module>-->
+        <!--        <module>dashboard</module>-->
+        <!--        <module>business-intelligence</module>-->
+        <!--        <module>docs</module>-->
     </modules>
     <packaging>pom</packaging>
 
@@ -374,9 +374,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>resource</goal>
                             <goal>build</goal>
-                            <goal>helm</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -384,25 +382,9 @@
                     <skip>${jkube.skip}</skip>
                     <images>
                         <image>
+                            <name>cloudrtms/${project.artifactId}</name>
                             <build>
-                                <from>amd64/openjdk:14-alpine</from>
-                                <maintainer>bot.bhuwan@gmail.com</maintainer>
-                                <tags>
-                                    <tag>latest</tag>
-                                </tags>
-                                <runCmds>
-                                    <run>addgroup -S spring</run>
-                                    <run>adduser -S spring -G spring</run>
-                                </runCmds>
-                                <user>spring:spring</user>
-                                <entryPoint>
-                                    <exec>
-                                        <arg>java</arg>
-                                        <arg>-cp</arg>
-                                        <arg>app:app/lib/*</arg>
-                                        <arg>${MAIN_CLASS}</arg>
-                                    </exec>
-                                </entryPoint>
+                                <contextDir>${project.basedir}</contextDir>
                             </build>
                         </image>
                     </images>
