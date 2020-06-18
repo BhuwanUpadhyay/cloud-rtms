@@ -13,6 +13,8 @@
 
     <properties>
         <jkube.skip>false</jkube.skip>
+        <jkube.createExternalUrls>true</jkube.createExternalUrls>
+        <jkube.domain>cloudrtms.io</jkube.domain>
         <maven.test.skip>true</maven.test.skip>
     </properties>
 
@@ -34,16 +36,16 @@
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
         </dependency>
-        <!-- Authenticate with Keycloak -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-        </dependency>
-        <!-- TokenRelayGatewayFilterFactory pending https://github.com/spring-cloud/spring-cloud-security/issues/175 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-security</artifactId>
-        </dependency>
+<!--        &lt;!&ndash; Authenticate with Keycloak &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-oauth2-client</artifactId>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; TokenRelayGatewayFilterFactory pending https://github.com/spring-cloud/spring-cloud-security/issues/175 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-security</artifactId>-->
+<!--        </dependency>-->
 
         <!-- Monitoring dependencies -->
         <dependency>
@@ -107,6 +109,19 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jkube</groupId>
+                <artifactId>kubernetes-maven-plugin</artifactId>
+                <configuration>
+                    <enricher>
+                        <config>
+                            <jkube-service>
+                                <type>LoadBalancer</type>
+                            </jkube-service>
+                        </config>
+                    </enricher>
+                </configuration>
             </plugin>
         </plugins>
     </build>

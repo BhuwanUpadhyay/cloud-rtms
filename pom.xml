@@ -381,6 +381,11 @@
                 </executions>
                 <configuration>
                     <skip>${jkube.skip}</skip>
+                    <images>
+                        <image>
+                            <name>cloudrtms/${project.artifactId}</name>
+                        </image>
+                    </images>
                     <generator>
                         <config>
                             <spring-boot>
