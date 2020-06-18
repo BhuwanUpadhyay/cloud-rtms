@@ -382,6 +382,30 @@
                 </executions>
                 <configuration>
                     <skip>${jkube.skip}</skip>
+                    <images>
+                        <image>
+                            <build>
+                                <from>amd64/openjdk:14-alpine</from>
+                                <maintainer>bot.bhuwan@gmail.com</maintainer>
+                                <tags>
+                                    <tag>latest</tag>
+                                </tags>
+                                <runCmds>
+                                    <run>addgroup -S spring</run>
+                                    <run>adduser -S spring -G spring</run>
+                                </runCmds>
+                                <user>spring:spring</user>
+                                <entryPoint>
+                                    <exec>
+                                        <arg>java</arg>
+                                        <arg>-cp</arg>
+                                        <arg>app:app/lib/*</arg>
+                                        <arg>${MAIN_CLASS}</arg>
+                                    </exec>
+                                </entryPoint>
+                            </build>
+                        </image>
+                    </images>
                     <generator>
                         <config>
                             <spring-boot>
