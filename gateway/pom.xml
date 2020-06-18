@@ -15,7 +15,6 @@
         <jkube.skip>false</jkube.skip>
         <jkube.createExternalUrls>true</jkube.createExternalUrls>
         <jkube.domain>cloudrtms.io</jkube.domain>
-        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <dependencies>
