@@ -88,6 +88,7 @@
         <compilerArgs/>
 
         <jkube.skip>true</jkube.skip>
+        <jkube.generator.name>cloudrtms/${project.artifactId}:latest</jkube.generator.name>
 
         <lombok.version>1.18.12</lombok.version>
         <kotlin.version>1.3.72</kotlin.version>
