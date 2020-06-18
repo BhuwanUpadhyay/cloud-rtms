@@ -4,9 +4,9 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet author="BhuwanUpadhyay" id="v1-1">
-        <createTable tableName="rtms_inventory">
+        <createTable tableName="INVENTORY">
             <column autoIncrement="true" name="raw_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="rtms_inventory_pkey"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="INVENTORY_pkey"/>
             </column>
             <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="reference" type="VARCHAR(255)"/>
@@ -27,6 +27,6 @@
         <addForeignKeyConstraint baseColumnNames="inventory_raw_id" baseTableName="inventory_product_lines"
                                  constraintName="fkii38yr23lh1h90re2ktxj4aa6" deferrable="false"
                                  initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
-                                 referencedColumnNames="raw_id" referencedTableName="rtms_inventory" validate="true"/>
+                                 referencedColumnNames="raw_id" referencedTableName="INVENTORY" validate="true"/>
     </changeSet>
 </databaseChangeLog>

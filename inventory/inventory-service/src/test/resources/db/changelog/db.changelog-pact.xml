@@ -5,7 +5,7 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet id="PACT01" author="PACT">
-        <insert tableName="rtms_inventory">
+        <insert tableName="INVENTORY">
             <column name="raw_id" value="1"/>
             <column name="inventory_id" value="1"/>
             <column name="name" value="name"/>

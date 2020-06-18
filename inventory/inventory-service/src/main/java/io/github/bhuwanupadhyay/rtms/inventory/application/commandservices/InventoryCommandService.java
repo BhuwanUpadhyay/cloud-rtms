@@ -11,6 +11,7 @@ import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.I
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class InventoryCommandService
   private final InventoryDomainRepository repository;
 
   @Override
+  @Transactional
   public Result<InventoryId> create(InventoryCreateCommand command) {
     final InventoryId id = this.repository.nextId();
     final Result<Inventory> result = InventoryFactory.create(id, command);
@@ -29,6 +31,7 @@ public class InventoryCommandService
   }
 
   @Override
+  @Transactional
   public Result<InventoryId> workflow(WorkflowCommand command) {
     final InventoryId id = new InventoryId(command.getReference());
     final Inventory inventory = repository.find(id);

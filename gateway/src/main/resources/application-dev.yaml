@@ -46,4 +46,5 @@ spring:
           oidc:
             client-id: gateway
             client-secret: b44f1ffa-45a7-4c8a-a9b2-0dd0372a325e
+            grant-type: authorization_code,refresh_token
 #            redirect-uri: http://localhost:4300/rtms

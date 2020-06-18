@@ -2,6 +2,8 @@ package io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates;
 
 import io.github.bhuwanupadhyay.rtms.command.WorkflowCommand;
 import io.github.bhuwanupadhyay.rtms.ddd.*;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.events.InventoryCreated;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowExecuted;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
@@ -13,10 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @SuppressWarnings("ConstantConditions")
 @Entity
@@ -41,6 +41,37 @@ public class Inventory extends AggregateRoot<InventoryId> {
 
   public Inventory(InventoryId inventoryId) {
     super(inventoryId);
+  }
+
+  public Result<Inventory> execute(InventoryCreateCommand command) {
+    log.debug("Params => {}", command);
+
+    DomainAsserts.begin(command)
+        .notNull(DomainError.create(this, "InventoryCreateCommandIsRequired"))
+        .switchIfNotNull(
+            Optional.ofNullable(command).map(InventoryCreateCommand::getInventoryName),
+            DomainError.create(this, "InventoryNameIsRequired"))
+        .notBlank(DomainError.create(this, "InventoryNameIsRequired"))
+        .switchIfNotNull(
+            Optional.ofNullable(command).map(InventoryCreateCommand::getProductLines),
+            DomainError.create(this, "ProductLinesIsRequired"))
+        .atLeastOneElement(DomainError.create(this, "AtLeastOneProductLinesIsRequired"))
+        .end();
+
+    this.inventoryName = new InventoryName(command.getInventoryName());
+    this.productLines = new HashSet<>();
+    this.userComments = new ArrayList<>();
+    this.productLines.addAll(command.getProductLines());
+    this.status = InventoryStatus.CREATED;
+    this.setCreatedAt(LocalDateTime.now());
+    this.registerEvent(
+        InventoryCreated.builder()
+            .inventoryId(this.getId().getReference())
+            .inventoryName(this.getInventoryName().getName())
+            .status(this.getStatus().name())
+            .build());
+    log.info("Executed {} {}", command.getClass().getName(), command);
+    return Result.<Inventory>builder().result(this).domainErrors(new ArrayList<>()).build();
   }
 
   public Result<Inventory> execute(WorkflowCommand command) {

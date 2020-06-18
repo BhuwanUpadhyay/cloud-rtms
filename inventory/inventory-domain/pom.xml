@@ -17,6 +17,11 @@
             <artifactId>ddd-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>problem</artifactId>
+            <version>0.24.0</version>
+        </dependency>
 
         <dependency>
             <groupId>io.github.bhuwanupadhyay.rtms</groupId>

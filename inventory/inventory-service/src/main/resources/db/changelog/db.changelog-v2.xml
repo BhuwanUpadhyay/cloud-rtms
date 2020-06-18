@@ -18,6 +18,6 @@
         <addForeignKeyConstraint baseColumnNames="inventory_raw_id" baseTableName="inventory_user_comments"
                                  constraintName="fkxx38yr23lh1h90re2ktxj4aa6" deferrable="false"
                                  initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
-                                 referencedColumnNames="raw_id" referencedTableName="rtms_inventory" validate="true"/>
+                                 referencedColumnNames="raw_id" referencedTableName="INVENTORY" validate="true"/>
     </changeSet>
 </databaseChangeLog>
