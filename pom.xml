@@ -390,6 +390,7 @@
                     </generator>
                     <helm>
                         <type>kubernetes</type>
+                        <description>A helm chart for Kubernetes.</description>
                         <maintainers>
                             <maintainer>
                                 <name>Bhuwan Prasad Upadhyay</name>

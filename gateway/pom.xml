@@ -12,6 +12,7 @@
     <artifactId>gateway</artifactId>
 
     <properties>
+        <jkube.skip>false</jkube.skip>
         <maven.test.skip>true</maven.test.skip>
     </properties>
 
