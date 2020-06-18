@@ -382,14 +382,14 @@
                 </executions>
                 <configuration>
                     <skip>${jkube.skip}</skip>
-                    <images>
-                        <image>
-                            <name>cloudrtms/${project.artifactId}</name>
-                            <build>
-                                <contextDir>${project.basedir}</contextDir>
-                            </build>
-                        </image>
-                    </images>
+<!--                    <images>-->
+<!--                        <image>-->
+<!--                            <name>cloudrtms/${project.artifactId}</name>-->
+<!--                            <build>-->
+<!--                                <contextDir>${project.basedir}</contextDir>-->
+<!--                            </build>-->
+<!--                        </image>-->
+<!--                    </images>-->
                     <generator>
                         <config>
                             <spring-boot>
