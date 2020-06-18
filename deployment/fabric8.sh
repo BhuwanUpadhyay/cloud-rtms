@@ -1,31 +1,18 @@
 option="${1}"
 case ${option} in
    --install)
-        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-        sudo install minikube-linux-amd64 /usr/local/bin/minikube
-        rm -rf minikube-linux-amd64
+        curl -sS https://get.fabric8.io/download.txt | bash
+        # shellcheck disable=SC2016
+        echo 'export PATH=$PATH:$HOME/.fabric8/bin' >> "$HOME"/.zshrc
       ;;
    --start)
-        minikube start
+        gofabric8 start
       ;;
    --stop)
-        minikube stop
+        gofabric8 stop
      ;;
-   --context)
-        kubectl config use-context minikube
-      ;;
-   --plugin)
-        minikube addons enable ingress && minikube addons enable ingress-dns
-      ;;
-   --edit-dns)
-        sudo apt install resolvconf
-        sudo vim /etc/resolvconf/resolv.conf.d/base
-        sudo resolvconf -u
-        sudo service resolvconf restart
-        systemctl disable --now resolvconf.service
-      ;;
    *)
-      echo "`basename ${0}`:usage: [-s secret] | [-d deploy]"
+      echo "`basename ${0}`:usage: [--install] | [--start] | [--stop]"
       exit 1 # Command to come out of the program with status 1
       ;;
 esac
