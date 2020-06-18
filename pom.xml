@@ -374,7 +374,9 @@
                 <executions>
                     <execution>
                         <goals>
+                            <goal>resource</goal>
                             <goal>build</goal>
+                            <goal>helm</goal>
                         </goals>
                     </execution>
                 </executions>
