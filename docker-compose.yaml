@@ -9,6 +9,15 @@ services:
         - DEPENDENCY=gateway/target/dependency
     environment:
       - MAIN_CLASS=io.github.bhuwanupadhyay.rtms.gateway.SpringBoot
+  inventory:
+    image: cloudrtms/inventory:latest
+    build:
+      context: .
+      dockerfile: ci/docker/app.dockerfile
+      args:
+        - DEPENDENCY=inventory/target/dependency
+    environment:
+      - MAIN_CLASS=io.github.bhuwanupadhyay.rtms.inventory.SpringBoot
   e2e:
     image: cloudrtms/e2e:latest
     build:
