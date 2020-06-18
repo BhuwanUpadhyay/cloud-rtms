@@ -15,7 +15,7 @@ services:
       context: .
       dockerfile: ci/docker/app.dockerfile
       args:
-        - DEPENDENCY=inventory/target/dependency
+        - DEPENDENCY=inventory/inventory-service/target/dependency
     environment:
       - MAIN_CLASS=io.github.bhuwanupadhyay.rtms.inventory.SpringBoot
   e2e:

@@ -35,11 +35,11 @@ case ${option} in
       ;;
    -d)
         helm upgrade \
-        --install -f helm-chart/local.yaml \
-        $DEPLOYMENT helm-chart --force
+        --install -f rtms/local.yaml \
+        $DEPLOYMENT rtms --force
       ;;
    --update)
-        helm dependency update helm-chart
+        helm dependency update rtms
       ;;
    -r)
       helm delete $DEPLOYMENT
