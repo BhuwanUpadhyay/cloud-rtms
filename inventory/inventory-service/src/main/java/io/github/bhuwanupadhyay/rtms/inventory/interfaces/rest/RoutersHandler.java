@@ -1,18 +1,13 @@
 package io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest;
 
-import static org.springframework.web.reactive.function.BodyInserters.fromValue;
-
+import io.github.bhuwanupadhyay.rtms.command.WorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.ddd.Result;
 import io.github.bhuwanupadhyay.rtms.inventory.application.commandservices.InventoryCommandService;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryWorkflowCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
 import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.InventoryQueryRepository;
 import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.*;
-
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,6 +17,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
+
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
 @Component
 @Slf4j
@@ -41,9 +42,9 @@ public class RoutersHandler {
         .flatMap(
             it -> {
               InventoryCreateCommand command = toCommand(it);
-              InventoryId inventoryId = commandService.create(command);
+              Result<InventoryId> inventoryId = commandService.create(command);
               return ServerResponse.status(HttpStatus.CREATED)
-                  .body(fromValue(toResource(inventoryId)));
+                  .body(fromValue(toResource(inventoryId.getResult().get())));
             });
   }
 
@@ -71,7 +72,9 @@ public class RoutersHandler {
     String id = request.pathVariable("id");
     return queryRepository
         .findOne(new InventoryId(id))
-        .map(inventory -> toResource(inventory, linksOfWorkflow(inventory.getId(), inventory.getStatus())))
+        .map(
+            inventory ->
+                toResource(inventory, linksOfWorkflow(inventory.getId(), inventory.getStatus())))
         .map(inventoryResource -> ServerResponse.ok().body(fromValue(inventoryResource)))
         .orElseGet(() -> ServerResponse.notFound().build());
   }
@@ -81,15 +84,15 @@ public class RoutersHandler {
         .bodyToMono(WorkflowResource.class)
         .flatMap(
             it -> {
-              InventoryWorkflowCommand command =
-                  InventoryWorkflowCommand.builder()
-                      .inventoryId(request.pathVariable("id"))
+              WorkflowCommand command =
+                  WorkflowCommand.builder()
+                      .reference(request.pathVariable("id"))
                       .action(it.getAction())
                       .comment(it.getComment())
                       .payloadJson(it.getPayloadJson())
                       .build();
-              InventoryId inventoryId = commandService.workflow(command);
-              return ServerResponse.ok().body(fromValue(toResource(inventoryId)));
+              Result<InventoryId> inventoryId = commandService.workflow(command);
+              return ServerResponse.ok().body(fromValue(toResource(inventoryId.getResult().get())));
             });
   }
 
@@ -108,14 +111,14 @@ public class RoutersHandler {
 
   private InventoryIdResource toResource(InventoryId inventoryId) {
     return InventoryIdResource.builder()
-        .inventoryId(inventoryId.getInventoryId())
+        .inventoryId(inventoryId.getReference())
         ._link(linkOfGet(inventoryId))
         .build();
   }
 
   private InventoryResource toResource(Inventory inventory, List<Link> links) {
     return InventoryResource.builder()
-        .inventoryId(inventory.getId().getInventoryId())
+        .inventoryId(inventory.getId().getReference())
         .createdAt(iso().format(inventory.getCreatedAt()))
         .name(inventory.getInventoryName().getName())
         .productLines(
@@ -132,7 +135,11 @@ public class RoutersHandler {
   }
 
   private Link linkOfGet(InventoryId id) {
-    return Link.builder().rel("get").method("GET").path("/inventories/" + id.getInventoryId()).build();
+    return Link.builder()
+        .rel("get")
+        .method("GET")
+        .path("/inventories/" + id.getReference())
+        .build();
   }
 
   private Link linkOfCreate() {
@@ -150,7 +157,7 @@ public class RoutersHandler {
                 Link.builder()
                     .rel(action)
                     .method("PUT")
-                    .path("/inventories/" + id.getInventoryId() + "/" + action)
+                    .path("/inventories/" + id.getReference() + "/" + action)
                     .build())
         .collect(Collectors.toList());
   }

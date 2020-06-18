@@ -1,10 +1,12 @@
 package io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects;
 
 import io.github.bhuwanupadhyay.rtms.ddd.ValueObject;
-import java.util.Objects;
+import lombok.*;
+
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
-import lombok.*;
+import java.util.Objects;
 
 @Embeddable
 @ToString
@@ -13,8 +15,11 @@ import lombok.*;
 @Getter
 public class ProductLine extends ValueObject {
 
-  @Embedded private ProductId productId;
-  @Embedded private Quantity quantity;
+  @Embedded
+  private ProductId productId;
+
+  @Embedded
+  private Quantity quantity;
 
   public ProductLine(ProductId productId, Quantity quantity) {
     this.productId = productId;
@@ -26,8 +31,7 @@ public class ProductLine extends ValueObject {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ProductLine that = (ProductLine) o;
-    return Objects.equals(productId, that.productId)
-        && Objects.equals(quantity, that.quantity);
+    return Objects.equals(productId, that.productId) && Objects.equals(quantity, that.quantity);
   }
 
   @Override

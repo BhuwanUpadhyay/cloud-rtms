@@ -1,9 +1,12 @@
 package io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects;
 
 import io.github.bhuwanupadhyay.rtms.ddd.ValueObject;
-import java.util.Objects;
-import javax.persistence.Embeddable;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
 import lombok.*;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 @ToString
@@ -12,6 +15,7 @@ import lombok.*;
 @Getter
 public class InventoryName extends ValueObject {
 
+  @Column(name = InventoryDb.NAME)
   private String name;
 
   public InventoryName(String name) {

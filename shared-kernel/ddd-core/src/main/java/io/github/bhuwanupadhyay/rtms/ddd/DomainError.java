@@ -29,6 +29,10 @@ public final class DomainError extends ValueObject {
     this.errorMessage = errorMessage;
   }
 
+  public static DomainError notNull(final String code) {
+    return new DomainError(code, code + ".IsRequired");
+  }
+
   public static <T extends DomainEvent> Supplier<DomainError> create(
       final T type, final String code) {
     return () -> createError(type, DOMAIN_EVENT, code);

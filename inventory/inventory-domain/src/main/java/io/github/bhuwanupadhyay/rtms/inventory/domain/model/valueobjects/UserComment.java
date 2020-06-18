@@ -1,10 +1,13 @@
 package io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects;
 
 import io.github.bhuwanupadhyay.rtms.ddd.ValueObject;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
+import lombok.*;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import javax.persistence.Embeddable;
-import lombok.*;
 
 @Embeddable
 @ToString
@@ -13,9 +16,16 @@ import lombok.*;
 @Getter
 public class UserComment extends ValueObject {
 
+  @Column(name = InventoryDb.CREATED_AT)
   private LocalDateTime createdAt;
+
+  @Column(name = InventoryDb.USERNAME)
   private String username;
+
+  @Column(name = InventoryDb.ACTION)
   private String action;
+
+  @Column(name = InventoryDb.COMMENT)
   private String comment;
 
   public UserComment(String username, String action, String comment) {

@@ -1,27 +1,26 @@
 package io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates;
 
-import io.github.bhuwanupadhyay.rtms.ddd.AggregateRoot;
-import io.github.bhuwanupadhyay.rtms.ddd.DomainAsserts;
-import io.github.bhuwanupadhyay.rtms.ddd.DomainError;
-import io.github.bhuwanupadhyay.rtms.ddd.DomainException;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryWorkflowCommand;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.events.InventoryCreated;
+import io.github.bhuwanupadhyay.rtms.command.WorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.ddd.*;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowExecuted;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
-
-import java.time.LocalDateTime;
-import java.util.*;
-import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 @SuppressWarnings("ConstantConditions")
 @Entity
-@Table(name = "rtms_inventory")
+@Table(name = InventoryDb.TABLE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter(AccessLevel.PRIVATE)
 @Getter
@@ -34,53 +33,29 @@ public class Inventory extends AggregateRoot<InventoryId> {
   private Set<ProductLine> productLines;
 
   @Enumerated(EnumType.STRING)
+  @Column(name = InventoryDb.STATUS)
   private InventoryStatus status;
 
   @ElementCollection(fetch = FetchType.LAZY)
   private List<UserComment> userComments;
 
-  public Inventory(InventoryId inventoryId, InventoryCreateCommand command) {
+  public Inventory(InventoryId inventoryId) {
     super(inventoryId);
-    log.debug("Params => {} {}", inventoryId, command);
-
-    DomainAsserts.begin(command)
-        .notNull(DomainError.create(this, "InventoryCreateCommandIsRequired"))
-        .switchIfNotNull(
-            Optional.ofNullable(command).map(InventoryCreateCommand::getInventoryName),
-            DomainError.create(this, "InventoryNameIsRequired"))
-        .notBlank(DomainError.create(this, "InventoryNameIsRequired"))
-        .switchIfNotNull(
-            Optional.ofNullable(command).map(InventoryCreateCommand::getProductLines),
-            DomainError.create(this, "ProductLinesIsRequired"))
-        .atLeastOneElement(DomainError.create(this, "AtLeastOneProductLinesIsRequired"))
-        .end();
-
-    this.inventoryName = new InventoryName(command.getInventoryName());
-    this.productLines = new HashSet<>();
-    this.userComments = new ArrayList<>();
-    this.productLines.addAll(command.getProductLines());
-    this.status = InventoryStatus.CREATED;
-    this.setCreatedAt(LocalDateTime.now());
-    this.registerEvent(
-        InventoryCreated.builder()
-            .inventoryId(this.getId().getInventoryId())
-            .inventoryName(this.getInventoryName().getName())
-            .status(this.getStatus().name())
-            .build());
-    log.info("Executed {} {}", command.getClass().getName(), command);
   }
 
-  public void executeWorkflow(InventoryWorkflowCommand command) {
+  public Result<Inventory> execute(WorkflowCommand command) {
     log.debug("Params => {}", command);
+
+    List<DomainError> errors = new ArrayList<>();
 
     DomainAsserts.begin(command)
         .notNull(DomainError.create(this, "InventoryWorkflowCommandIsRequired"))
         .switchIfNotNull(
-            Optional.ofNullable(command).map(InventoryWorkflowCommand::getAction),
+            Optional.ofNullable(command).map(WorkflowCommand::getAction),
             DomainError.create(this, "WorkflowActionIsRequired"))
         .notBlank(DomainError.create(this, "WorkflowActionIsRequired"))
         .switchIfNotNull(
-            Optional.ofNullable(command).map(InventoryWorkflowCommand::getComment),
+            Optional.ofNullable(command).map(WorkflowCommand::getComment),
             DomainError.create(this, "WorkflowActionCommentIsRequired"))
         .notBlank(DomainError.create(this, "WorkflowActionCommentIsRequired"))
         .end();
@@ -102,5 +77,7 @@ public class Inventory extends AggregateRoot<InventoryId> {
     this.status = this.getStatus().nextStatus(command.getAction());
     this.registerEvent(new WorkflowExecuted(command.getAction(), this.getStatus().name()));
     log.debug("Executed {} {}", command.getClass().getName(), command);
+
+    return Result.<Inventory>builder().result(this).domainErrors(errors).build();
   }
 }
