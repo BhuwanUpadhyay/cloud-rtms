@@ -5,9 +5,19 @@ metadata:
   labels:
     {{- include "gateway.labels" . | nindent 4 }}
 data:
-  spring.application.name: gateway
-  spring.cloud.consul.enabled: 'false'
-  spring.cloud.gateway.routes[0].id: inventory-service
-  spring.cloud.gateway.routes[0].uri: http://{{ .Release.Name }}-inventory-service
-  spring.cloud.gateway.routes[0].predicates[0]: Path=/inventories
-  spring.cloud.loadbalancer.cache.enabled: 'true'
+  application.yaml: |-
+    spring:
+      application:
+        name: gateway
+      cloud:
+        consul:
+          enabled: false
+        gateway:
+          routes:
+            - id: inventory-service
+              uri: http://{{ .Release.Name }}-inventory-service
+              predicates:
+                - Path=/inventories
+        loadbalancer:
+          cache:
+            enabled: true

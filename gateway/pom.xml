@@ -44,6 +44,11 @@
 <!--            <artifactId>spring-cloud-security</artifactId>-->
 <!--        </dependency>-->
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-kubernetes-all</artifactId>
+        </dependency>
+
         <!-- Monitoring dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

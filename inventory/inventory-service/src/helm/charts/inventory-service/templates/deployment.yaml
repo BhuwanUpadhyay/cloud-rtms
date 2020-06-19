@@ -33,9 +33,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          envFrom:
-            - configMapRef:
-                name: {{ include "inventory-service.fullname" . }}-config
+          env:
+            - name: JAVA_OPTIONS
+              value: -Dspring.profiles.active=prod
           ports:
             - name: http
               containerPort: 8080
