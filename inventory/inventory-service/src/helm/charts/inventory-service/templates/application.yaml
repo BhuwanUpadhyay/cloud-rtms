@@ -5,4 +5,10 @@ metadata:
   labels:
     {{- include "inventory-service.labels" . | nindent 4 }}
 data:
-  SPRING_PROFILES_ACTION: 'prod'
+  spring.profiles.active: 'prod'
+  spring.datasource.url: 'jdbc:postgresql://{{ .Release.Name }}-inventory-service-db:5432/inventory'
+  spring.datasource.username: 'user'
+  spring.datasource.password: 'password'
+  spring.datasource.driver-class-name: 'org.postgresql.Driver'
+  spring.cloud.stream.default-binder: 'kafka'
+  spring.cloud.stream.kafka.binder.brokers: {{ .Release.Name }}-kafka

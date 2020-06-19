@@ -2,3 +2,9 @@ gateway:
   enabled: true
 inventory-service:
   enabled: true
+inventory-service-db:
+  postgresqlDatabase: inventory
+  postgresqlUsername: user
+  postgresqlPassword: password
+  persistence:
+    enabled: false

@@ -1,8 +1,5 @@
 DIR="$(pwd)"/.cache
 mkdir -p "$DIR"
-#curl -fsSL -o "$DIR"/get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-#chmod 700 "$DIR"/get_helm.sh
-#"$DIR"/get_helm.sh
 
 FILE=$DIR/linux-amd64/helm
 
@@ -16,7 +13,6 @@ fi
 
 # shellcheck disable=SC2139
 alias helm="$DIR/linux-amd64/helm"
-#export KUBECONFIG="$DIR"/config
 
 printf '\n'
 helm version
@@ -38,15 +34,18 @@ case ${option} in
         --install -f rtms/env/development/values.yaml \
         $DEPLOYMENT rtms --force
       ;;
-   --update)
-        helm repo add chartmuseum http://localhost:18080
+   --update-deps)
         helm dependency update rtms
       ;;
-   -r)
+   --add-repos)
+        helm repo add bitnami https://charts.bitnami.com/bitnami
+        helm repo add chartmuseum http://localhost:18080
+      ;;
+   --delete)
       helm delete $DEPLOYMENT
       ;;
    *)
-      echo "`basename ${0}`:usage: [-s secret] | [-d deploy]"
+      echo "`basename ${0}`:usage: [--deploy] | [--upgrade-deps] | [--add-repos] | [--delete]"
       exit 1 # Command to come out of the program with status 1
       ;;
 esac
