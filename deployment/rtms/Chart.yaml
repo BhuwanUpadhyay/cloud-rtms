@@ -10,46 +10,20 @@ description: A Helm chart for Kubernetes
 # Library charts provide useful utilities or functions for the chart developer. They're included as
 # a dependency of application charts to inject those utilities and functions into the rendering
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
-type: application
+type: library
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.0
+version: 0.0.0-SNAPSHOT
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
-appVersion: 1.0.0
+appVersion: 0.0.0-SNAPSHOT
 
 dependencies:
-  - name: business-intelligence
-    version: "1.0.0"
-    condition: "business-intelligence.enabled"
-  - name: customer
-    version: "1.0.0"
-    condition: "customer.enabled"
-  - name: dashboard
-    version: "1.0.0"
-    condition: "dashboard.enabled"
-  - name: docs
-    version: "1.0.0"
-    condition: "docs.enabled"
-  - name: inventory
-    version: "1.0.0"
-    condition: "inventory.enabled"
-  - name: monitoring
-    version: "1.0.0"
-    condition: "monitoring.enabled"
-  - name: notification
-    version: "1.0.0"
-    condition: "notification.enabled"
-  - name: order
-    version: "1.0.0"
-    condition: "order.enabled"
-  - name: payment
-    version: "1.0.0"
-    condition: "payment.enabled"
-  - name: web-ui
-    version: "1.0.0"
-    condition: "web-ui.enabled"
+  - name: inventory-service
+    version: "0.0.0-SNAPSHOT"
+    condition: "inventory-service.enabled"
+    repository: "http://localhost:18080/api/charts"
