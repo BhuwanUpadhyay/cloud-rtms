@@ -5,4 +5,4 @@ metadata:
   labels:
     {{- include "gateway.labels" . | nindent 4 }}
 data:
-  SPRING_PROFILES_ACTION: 'prod'
+  spring.profiles.active: 'prod'
