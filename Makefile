@@ -11,14 +11,17 @@ help:
 
 ##@ Development
 
-build: ## Build the project
+build: ## Build
 	mvn clean install -DskipTests
 
-infra: ## Run the infrastructure
-	rm -rf .helm-charts/* && docker-compose up -d
+infra: ## Infrastructure
+	rm -rf .helm-charts/* && docker-compose rm -f -v && docker-compose up -d
 
-deploy: ## Run the infrastructure
+deploy: ## Deploy
 	cd deployment && ./helm.sh --deploy
 
-html: ## Run the documentation
+delete: ## Delete
+	cd deployment && ./helm.sh --delete
+
+html: ## Documentation
 	ci/build.sh --docs && http-server -p 8080 -c-1 docs/target/html
