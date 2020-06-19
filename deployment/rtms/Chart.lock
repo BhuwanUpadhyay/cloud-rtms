@@ -1,0 +1,9 @@
+dependencies:
+- name: gateway
+  repository: http://localhost:18080
+  version: 0.0.0-SNAPSHOT
+- name: inventory-service
+  repository: http://localhost:18080
+  version: 0.0.0-SNAPSHOT
+digest: sha256:2d51a18599f8462f64191fa56528a1d0c0321995ef4cc2f29b1cc0f52bbdf83a
+generated: "2020-06-19T13:04:39.007021485+05:45"

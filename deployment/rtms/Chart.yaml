@@ -23,7 +23,11 @@ version: 0.0.0-SNAPSHOT
 appVersion: 0.0.0-SNAPSHOT
 
 dependencies:
+  - name: gateway
+    version: "0.0.0-SNAPSHOT"
+    condition: "gateway.enabled"
+    repository: "http://localhost:18080"
   - name: inventory-service
     version: "0.0.0-SNAPSHOT"
     condition: "inventory-service.enabled"
-    repository: "http://localhost:18080/api/charts"
+    repository: "http://localhost:18080"

@@ -33,12 +33,13 @@ case ${option} in
         --docker-password="$GITHUB_TOKEN" \
         --docker-email=bot.bhuwan@gmail.com
       ;;
-   -d)
+   --deploy)
         helm upgrade \
-        --install -f rtms/local.yaml \
+        --install -f rtms/env/development/values.yaml \
         $DEPLOYMENT rtms --force
       ;;
    --update)
+        helm repo add chartmuseum http://localhost:18080
         helm dependency update rtms
       ;;
    -r)
