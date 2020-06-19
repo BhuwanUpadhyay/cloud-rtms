@@ -2,8 +2,11 @@ dependencies:
 - name: gateway
   repository: http://localhost:18080
   version: 0.0.0-SNAPSHOT
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 8.10.5
 - name: inventory-service
   repository: http://localhost:18080
   version: 0.0.0-SNAPSHOT
-digest: sha256:2d51a18599f8462f64191fa56528a1d0c0321995ef4cc2f29b1cc0f52bbdf83a
-generated: "2020-06-19T13:04:39.007021485+05:45"
+digest: sha256:52277d9b4d09910e573251441740f8638a05bd35cb2c2b91da2a2fd73cf2cb23
+generated: "2020-06-19T13:30:49.932958207+05:45"

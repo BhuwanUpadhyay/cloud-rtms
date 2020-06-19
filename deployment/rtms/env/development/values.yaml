@@ -1,4 +1,4 @@
 gateway:
   enabled: true
 inventory-service:
-  enabled: false
+  enabled: true
