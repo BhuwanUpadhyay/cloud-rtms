@@ -13,7 +13,6 @@
 
     <properties>
         <jkube.skip>false</jkube.skip>
-        <jkube.createExternalUrls>true</jkube.createExternalUrls>
     </properties>
 
     <dependencies>
@@ -107,19 +106,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.eclipse.jkube</groupId>
-                <artifactId>kubernetes-maven-plugin</artifactId>
-                <configuration>
-                    <enricher>
-                        <config>
-                            <jkube-service>
-                                <type>LoadBalancer</type>
-                            </jkube-service>
-                        </config>
-                    </enricher>
-                </configuration>
             </plugin>
         </plugins>
     </build>

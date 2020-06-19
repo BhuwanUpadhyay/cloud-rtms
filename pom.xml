@@ -374,22 +374,22 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>resource</goal>
+                            <!--                            <goal>resource</goal>-->
                             <goal>build</goal>
-                            <goal>helm</goal>
+                            <!--                            <goal>helm</goal>-->
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
                     <skip>${jkube.skip}</skip>
-<!--                    <images>-->
-<!--                        <image>-->
-<!--                            <name>cloudrtms/${project.artifactId}</name>-->
-<!--                            <build>-->
-<!--                                <contextDir>${project.basedir}</contextDir>-->
-<!--                            </build>-->
-<!--                        </image>-->
-<!--                    </images>-->
+                    <images>
+                        <image>
+                            <name>cloudrtms/${project.artifactId}</name>
+                            <build>
+                                <contextDir>${project.basedir}</contextDir>
+                            </build>
+                        </image>
+                    </images>
                     <generator>
                         <config>
                             <spring-boot>
@@ -409,10 +409,24 @@
                     </helm>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.kiwigrid</groupId>
+                <artifactId>helm-maven-plugin</artifactId>
+                <configuration>
+                    <chartDirectory>${project.basedir}/src/helm/charts/gateway</chartDirectory>
+                    <chartVersion>${project.version}</chartVersion>
+                    <appVersion>${project.version}</appVersion>
+                </configuration>
+            </plugin>
         </plugins>
 
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>com.kiwigrid</groupId>
+                    <artifactId>helm-maven-plugin</artifactId>
+                    <version>5.5</version>
+                </plugin>
                 <plugin>
                     <groupId>org.eclipse.jkube</groupId>
                     <artifactId>kubernetes-maven-plugin</artifactId>
