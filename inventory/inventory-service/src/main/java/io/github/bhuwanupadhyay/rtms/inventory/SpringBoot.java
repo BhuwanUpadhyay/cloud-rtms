@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories
-@EnableDiscoveryClient
 @EnableConfigurationProperties(ApplicationProperties.class)
 public class SpringBoot {
 

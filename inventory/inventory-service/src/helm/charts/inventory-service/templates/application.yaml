@@ -12,4 +12,4 @@ data:
   spring.datasource.driver-class-name: 'org.postgresql.Driver'
   spring.cloud.consul.enabled: 'false'
   spring.cloud.stream.default-binder: 'kafka'
-  spring.cloud.stream.kafka.binder.brokers: {{ .Release.Name }}-kafka
+  spring.cloud.stream.kafka.binder.brokers: '{{ .Release.Name }}-kafka:9092'
