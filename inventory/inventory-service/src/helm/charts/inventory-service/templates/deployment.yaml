@@ -34,8 +34,12 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: JAVA_OPTIONS
-              value: -Dspring.profiles.active=prod
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: SPRING_CLOUD_KUBERNETES_CONFIG_NAME
+              value: {{ include "inventory-service.fullname" . }}-config
+            - name: SPRING_CLOUD_KUBERNETES_CONFIG_NAMESPACE
+              value: {{ .Release.Namespace }}
           ports:
             - name: http
               containerPort: 8080

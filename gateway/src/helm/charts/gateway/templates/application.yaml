@@ -10,6 +10,9 @@ data:
       application:
         name: gateway
       cloud:
+        kubernetes:
+          discovery:
+            enabled: false
         consul:
           enabled: false
         gateway:

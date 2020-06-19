@@ -8,8 +8,8 @@
     <artifactId>cloud-rtms</artifactId>
     <version>${revision}</version>
     <modules>
-        <module>shared-kernel</module>
         <module>gateway</module>
+        <module>shared-kernel</module>
         <module>inventory</module>
         <!--        <module>order</module>-->
         <!--        <module>payment</module>-->
@@ -382,7 +382,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <skip>${jkube.skip}</skip>
+                    <skip>true</skip>
                     <images>
                         <image>
                             <name>${jkube.generator.name}</name>
@@ -417,7 +417,7 @@
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <goal>init</goal>
+<!--                            <goal>init</goal>-->
                             <goal>lint</goal>
                             <goal>package</goal>
                             <goal>upload</goal>
@@ -440,6 +440,7 @@
                         <url>http://localhost:18080/api/charts</url>
                         <type>CHARTMUSEUM</type>
                     </uploadRepoSnapshot>
+                    <helmExecutableDirectory>/home/pc/.helm/</helmExecutableDirectory>
                     <helmDownloadUrl>https://get.helm.sh/helm-v3.2.3-linux-amd64.tar.gz</helmDownloadUrl>
                 </configuration>
             </plugin>
