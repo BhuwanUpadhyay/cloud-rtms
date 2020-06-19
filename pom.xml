@@ -376,12 +376,13 @@
                         <goals>
                             <!--                            <goal>resource</goal>-->
                             <goal>build</goal>
+                            <goal>push</goal>
                             <!--                            <goal>helm</goal>-->
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <skip>${jkube.skip}</skip>
+                    <skip>true</skip>
                     <images>
                         <image>
                             <name>cloudrtms/${project.artifactId}</name>
@@ -419,6 +420,7 @@
                             <goal>init</goal>
                             <goal>lint</goal>
                             <goal>package</goal>
+                            <goal>upload</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -427,6 +429,17 @@
                     <chartDirectory>${project.basedir}/src/helm/charts/${project.artifactId}</chartDirectory>
                     <chartVersion>${project.version}</chartVersion>
                     <appVersion>${project.version}</appVersion>
+                    <lintStrict>true</lintStrict>
+                    <uploadRepoStable>
+                        <name>stable-repo</name>
+                        <url>https://repo.example.com/artifactory/helm-stable</url>
+                        <type>ARTIFACTORY</type>
+                    </uploadRepoStable>
+                    <uploadRepoSnapshot>
+                        <name>snapshot-repo</name>
+                        <url>http://localhost:18080/api/charts</url>
+                        <type>CHARTMUSEUM</type>
+                    </uploadRepoSnapshot>
                     <helmDownloadUrl>https://get.helm.sh/helm-v3.2.3-linux-amd64.tar.gz</helmDownloadUrl>
                 </configuration>
             </plugin>
@@ -609,6 +622,11 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.kiwigrid</groupId>
+                        <artifactId>helm-maven-plugin</artifactId>
+
                     </plugin>
                 </plugins>
             </build>

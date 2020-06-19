@@ -1,25 +1,11 @@
 version: '3.7'
 services:
-  gateway:
-    image: cloudrtms/gateway:latest
-    build:
-      context: .
-      dockerfile: ci/docker/app.dockerfile
-      args:
-        - DEPENDENCY=gateway/target/dependency
+  chartmuseum:
+    image: chartmuseum/chartmuseum:latest
+    ports:
+      - 18080:8080
     environment:
-      - MAIN_CLASS=io.github.bhuwanupadhyay.rtms.gateway.SpringBoot
-  inventory:
-    image: cloudrtms/inventory:latest
-    build:
-      context: .
-      dockerfile: ci/docker/app.dockerfile
-      args:
-        - DEPENDENCY=inventory/inventory-service/target/dependency
-    environment:
-      - MAIN_CLASS=io.github.bhuwanupadhyay.rtms.inventory.SpringBoot
-  e2e:
-    image: cloudrtms/e2e:latest
-    build:
-      context: .
-      dockerfile: ci/docker/test.dockerfile
+      - STORAGE=local
+      - STORAGE_LOCAL_ROOTDIR=/charts
+    volumes:
+      - './.helm-charts:/charts'
