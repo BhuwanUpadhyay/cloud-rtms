@@ -1,5 +1,7 @@
 gateway:
   enabled: true
+kafka:
+  enabled: true
 inventory-service:
   enabled: true
 inventory-service-db:

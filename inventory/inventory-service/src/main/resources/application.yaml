@@ -86,3 +86,5 @@ spring:
           # contentType: 'application/*+avro'
           destination: rtmsEvents
           group: ${spring.application.name}
+    consul:
+      enabled: false

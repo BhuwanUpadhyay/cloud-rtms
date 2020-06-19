@@ -10,5 +10,6 @@ data:
   spring.datasource.username: 'user'
   spring.datasource.password: 'password'
   spring.datasource.driver-class-name: 'org.postgresql.Driver'
+  spring.cloud.consul.enabled: 'false'
   spring.cloud.stream.default-binder: 'kafka'
   spring.cloud.stream.kafka.binder.brokers: {{ .Release.Name }}-kafka
