@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "inventory-service.fullname" . }}-config
+  labels:
+    {{- include "inventory-service.labels" . | nindent 4 }}
+data:
+  SPRING_PROFILES_ACTION: 'prod'
