@@ -34,12 +34,12 @@ dependencies:
     condition: kafka.enabled
     repository: https://charts.bitnami.com/bitnami
   - name: postgresql
-    alias: inventoryservicedb
+    alias: inventorydb
     version: 8.10.5
-    condition: inventory-service.enabled
+    condition: inventorydb.enabled
     repository: https://charts.bitnami.com/bitnami
   - name: inventory-service
-    alias: inventoryservice
+    alias: inventory
     version: 0.0.0-SNAPSHOT
-    condition: inventory-service.enabled
+    condition: inventory.enabled
     repository: http://localhost:18080

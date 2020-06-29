@@ -389,10 +389,10 @@
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <!--                            <goal>init</goal>-->
+<!--                            <goal>init</goal>-->
                             <goal>lint</goal>
                             <goal>package</goal>
-                            <goal>upload</goal>
+<!--                            <goal>upload</goal>-->
                         </goals>
                     </execution>
                 </executions>

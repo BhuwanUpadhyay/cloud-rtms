@@ -2,9 +2,9 @@ gateway:
   enabled: true
 kafka:
   enabled: true
-inventoryservice:
+inventory:
   enabled: true
-inventoryservicedb:
+inventorydb:
   postgresqlDatabase: inventory
   postgresqlUsername: user
   postgresqlPassword: password
