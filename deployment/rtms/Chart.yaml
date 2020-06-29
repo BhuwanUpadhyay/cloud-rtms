@@ -24,6 +24,7 @@ appVersion: 0.0.0-SNAPSHOT
 
 dependencies:
   - name: gateway
+    alias: gateway
     version: 0.0.0-SNAPSHOT
     condition: gateway.enabled
     repository: http://localhost:18080
@@ -33,11 +34,12 @@ dependencies:
     condition: kafka.enabled
     repository: https://charts.bitnami.com/bitnami
   - name: postgresql
-    alias: inventory-service-db
+    alias: inventoryservicedb
     version: 8.10.5
     condition: inventory-service.enabled
     repository: https://charts.bitnami.com/bitnami
   - name: inventory-service
+    alias: inventoryservice
     version: 0.0.0-SNAPSHOT
     condition: inventory-service.enabled
     repository: http://localhost:18080

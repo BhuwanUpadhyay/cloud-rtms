@@ -6,11 +6,28 @@ metadata:
     {{- include "inventory-service.labels" . | nindent 4 }}
 data:
   application.yaml: |-
+    management:
+      endpoints:
+        web:
+          base-path: /actuator
+          exposure:
+            include: ['configprops', 'env', 'health', 'info', 'logfile', 'loggers', 'threaddump']
+      endpoint:
+        health:
+          show-details: always
     spring:
       application:
         name: inventory-service
+    ---
+    spring:
+      profiles: dev
+      r2dbc:
+        url: jdbc:h2:mem://test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    ---
+    spring:
+      profiles: prod
       datasource:
-        url: jdbc:postgresql://{{ .Release.Name }}-inventory-service-db:5432/inventory
+        url: jdbc:postgresql://{{ .Release.Name }}-inventoryservicedb:5432/inventory
         username: user
         password: password
         driver-class-name: org.postgresql.Driver
@@ -26,9 +43,3 @@ data:
             binder:
               brokers:
                 - {{ .Release.Name }}-kafka:9092
-    ---
-    spring:
-      profiles: dev
-    ---
-    spring:
-      profiles: prod
