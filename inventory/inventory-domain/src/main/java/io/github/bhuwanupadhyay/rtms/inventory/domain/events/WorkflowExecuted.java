@@ -11,7 +11,6 @@ public class WorkflowExecuted extends DomainEvent {
   private final String status;
 
   public WorkflowExecuted(String action, String status) {
-    super(DomainEventType.OUTSIDE);
     this.action = action;
     this.status = status;
   }

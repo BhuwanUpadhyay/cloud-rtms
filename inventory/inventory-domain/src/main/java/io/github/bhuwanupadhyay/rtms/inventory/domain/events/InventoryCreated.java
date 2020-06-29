@@ -13,7 +13,6 @@ public class InventoryCreated extends DomainEvent {
   private final String status;
 
   private InventoryCreated(String inventoryId, String inventoryName, String status) {
-    super(DomainEventType.OUTSIDE);
     this.inventoryId = inventoryId;
     this.inventoryName = inventoryName;
     this.status = status;
