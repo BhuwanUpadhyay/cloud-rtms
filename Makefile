@@ -12,7 +12,7 @@ help:
 ##@ Development
 
 build: ## Build
-	mvn clean install -DskipTests
+	ci/build.sh --build
 
 html: ## Documentation
 	ci/build.sh --docs && http-server -p 8080 -c-1 docs/target/html
@@ -20,13 +20,13 @@ html: ## Documentation
 ##@ Helm
 
 infra: ## Infrastructure
-	rm -rf .helm-charts/* && docker-compose rm -f -v && docker-compose up -d
+	docker-compose rm -f -v && docker-compose up -d
 
 deploy: ## Deploy
-	cd deployment && ./helm.sh --deploy
+	ci/deployment/helm.sh --deploy
 
 delete: ## Delete
-	cd deployment && ./helm.sh --delete
+	ci/deployment/helm.sh --delete
 
 update: ## Update
-	cd deployment && ./helm.sh --update-deps
+	ci/deployment/helm.sh --update-deps

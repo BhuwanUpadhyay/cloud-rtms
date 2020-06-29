@@ -8,4 +8,4 @@ services:
       - STORAGE=local
       - STORAGE_LOCAL_ROOTDIR=/charts
     volumes:
-      - './.helm-charts:/charts'
+      - './.cache/charts:/charts'
