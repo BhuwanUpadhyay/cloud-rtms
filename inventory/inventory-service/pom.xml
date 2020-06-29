@@ -15,7 +15,7 @@
     <properties>
         <pact-jvm-provider-junit5.version>4.0.10</pact-jvm-provider-junit5.version>
         <liquibase.version>3.8.9</liquibase.version>
-        <jkube.skip>false</jkube.skip>
+        <boot.skip>false</boot.skip>
     </properties>
 
     <dependencies>
@@ -151,26 +151,7 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>${liquibase.version}</version>
-                <configuration>
-                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
-                </configuration>
-            </plugin>
+
         </plugins>
     </build>
 
