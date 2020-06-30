@@ -15,7 +15,7 @@ jobs:
         with:
           java-version: 14
       - name: Build
-        run: ci/build.sh -b
+        run: ci/build.sh --build
         env:
           GITHUB_TOKEN: ${{ github.token }}
 #      - uses: actions/setup-node@v1
