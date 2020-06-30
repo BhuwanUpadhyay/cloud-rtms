@@ -2,10 +2,13 @@ package io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects;
 
 import io.github.bhuwanupadhyay.rtms.ddd.ValueObject;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
+import io.github.bhuwanupadhyay.rtms.rules.SyntaxRule;
 import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -17,12 +20,15 @@ import java.util.Objects;
 public class UserComment extends ValueObject {
 
   @Column(name = InventoryDb.CREATED_AT)
+  @NotNull(message = "{UserComment.createdAt.NotNull.message}", groups = SyntaxRule.class)
   private LocalDateTime createdAt;
 
   @Column(name = InventoryDb.USERNAME)
+  @NotBlank(message = "{UserComment.username.NotBlank.message}", groups = SyntaxRule.class)
   private String username;
 
   @Column(name = InventoryDb.ACTION)
+  @NotBlank(message = "{UserComment.action.NotBlank.message}", groups = SyntaxRule.class)
   private String action;
 
   @Column(name = InventoryDb.COMMENT)

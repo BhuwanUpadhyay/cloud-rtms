@@ -4,10 +4,12 @@ import io.github.bhuwanupadhyay.rtms.ddd.DomainAsserts;
 import io.github.bhuwanupadhyay.rtms.ddd.DomainError;
 import io.github.bhuwanupadhyay.rtms.ddd.ValueObject;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
+import io.github.bhuwanupadhyay.rtms.rules.SyntaxRule;
 import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Embeddable
@@ -18,6 +20,7 @@ import java.util.Objects;
 public class InventoryId extends ValueObject {
 
   @Column(name = InventoryDb.REFERENCE)
+  @NotBlank(message = "{InventoryId.NotBlank.message}", groups = SyntaxRule.class)
   private String reference;
 
   public InventoryId(String reference) {

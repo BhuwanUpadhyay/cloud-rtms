@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -27,17 +28,19 @@ import java.util.*;
 @Slf4j
 public class Inventory extends AggregateRoot<InventoryId> {
 
-  @Embedded private InventoryName inventoryName;
+  @Embedded
+  @Valid
+  private InventoryName inventoryName;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  private Set<ProductLine> productLines;
+  private Set<@Valid ProductLine> productLines;
 
   @Enumerated(EnumType.STRING)
   @Column(name = InventoryDb.STATUS)
   private InventoryStatus status;
 
   @ElementCollection(fetch = FetchType.LAZY)
-  private List<UserComment> userComments;
+  private List<@Valid UserComment> userComments;
 
   public Inventory(InventoryId inventoryId) {
     super(inventoryId);
@@ -58,7 +61,7 @@ public class Inventory extends AggregateRoot<InventoryId> {
         .atLeastOneElement(DomainError.create(this, "AtLeastOneProductLinesIsRequired"))
         .end();
 
-    this.inventoryName = new InventoryName(command.getInventoryName());
+    this.inventoryName = command.getInventoryName();
     this.productLines = new HashSet<>();
     this.userComments = new ArrayList<>();
     this.productLines.addAll(command.getProductLines());

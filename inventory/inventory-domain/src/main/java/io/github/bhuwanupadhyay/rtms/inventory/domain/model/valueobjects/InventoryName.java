@@ -2,10 +2,12 @@ package io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects;
 
 import io.github.bhuwanupadhyay.rtms.ddd.ValueObject;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
+import io.github.bhuwanupadhyay.rtms.rules.SyntaxRule;
 import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Embeddable
@@ -16,6 +18,7 @@ import java.util.Objects;
 public class InventoryName extends ValueObject {
 
   @Column(name = InventoryDb.NAME)
+  @NotBlank(message = "{InventoryName.NotBlank.message}", groups = SyntaxRule.class)
   private String name;
 
   public InventoryName(String name) {

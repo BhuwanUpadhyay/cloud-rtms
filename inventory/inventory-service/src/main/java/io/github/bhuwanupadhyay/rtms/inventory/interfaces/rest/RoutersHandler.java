@@ -98,7 +98,7 @@ public class RoutersHandler {
 
   private InventoryCreateCommand toCommand(CreateInventoryResource it) {
     return InventoryCreateCommand.builder()
-        .inventoryName(it.getName())
+        .inventoryName(new InventoryName(it.getName()))
         .productLines(
             it.getProductLines().stream()
                 .map(

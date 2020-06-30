@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
+import javax.validation.Valid;
 import java.util.Objects;
 
 @Embeddable
@@ -16,9 +17,11 @@ import java.util.Objects;
 public class ProductLine extends ValueObject {
 
   @Embedded
+  @Valid
   private ProductId productId;
 
   @Embedded
+  @Valid
   private Quantity quantity;
 
   public ProductLine(ProductId productId, Quantity quantity) {
