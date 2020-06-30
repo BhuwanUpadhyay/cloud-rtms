@@ -19,18 +19,18 @@ case ${option} in
    --publish)
       # Publish Docker Images
       for i in "gateway" "inventory-service" ; do
-        echo "----------------------------------------------"
+        echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         docker push docker.io/bhuwanupadhyay/$i:"$next_version"
         echo "----------------------------------------------"
       done
 
       # Publish Helm Charts
       for i in "gateway" "inventory/inventory-service" ; do
-        echo "----------------------------------------------"
+        echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         HELM_CHART="$(sed 's/.*\///' <<< $i)-$next_version.tgz"
         HELM_CHART_FILE_PATH="$i/target/helm/repo/$HELM_CHART"
         curl --data-binary "@$HELM_CHART_FILE_PATH" http://localhost:18080/api/charts
-        echo "Publish: $HELM_CHART from $HELM_CHART_FILE_PATH"
+        echo "Published: $HELM_CHART from $HELM_CHART_FILE_PATH"
         echo "----------------------------------------------"
       done
       ;;
