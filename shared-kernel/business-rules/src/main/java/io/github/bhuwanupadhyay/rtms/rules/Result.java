@@ -3,7 +3,7 @@ package io.github.bhuwanupadhyay.rtms.rules;
 import lombok.Builder;
 
 import java.util.*;
-import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Builder
 public class Result<R> {
@@ -11,10 +11,10 @@ public class Result<R> {
   private final R result;
   private final List<Problem> problems;
 
-  public void ifOk(Consumer<R> o) {
-    if (isOk() && Objects.nonNull(result)) {
-      o.accept(result);
-    }
+  public static <T> Result<T> onExecute(Supplier<Result<T>> command) {
+    Result<T> result = command.get();
+    return result.ok().map(e -> Result.<T>builder().result(e).build())
+        .orElseGet(() -> Result.<T>builder().problems(result.getProblems()).build());
   }
 
   public List<Problem> getProblems() {
@@ -22,12 +22,15 @@ public class Result<R> {
         Optional.ofNullable(this.problems).orElseGet(ArrayList::new));
   }
 
-  public Optional<R> getResult() {
-    return Optional.ofNullable(result);
+  public Optional<R> ok() {
+    if (isOk()) {
+      return Optional.of(result);
+    }
+    return Optional.empty();
   }
 
   public boolean isOk() {
-    return Optional.ofNullable(problems).map(List::isEmpty).orElse(true);
+    return Optional.ofNullable(problems).map(List::isEmpty).orElse(true) && Objects.nonNull(result);
   }
 
   public boolean isBad() {

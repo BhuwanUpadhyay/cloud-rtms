@@ -1,19 +1,23 @@
 package io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates;
 
 import io.github.bhuwanupadhyay.rtms.command.WorkflowCommand;
-import io.github.bhuwanupadhyay.rtms.ddd.*;
+import io.github.bhuwanupadhyay.rtms.ddd.AggregateRoot;
+import io.github.bhuwanupadhyay.rtms.ddd.DomainAsserts;
+import io.github.bhuwanupadhyay.rtms.ddd.DomainError;
+import io.github.bhuwanupadhyay.rtms.ddd.DomainException;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.InventoryCreated;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowExecuted;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
+import io.github.bhuwanupadhyay.rtms.rules.Problem;
+import io.github.bhuwanupadhyay.rtms.rules.Result;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -48,19 +52,7 @@ public class Inventory extends AggregateRoot<InventoryId> {
 
   public Result<Inventory> execute(InventoryCreateCommand command) {
     log.debug("Params => {}", command);
-
-    DomainAsserts.begin(command)
-        .notNull(DomainError.create(this, "InventoryCreateCommandIsRequired"))
-        .switchIfNotNull(
-            Optional.ofNullable(command).map(InventoryCreateCommand::getInventoryName),
-            DomainError.create(this, "InventoryNameIsRequired"))
-        .notBlank(DomainError.create(this, "InventoryNameIsRequired"))
-        .switchIfNotNull(
-            Optional.ofNullable(command).map(InventoryCreateCommand::getProductLines),
-            DomainError.create(this, "ProductLinesIsRequired"))
-        .atLeastOneElement(DomainError.create(this, "AtLeastOneProductLinesIsRequired"))
-        .end();
-
+    List<Problem> problems = new ArrayList<>();
     this.inventoryName = command.getInventoryName();
     this.productLines = new HashSet<>();
     this.userComments = new ArrayList<>();
@@ -74,25 +66,13 @@ public class Inventory extends AggregateRoot<InventoryId> {
             .status(this.getStatus().name())
             .build());
     log.info("Executed {} {}", command.getClass().getName(), command);
-    return Result.<Inventory>builder().result(this).domainErrors(new ArrayList<>()).build();
+    return Result.<Inventory>builder().result(this).problems(problems).build();
   }
 
   public Result<Inventory> execute(WorkflowCommand command) {
     log.debug("Params => {}", command);
 
-    List<DomainError> errors = new ArrayList<>();
-
-    DomainAsserts.begin(command)
-        .notNull(DomainError.create(this, "InventoryWorkflowCommandIsRequired"))
-        .switchIfNotNull(
-            Optional.ofNullable(command).map(WorkflowCommand::getAction),
-            DomainError.create(this, "WorkflowActionIsRequired"))
-        .notBlank(DomainError.create(this, "WorkflowActionIsRequired"))
-        .switchIfNotNull(
-            Optional.ofNullable(command).map(WorkflowCommand::getComment),
-            DomainError.create(this, "WorkflowActionCommentIsRequired"))
-        .notBlank(DomainError.create(this, "WorkflowActionCommentIsRequired"))
-        .end();
+    List<Problem> problems = new ArrayList<>();
 
     if (!this.getStatus().getNextActions().contains(command.getAction())) {
       throw new DomainException(List.of(DomainError.create(this, "WorkflowActionIsInvalid").get()));
@@ -112,6 +92,6 @@ public class Inventory extends AggregateRoot<InventoryId> {
     this.registerEvent(new WorkflowExecuted(command.getAction(), this.getStatus().name()));
     log.debug("Executed {} {}", command.getClass().getName(), command);
 
-    return Result.<Inventory>builder().result(this).domainErrors(errors).build();
+    return Result.<Inventory>builder().result(this).problems(problems).build();
   }
 }

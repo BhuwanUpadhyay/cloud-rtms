@@ -1,13 +1,13 @@
 package io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest;
 
 import io.github.bhuwanupadhyay.rtms.command.WorkflowCommand;
-import io.github.bhuwanupadhyay.rtms.ddd.Result;
 import io.github.bhuwanupadhyay.rtms.inventory.application.commandservices.InventoryCommandService;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
 import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.InventoryQueryRepository;
 import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.*;
+import io.github.bhuwanupadhyay.rtms.rules.ProblemException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -40,12 +40,10 @@ public class RoutersHandler {
     return request
         .bodyToMono(CreateInventoryResource.class)
         .flatMap(
-            it -> {
-              InventoryCreateCommand command = toCommand(it);
-              Result<InventoryId> inventoryId = commandService.create(command);
-              return ServerResponse.status(HttpStatus.CREATED)
-                  .body(fromValue(toResource(inventoryId.getResult().get())));
-            });
+            r -> commandService.create(toCommand(r))
+                .ok()
+                .map(id -> ServerResponse.status(HttpStatus.CREATED).body(fromValue(toResource(id)))).orElseThrow(ProblemException::new)
+        );
   }
 
   public Mono<ServerResponse> list(ServerRequest request) {
@@ -83,17 +81,10 @@ public class RoutersHandler {
     return request
         .bodyToMono(WorkflowResource.class)
         .flatMap(
-            it -> {
-              WorkflowCommand command =
-                  WorkflowCommand.builder()
-                      .reference(request.pathVariable("id"))
-                      .action(it.getAction())
-                      .comment(it.getComment())
-                      .payloadJson(it.getPayloadJson())
-                      .build();
-              Result<InventoryId> inventoryId = commandService.workflow(command);
-              return ServerResponse.ok().body(fromValue(toResource(inventoryId.getResult().get())));
-            });
+            r -> commandService.workflow(toCommand(request.pathVariable("id"), r))
+                .ok()
+                .map(id -> ServerResponse.status(HttpStatus.OK).body(fromValue(toResource(id)))).orElseThrow(ProblemException::new)
+        );
   }
 
   private InventoryCreateCommand toCommand(CreateInventoryResource it) {
@@ -106,6 +97,15 @@ public class RoutersHandler {
                         new ProductLine(
                             new ProductId(itt.getProductId()), new Quantity(itt.getQuantity())))
                 .collect(Collectors.toList()))
+        .build();
+  }
+
+  private WorkflowCommand toCommand(String id, WorkflowResource resource) {
+    return WorkflowCommand.builder()
+        .reference(id)
+        .action(resource.getAction())
+        .comment(resource.getComment())
+        .payloadJson(resource.getPayloadJson())
         .build();
   }
 

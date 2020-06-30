@@ -6,7 +6,7 @@ import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.Quantit
 import io.github.bhuwanupadhyay.rtms.rules.Result;
 import io.github.bhuwanupadhyay.rtms.rules.SyntaxRule;
 import io.github.bhuwanupadhyay.rtms.rules.SyntaxRuleAssertions;
-import io.github.bhuwanupadhyay.rtms.rules.SyntaxRuleValidator;
+import io.github.bhuwanupadhyay.rtms.rules.SyntaxRules;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
@@ -21,7 +21,7 @@ import java.util.List;
 
 class InventoryCreateCommandTest {
 
-  private SyntaxRuleValidator<InventoryCreateCommand> validator;
+  private SyntaxRules<InventoryCreateCommand> validator;
 
   @BeforeEach
   void setUp() {
@@ -29,14 +29,14 @@ class InventoryCreateCommandTest {
         .configure()
         .messageInterpolator(new ResourceBundleMessageInterpolator(new PlatformResourceBundleLocator("ValidationMessages")))
         .buildValidatorFactory();
-    this.validator = new SyntaxRuleValidator<>(factory.getValidator());
+    this.validator = new SyntaxRules<>(factory.getValidator());
   }
 
   @Test
   void checkSyntaxRule() {
     List<ProductLine> productLines = new ArrayList<>();
     productLines.add(new ProductLine(new ProductId(null), new Quantity(null)));
-    Result<InventoryCreateCommand> result = this.validator.validate(InventoryCreateCommand.builder().productLines(productLines).build());
+    Result<InventoryCreateCommand> result = this.validator.apply(InventoryCreateCommand.builder().productLines(productLines).build());
     SyntaxRuleAssertions.assertThat(result).hasProblems()
         .hasError("inventoryName", SyntaxRule.IsRequired);
   }
