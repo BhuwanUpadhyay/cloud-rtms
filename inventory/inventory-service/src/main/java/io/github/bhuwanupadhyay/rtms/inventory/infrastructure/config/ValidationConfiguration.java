@@ -18,7 +18,6 @@ public class ValidationConfiguration {
     return validator;
   }
 
-
   @Bean
   public MessageSource messageSource() {
     ReloadableResourceBundleMessageSource bean = new ReloadableResourceBundleMessageSource();
