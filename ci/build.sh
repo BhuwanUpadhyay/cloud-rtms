@@ -24,12 +24,12 @@ case ${option} in
         echo "----------------------------------------------"
       done
 
-      # Publish Helm chart in Github Releases
+      # Publish Helm Charts
       for i in "gateway" "inventory/inventory-service" ; do
         echo "----------------------------------------------"
-        HELM_CHART="my-service-$next_version.tgz"
-        HELM_CHART_FILE_PATH="$(pwd)/target/helm/repo/$FILE_NAME"
-        docker push docker.io/bhuwanupadhyay/$i:"$next_version"
+        HELM_CHART="$(sed 's/.*\///' <<< $i)-$next_version.tgz"
+        HELM_CHART_FILE_PATH="$i/target/helm/repo/$HELM_CHART"
+        curl --data-binary "@$HELM_CHART_FILE_PATH" http://localhost:18080/api/charts
         echo "Publish: $HELM_CHART from $HELM_CHART_FILE_PATH"
         echo "----------------------------------------------"
       done

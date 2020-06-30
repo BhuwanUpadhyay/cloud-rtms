@@ -218,6 +218,7 @@
                 </executions>
                 <configuration>
                     <skip>${boot.skip}</skip>
+                    <imageName>docker.io/bhuwanupadhyay/${project.artifactId}:${project.version}</imageName>
                 </configuration>
             </plugin>
             <plugin>
