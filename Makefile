@@ -14,6 +14,9 @@ help:
 build: ## Build
 	ci/build.sh --build
 
+publish: ## Publish
+	ci/build.sh --publish
+
 html: ## Documentation
 	ci/build.sh --docs && http-server -p 8080 -c-1 docs/target/html
 
