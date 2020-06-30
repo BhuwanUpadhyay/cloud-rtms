@@ -5,6 +5,8 @@ import java.util.Objects;
 public interface Problem {
     String getMessage();
 
+    String getMessageTemplate();
+
     String getPropertyPath();
 
     default boolean isEqualTo(String propertyPath, String message) {

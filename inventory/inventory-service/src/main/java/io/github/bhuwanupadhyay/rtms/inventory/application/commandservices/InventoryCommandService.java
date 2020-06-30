@@ -10,13 +10,9 @@ import io.github.bhuwanupadhyay.rtms.rules.Result;
 import io.github.bhuwanupadhyay.rtms.rules.SyntaxRules;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.HibernateValidator;
-import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
-import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Validation;
 import javax.validation.Validator;
 
 @Service
@@ -25,17 +21,13 @@ import javax.validation.Validator;
 public class InventoryCommandService
     implements CommandService<InventoryCreateCommand, InventoryId> {
 
-  private static final Validator VALIDATOR = Validation.byProvider(HibernateValidator.class)
-      .configure()
-      .messageInterpolator(new ResourceBundleMessageInterpolator(new PlatformResourceBundleLocator("ValidationMessages")))
-      .buildValidatorFactory().getValidator();
-
+  private final Validator validator;
   private final InventoryDomainRepository repository;
 
   @Override
   @Transactional
   public Result<InventoryId> create(InventoryCreateCommand command) {
-    Result<InventoryCreateCommand> syntax = new SyntaxRules<InventoryCreateCommand>(VALIDATOR).apply(command);
+    Result<InventoryCreateCommand> syntax = new SyntaxRules<InventoryCreateCommand>(validator).apply(command);
 
     Result<Inventory> result = syntax
         .ok()
@@ -48,7 +40,7 @@ public class InventoryCommandService
   @Override
   @Transactional
   public Result<InventoryId> workflow(WorkflowCommand command) {
-    Result<WorkflowCommand> syntax = new SyntaxRules<WorkflowCommand>(VALIDATOR).apply(command);
+    Result<WorkflowCommand> syntax = new SyntaxRules<WorkflowCommand>(validator).apply(command);
 
     Result<Inventory> result = syntax
         .ok()

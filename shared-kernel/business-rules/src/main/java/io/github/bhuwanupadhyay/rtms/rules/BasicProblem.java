@@ -17,9 +17,11 @@ public class BasicProblem implements Problem {
   private final String propertyPath;
   @NonNull
   private final String message;
+  @NonNull
+  private final String messageTemplate;
 
   public static <T> BasicProblem create(ConstraintViolation<T> violation) {
-    return new BasicProblem(violation.getRootBeanClass().getName(), violation.getPropertyPath().toString(), violation.getMessage());
+    return new BasicProblem(violation.getRootBeanClass().getName(), violation.getPropertyPath().toString(), violation.getMessage(), violation.getMessageTemplate());
   }
 
   @Override
@@ -29,12 +31,13 @@ public class BasicProblem implements Problem {
     BasicProblem that = (BasicProblem) o;
     return Objects.equals(beanClass, that.beanClass) &&
         Objects.equals(propertyPath, that.propertyPath) &&
+        Objects.equals(messageTemplate, that.messageTemplate) &&
         Objects.equals(message, that.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(beanClass, propertyPath, message);
+    return Objects.hash(beanClass, propertyPath, messageTemplate, message);
   }
 
   @Override

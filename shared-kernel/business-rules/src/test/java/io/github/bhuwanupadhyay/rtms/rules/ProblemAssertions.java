@@ -2,37 +2,35 @@ package io.github.bhuwanupadhyay.rtms.rules;
 
 import org.assertj.core.api.AbstractAssert;
 
-import java.util.Arrays;
+public final class ProblemAssertions {
 
-public final class SyntaxRuleAssertions {
-
-  public static <T> SyntaxRuleAssert<T> assertThat(Result<T> root) {
-    return new SyntaxRuleAssert<>(root);
+  public static <T> ProblemAssert<T> assertThat(Result<T> root) {
+    return new ProblemAssert<>(root);
   }
 
   @SuppressWarnings("UnusedReturnValue")
-  public static class SyntaxRuleAssert<T>
-      extends AbstractAssert<SyntaxRuleAssert<T>, Result<T>> {
+  public static class ProblemAssert<T>
+      extends AbstractAssert<ProblemAssert<T>, Result<T>> {
 
-    private SyntaxRuleAssert(Result<T> result) {
-      super(result, SyntaxRuleAssert.class);
+    private ProblemAssert(Result<T> result) {
+      super(result, ProblemAssert.class);
     }
 
-    public SyntaxRuleAssert<T> hasProblems() {
+    public ProblemAssert<T> hasProblems() {
       if (this.actual.isOk()) {
         failWithMessage("Problems does not occurred.");
       }
       return this;
     }
 
-    public SyntaxRuleAssert<T> hasNoProblems() {
+    public ProblemAssert<T> hasNoProblems() {
       if (this.actual.isBad()) {
         failWithMessage("Problems are occurred.");
       }
       return this;
     }
 
-    public SyntaxRuleAssert<T> hasError(String propertyPath, String message) {
+    public ProblemAssert<T> hasError(String propertyPath, String message) {
       this.hasProblems();
 
       boolean notExists = this.actual.getProblems().stream().noneMatch(problem -> problem.isEqualTo(propertyPath, message));
