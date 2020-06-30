@@ -10,10 +10,3 @@ else
   curl -fsSL -o "$DIR"/helm.tar.gz https://get.helm.sh/helm-v3.2.3-linux-amd64.tar.gz
   cd "$DIR" && tar -xzvf helm.tar.gz && rm -rf helm.tar.gz && cd ..
 fi
-
-# shellcheck disable=SC2139
-alias helm="$DIR/linux-amd64/helm"
-
-printf '\n'
-helm version
-printf '\n'

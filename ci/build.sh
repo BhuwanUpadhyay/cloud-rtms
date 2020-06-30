@@ -1,11 +1,6 @@
 #!/bin/bash
 set -e
 
-SETUP_SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/setup.sh"
-
-# shellcheck source=cicd/ci/common.sh
-source "${SETUP_SCRIPT}"
-
 option="${1}"
 case ${option} in
    --build)

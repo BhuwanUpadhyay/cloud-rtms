@@ -23,10 +23,10 @@ infra: ## Infrastructure
 	docker-compose rm -f -v && docker-compose up -d
 
 deploy: ## Deploy
-	ci/deployment/helm.sh --deploy
+	ci/helm.sh --deploy
 
 delete: ## Delete
-	ci/deployment/helm.sh --delete
+	ci/helm.sh --delete
 
 update: ## Update
-	ci/deployment/helm.sh --update-deps
+	ci/helm.sh --update-deps
