@@ -8,10 +8,13 @@ import io.github.bhuwanupadhyay.rtms.inventory.domain.model.factories.InventoryF
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.InventoryId;
 import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.InventoryDomainRepository;
 import io.github.bhuwanupadhyay.rtms.rules.Result;
+import io.github.bhuwanupadhyay.rtms.rules.SyntaxRules;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static io.github.bhuwanupadhyay.rtms.inventory.domain.model.factories.InventoryFactory.VALIDATOR;
 
 @Service
 @RequiredArgsConstructor
@@ -24,16 +27,24 @@ public class InventoryCommandService
   @Override
   @Transactional
   public Result<InventoryId> create(InventoryCreateCommand command) {
-    Result<Inventory> result = InventoryFactory.createNew(this.repository::nextId, command);
-    return savedResult(result);
+    return savedResult(InventoryFactory.createNew(this.repository::nextId, command));
   }
 
   @Override
   @Transactional
   public Result<InventoryId> workflow(WorkflowCommand command) {
-    Inventory inventory = repository.find(new InventoryId(command.getReference()));
-    Result<Inventory> result = inventory.execute(command);
+    Result<WorkflowCommand> syntax = new SyntaxRules<WorkflowCommand>(VALIDATOR).apply(command);
+
+    Result<Inventory> result = syntax
+        .ok()
+        .map(c -> Result.onExecute(() -> runWorkflow(command)))
+        .orElseGet(() -> Result.<Inventory>builder().problems(syntax.getProblems()).build());
+
     return savedResult(result);
+  }
+
+  private Result<Inventory> runWorkflow(WorkflowCommand command) {
+    return repository.find(new InventoryId(command.getReference())).execute(command);
   }
 
   private Result<InventoryId> savedResult(Result<Inventory> result) {

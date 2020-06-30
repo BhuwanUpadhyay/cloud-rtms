@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 @Slf4j
 public class InventoryFactory {
 
-  private static final Validator VALIDATOR = Validation.byProvider(HibernateValidator.class)
+  public static final Validator VALIDATOR = Validation.byProvider(HibernateValidator.class)
       .configure()
       .messageInterpolator(new ResourceBundleMessageInterpolator(new PlatformResourceBundleLocator("ValidationMessages")))
       .buildValidatorFactory().getValidator();

@@ -19,7 +19,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -33,18 +32,17 @@ import java.util.*;
 public class Inventory extends AggregateRoot<InventoryId> {
 
   @Embedded
-  @Valid
   private InventoryName inventoryName;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  private Set<@Valid ProductLine> productLines;
+  private Set<ProductLine> productLines = new HashSet<>();
 
   @Enumerated(EnumType.STRING)
   @Column(name = InventoryDb.STATUS)
   private InventoryStatus status;
 
   @ElementCollection(fetch = FetchType.LAZY)
-  private List<@Valid UserComment> userComments;
+  private List<UserComment> userComments = new ArrayList<>();
 
   public Inventory(InventoryId inventoryId) {
     super(inventoryId);
@@ -54,17 +52,10 @@ public class Inventory extends AggregateRoot<InventoryId> {
     log.debug("Params => {}", command);
     List<Problem> problems = new ArrayList<>();
     this.inventoryName = command.getInventoryName();
-    this.productLines = new HashSet<>();
-    this.userComments = new ArrayList<>();
     this.productLines.addAll(command.getProductLines());
     this.status = InventoryStatus.CREATED;
     this.setCreatedAt(LocalDateTime.now());
-    this.registerEvent(
-        InventoryCreated.builder()
-            .inventoryId(this.getId().getReference())
-            .inventoryName(this.getInventoryName().getName())
-            .status(this.getStatus().name())
-            .build());
+    this.registerEvent(new InventoryCreated(this));
     log.info("Executed {} {}", command.getClass().getName(), command);
     return Result.<Inventory>builder().result(this).problems(problems).build();
   }
@@ -93,5 +84,13 @@ public class Inventory extends AggregateRoot<InventoryId> {
     log.debug("Executed {} {}", command.getClass().getName(), command);
 
     return Result.<Inventory>builder().result(this).problems(problems).build();
+  }
+
+  public Set<ProductLine> getProductLines() {
+    return Collections.unmodifiableSet(this.productLines);
+  }
+
+  public List<UserComment> getUserComments() {
+    return Collections.unmodifiableList(this.userComments);
   }
 }
