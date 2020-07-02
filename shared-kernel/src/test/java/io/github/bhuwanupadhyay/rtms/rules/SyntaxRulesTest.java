@@ -1,5 +1,6 @@
 package io.github.bhuwanupadhyay.rtms.rules;
 
+import io.github.bhuwanupadhyay.rtms.core.Result;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

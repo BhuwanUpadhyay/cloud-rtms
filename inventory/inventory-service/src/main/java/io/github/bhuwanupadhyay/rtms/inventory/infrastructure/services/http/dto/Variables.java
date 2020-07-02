@@ -1,4 +1,4 @@
-package io.github.bhuwanupadhyay.rtms.workflow.client;
+package io.github.bhuwanupadhyay.rtms.inventory.infrastructure.services.http.dto;
 
 import lombok.Builder;
 import lombok.Getter;

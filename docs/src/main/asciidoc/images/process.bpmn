@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<!-- saved from url=(0024)https://demo.bpmn.io/new -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta name="description" content="Demo of the bpmn.io BPMN 2.0 web modeler">
+  <meta name="keywords" content="open source, toolkit, BPMN 2.0, BPMN Editor, BPMN Modeler, bpmn-js, business process, embed, model, editor, integrate, extend">
+  <meta name="author" content="https://bpmn.io">
+
+  <link href="./process_files/css" rel="stylesheet" type="text/css">
+
+  <title>BPMN editor | demo.bpmn.io</title>
+
+  <!--<base href="/">--><base href=".">
+
+  <style>
+    body.preload {
+      opacity: 0;
+      overflow: hidden;
+    }
+  </style>
+
+  <link rel="icon" type="image/png" href="https://demo.bpmn.io/assets/favicon.png">
+<style type="text/css">/**
+ * color scheme: https://color.adobe.com/create/color-wheel/?base=2&rule=Complementary&selected=4&name=My%20Color%20Theme&mode=rgb&rgbvalues=0.17030891601918655,0.4058823529411765,0.023676470588235302,0.5171907756812364,1,0.21666666666666667,0.3215686274509804,0.7058823529411765,0.08235294117647059,0.39483604076295736,0,0.4058823529411765,0.6889126559717383,0.08235294117647061,0.7058823529411765&swatchOrder=0,1,2,3,4
+ */
+* {
+  box-sizing: border-box;
+}
+body,
+html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: #444;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-weight: normal;
+}
+h2 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+ul {
+  padding-left: 30px;
+}
+/**
+ * bpmn + custom icon definitions
+ */
+@font-face {
+  font-family: 'app';
+  src: url(static/media/app.af3dacd9.eot);
+  src: url(static/media/app.af3dacd9.eot#iefix) format('embedded-opentype'), url(static/media/app.9b58e638.woff) format('woff'), url(static/media/app.9906fa74.ttf) format('truetype'), url(static/media/app.01f8f68a.svg#bpmnio) format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+}
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "app";
+}
+.icon-bpmn-io-logo:before {
+  content: '\e800';
+}
+/* '' */
+.icon-loading:before {
+  content: '\f415';
+}
+/* '' */
+.icon-picture:before {
+  content: '\f416';
+}
+/* '' */
+.icon-plus:before {
+  content: '\f417';
+}
+/* '' */
+.icon-plus-circled:before {
+  content: '\f418';
+}
+/* '' */
+.icon-minus:before {
+  content: '\f419';
+}
+/* '' */
+.icon-info:before {
+  content: '\f41a';
+}
+/* '' */
+.icon-download:before {
+  content: '\f41b';
+}
+/* '' */
+.icon-undo:before {
+  content: '\f41c';
+}
+/* '' */
+.icon-redo:before {
+  content: '\f41d';
+}
+/* '' */
+.icon-open:before {
+  content: '\f41e';
+}
+/* '' */
+.icon-size-reset:before {
+  content: '\f41f';
+}
+/* '' */
+.icon-comment:before {
+  content: '\f420';
+}
+/* '' */
+.icon-keyboard:before {
+  content: '\f423';
+}
+/* '' */
+.icon-resize-full:before {
+  content: '\f425';
+}
+/* '' */
+.icon-resize-small:before {
+  content: '\f426';
+}
+/* '' */
+/**
+ * reset
+ */
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14px;
+}
+a:link,
+a:visited {
+  color: #0e9663;
+  font-weight: bold;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: #075035;
+}
+/**
+ * project logo
+ */
+.project-logo {
+  margin: 50px auto;
+}
+.project-logo a {
+  display: inline-block;
+  height: 4em;
+  width: auto;
+  color: #404040;
+  margin: 0 auto;
+}
+.project-logo a svg {
+  height: 100%;
+}
+.content,
+.content > div {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.content > .screen {
+  text-align: center;
+  display: table;
+  font-size: 16px;
+}
+.content > .screen .note {
+  vertical-align: middle;
+  text-align: center;
+  display: table-cell;
+}
+.content .error .details {
+  max-width: 500px;
+  font-size: 12px;
+  margin: 20px auto;
+  text-align: left;
+  color: #BD2828;
+}
+.content .error .error-log {
+  border: solid 1px #BD2828;
+  background: #fdf6f6;
+  color: #BD2828;
+}
+.content .error .error-log:hover {
+  background: #fefafa;
+}
+body:not(.error) .screen.error,
+body:not(.intro) .screen.intro,
+body:not(.loading) .screen.loading {
+  display: none;
+}
+body.loading,
+body.intro {
+  opacity: 0;
+  transition: opacity 1s;
+}
+body.loading.animate,
+body.intro.animate {
+  opacity: 1;
+}
+.screen.loading img {
+  width: 48px;
+}
+.canvas {
+  display: block;
+}
+body.shown .canvas,
+body.loaded .canvas {
+  display: block;
+}
+body.loaded .canvas svg {
+  visibility: hidden;
+}
+body:not(.shown) .io-export,
+body:not(.shown) .io-zoom-controls {
+  display: none;
+}
+/** front page / drop zone */
+.samples,
+.message {
+  max-width: 700px;
+  margin: 15px auto;
+}
+@media (max-width: 720px) {
+  .samples,
+  .message {
+    margin: 20px;
+  }
+  .samples {
+    margin-bottom: 60px;
+  }
+}
+.message {
+  font-size: 20px;
+}
+.samples {
+  margin-top: 80px;
+  margin-bottom: 60px;
+  opacity: 0.4;
+  transition: ease-in 0.1s;
+}
+.samples:hover {
+  opacity: 1;
+}
+.samples .sample {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: top;
+  position: relative;
+}
+.samples .caption {
+  font-size: 13px;
+  font-weight: normal;
+  color: #666;
+}
+.samples .img {
+  border: solid 5px #E9E9E9;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+}
+.samples .sample > a {
+  display: block;
+}
+/** widgets **/
+.io-control {
+  background: #FAFAFA;
+  border-radius: 2px;
+  border: solid 1px #E0E0E0;
+  padding: 5px;
+}
+.cjs-powered-by,
+.bjs-powered-by {
+  padding-bottom: 2px;
+}
+.close {
+  color: #333 !important;
+  font-size: 21px;
+  font-weight: 700 !important;
+  opacity: 0.6;
+  line-height: 1;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.close:hover {
+  opacity: 1;
+}
+.io-control .vr {
+  height: 15px;
+  display: inline-block;
+  border-right: solid 1px #DDD;
+}
+.io-control hr {
+  border: none;
+  border-top: solid 1px #DDD;
+  width: 15px;
+}
+.io-control-list .vr {
+  margin-right: 0;
+}
+.io-control-list {
+  list-style: none;
+  padding: 5px;
+  margin: 0;
+}
+.io-control-list a,
+.io-control-list a:visited,
+.io-control-list button {
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 26px;
+  color: #555555;
+  background: none;
+  border: none;
+}
+.io-control-list a:hover,
+.io-control-list a:visited:hover,
+.io-control-list button:hover {
+  color: #333333;
+}
+.io-control-list a.inactive,
+.io-control-list a:visited.inactive,
+.io-control-list button.inactive {
+  color: #E0E0E0;
+  cursor: default;
+}
+.io-control-list.io-horizontal,
+.io-control-list.io-horizontal li {
+  display: inline-block;
+}
+.io-control-list.io-horizontal li + li {
+  margin-left: 10px;
+}
+.io-control-list.io-horizontal a {
+  padding: 2px;
+}
+.io-about {
+  position: fixed;
+  right: 10px;
+}
+.io-about li + li {
+  margin-left: 15px;
+}
+body.shown .io-about {
+  right: 90px;
+}
+.io-about a {
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: normal;
+}
+.io-about a:hover {
+  background: #F0F0F0;
+  border-radius: 2px;
+}
+.io-import-export {
+  position: fixed;
+  left: 10px;
+}
+.djs-palette {
+  left: 10px !important;
+  top: 10px !important;
+}
+.io-about {
+  bottom: 8px;
+}
+.io-import-export {
+  bottom: 10px;
+}
+.io-import {
+  margin-right: 10px;
+}
+.io-zoom-controls {
+  width: auto;
+  position: fixed;
+  right: 10px;
+  bottom: 80px;
+}
+.io-editing-tools {
+  width: auto;
+  position: fixed;
+  right: 5px;
+  top: 5px;
+  display: none;
+}
+.io-editing-tools .io-control {
+  margin-left: 10px;
+}
+.io-editing-tools .io-control button {
+  margin: 0;
+}
+.io-zoom-reset {
+  margin-bottom: 10px;
+}
+.io-import-export .inactive {
+  opacity: 0.3;
+}
+/**
+ * import warnings dialog
+ */
+.import-warnings .error-log {
+  width: 100%;
+}
+/**
+ * utilities
+ */
+.hidden {
+  display: none;
+}
+/**
+ * alerts
+ */
+.io-alerts {
+  position: fixed;
+  top: 10px;
+  width: 450px;
+  text-align: center;
+  left: 50%;
+  margin-left: -225px;
+}
+.io-alerts .alert {
+  display: none;
+  background: #eeefdf;
+  padding: 10px 20px;
+  line-height: 20px;
+  margin: 0 auto 10px;
+}
+.io-alerts .alert.open {
+  display: inline-flex;
+}
+.io-toggle-fullscreen {
+  display: none;
+}
+.io-toggle-fullscreen.open {
+  display: inline-block;
+}
+@media (max-width: 500px) {
+  .io-alerts {
+    width: 100%;
+    text-align: center;
+    left: 0;
+    margin: 0;
+  }
+}
+/**
+ * dialogs
+ */
+.io-dialog {
+  display: none;
+}
+.io-dialog.open {
+  display: block;
+}
+.io-dialog.open:before {
+  content: '';
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #666;
+  opacity: 0.2;
+  z-index: 1001;
+}
+.io-dialog .content {
+  position: fixed;
+  width: 600px;
+  left: 50%;
+  margin-left: -300px;
+  top: 100px;
+  background: white;
+  padding: 10px 30px 20px 30px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  height: auto;
+  z-index: 1001;
+}
+.keybindings-dialog .content {
+  width: 450px;
+  margin-left: -225px;
+}
+.keybindings-dialog .binding {
+  padding: 5px 10px;
+  font-family: monospace;
+}
+textarea.error-log {
+  border: solid 1px #CCC;
+  background: #F6F6F6;
+  padding: 10px;
+  margin: 10px auto;
+  width: 100%;
+  min-height: 150px;
+  display: block;
+}
+textarea.error-log:hover {
+  background: #f9f9f9;
+}
+@media (max-width: 600px) {
+  .io-dialog .content {
+    left: 20px;
+    right: 20px;
+    top: 20px;
+    width: auto;
+    margin: 0;
+  }
+}
+.spinner-border {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: white;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@keyframes spinner-keyframe {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.spinner-border:after {
+  width: 22px;
+  height: 22px;
+  border: 4px solid #404040;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border-color: #404040 #404040 #404040 transparent;
+  animation: spinner-keyframe 0.7s linear infinite;
+}
+:full-screen .icon-resize:before {
+  content: '\e86e';
+  /* see .icon-resize-small:before */
+}
+:-moz-full-screen .icon-resize:before {
+  content: '\e86e';
+  /* see .icon-resize-small:before */
+}
+:-ms-full-screen .icon-resize:before {
+  content: '\e86e';
+  /* see .icon-resize-small:before */
+}
+:-webkit-full-screen .icon-resize:before {
+  content: '\e86e';
+  /* see .icon-resize-small:before */
+}
+.icon-resize:before {
+  content: '\e86d';
+  /* see .icon-resize-full:before */
+}
+.icon-resize:before {
+  content: '\e86d';
+  /* see .icon-resize-full:before */
+}
+.icon-resize:before {
+  content: '\e86d';
+  /* see .icon-resize-full:before */
+}
+.icon-resize:before {
+  content: '\e86d';
+  /* see .icon-resize-full:before */
+}
+.drop-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 50px;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 1000;
+}
+.drop-overlay .box {
+  text-align: center;
+  border: dashed 4px #CCC;
+  height: 100%;
+  width: 100%;
+  display: table;
+}
+.drop-overlay .label {
+  font-size: 26px;
+  color: #888;
+  margin: auto;
+  display: table-cell;
+  vertical-align: middle;
+}
+</style><style type="text/css">/**
+ * outline styles
+ */
+
+.djs-outline {
+  fill: none;
+  visibility: hidden;
+}
+
+.djs-element.hover .djs-outline,
+.djs-element.selected .djs-outline {
+  visibility: visible;
+  shape-rendering: crispEdges;
+  stroke-dasharray: 3,3;
+}
+
+.djs-element.selected .djs-outline {
+  stroke: #8888FF;
+  stroke-width: 1px;
+}
+
+.djs-element.hover .djs-outline {
+  stroke: #FF8888;
+  stroke-width: 1px;
+}
+
+.djs-shape.connect-ok .djs-visual > :nth-child(1) {
+  fill: #DCFECC /* light-green */ !important;
+}
+
+.djs-shape.connect-not-ok .djs-visual > :nth-child(1),
+.djs-shape.drop-not-ok .djs-visual > :nth-child(1) {
+  fill: #f9dee5 /* light-red */ !important;
+}
+
+.djs-shape.new-parent .djs-visual > :nth-child(1) {
+  fill: #F7F9FF !important;
+}
+
+svg.drop-not-ok {
+  background: #f9dee5 /* light-red */ !important;
+}
+
+svg.new-parent {
+  background: #F7F9FF /* light-blue */ !important;
+}
+
+.djs-connection.connect-ok .djs-visual > :nth-child(1),
+.djs-connection.drop-ok .djs-visual > :nth-child(1) {
+  stroke: #90DD5F /* light-green */ !important;
+}
+
+.djs-connection.connect-not-ok .djs-visual > :nth-child(1),
+.djs-connection.drop-not-ok .djs-visual > :nth-child(1) {
+  stroke: #E56283 /* light-red */ !important;
+}
+
+.drop-not-ok,
+.connect-not-ok {
+  cursor: not-allowed;
+}
+
+.djs-element.attach-ok .djs-visual > :nth-child(1) {
+  stroke-width: 5px !important;
+  stroke: rgba(255, 116, 0, 0.7) !important;
+}
+
+.djs-frame.connect-not-ok .djs-visual > :nth-child(1),
+.djs-frame.drop-not-ok .djs-visual > :nth-child(1) {
+  stroke-width: 3px !important;
+  stroke: #E56283 /* light-red */ !important;
+  fill: none !important;
+}
+
+/**
+* Selection box style
+*
+*/
+.djs-lasso-overlay {
+  fill: rgb(255, 116, 0);
+  fill-opacity: 0.1;
+
+  stroke-dasharray: 5 1 3 1;
+  stroke: rgb(255, 116, 0);
+
+  shape-rendering: crispEdges;
+  pointer-events: none;
+}
+
+/**
+ * Resize styles
+ */
+.djs-resize-overlay {
+  fill: none;
+
+  stroke-dasharray: 5 1 3 1;
+  stroke: rgb(255, 116, 0);
+
+  pointer-events: none;
+}
+
+.djs-resizer-hit {
+  fill: none;
+  pointer-events: all;
+}
+
+.djs-resizer-visual {
+  fill: white;
+  stroke-width: 1px;
+  stroke: #BBB;
+  shape-rendering: geometricprecision;
+}
+
+.djs-resizer:hover .djs-resizer-visual {
+  stroke: #555;
+}
+
+.djs-cursor-resize-ns,
+.djs-resizer-n,
+.djs-resizer-s {
+  cursor: ns-resize;
+}
+
+.djs-cursor-resize-ew,
+.djs-resizer-e,
+.djs-resizer-w {
+  cursor: ew-resize;
+}
+
+.djs-cursor-resize-nwse,
+.djs-resizer-nw,
+.djs-resizer-se {
+  cursor: nwse-resize;
+}
+
+.djs-cursor-resize-nesw,
+.djs-resizer-ne,
+.djs-resizer-sw {
+  cursor: nesw-resize;
+}
+
+.djs-shape.djs-resizing > .djs-outline {
+  visibility: hidden !important;
+}
+
+.djs-shape.djs-resizing > .djs-resizer {
+  visibility: hidden;
+}
+
+.djs-dragger > .djs-resizer {
+  visibility: hidden;
+}
+
+/**
+ * drag styles
+ */
+.djs-dragger * {
+  fill: none !important;
+  stroke: rgb(255, 116, 0) !important;
+}
+
+.djs-dragger tspan,
+.djs-dragger text {
+  fill: rgb(255, 116, 0) !important;
+  stroke: none !important;
+}
+
+marker.djs-dragger circle,
+marker.djs-dragger path,
+marker.djs-dragger polygon,
+marker.djs-dragger polyline,
+marker.djs-dragger rect {
+  fill: rgb(255, 116, 0) !important;
+  stroke: none !important;
+}
+
+marker.djs-dragger text,
+marker.djs-dragger tspan {
+  fill: none !important;
+  stroke: rgb(255, 116, 0) !important;
+}
+
+.djs-dragging {
+  opacity: 0.3;
+}
+
+.djs-dragging,
+.djs-dragging > * {
+  pointer-events: none !important;
+}
+
+.djs-dragging .djs-context-pad,
+.djs-dragging .djs-outline {
+  display: none !important;
+}
+
+/**
+ * no pointer events for visual
+ */
+.djs-visual,
+.djs-outline {
+  pointer-events: none;
+}
+
+.djs-element.attach-ok .djs-hit {
+  stroke-width: 60px !important;
+}
+
+/**
+ * all pointer events for hit shape
+ */
+.djs-element > .djs-hit-all {
+  pointer-events: all;
+}
+
+.djs-element > .djs-hit-stroke,
+.djs-element > .djs-hit-click-stroke {
+  pointer-events: stroke;
+}
+
+/**
+ * all pointer events for hit shape
+ */
+.djs-drag-active .djs-element > .djs-hit-click-stroke {
+  pointer-events: all;
+}
+
+/**
+ * shape / connection basic styles
+ */
+.djs-connection .djs-visual {
+  stroke-width: 2px;
+  fill: none;
+}
+
+.djs-cursor-grab {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
+}
+
+.djs-cursor-grabbing {
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
+}
+
+.djs-cursor-crosshair {
+  cursor: crosshair;
+}
+
+.djs-cursor-move {
+  cursor: move;
+}
+
+.djs-cursor-resize-ns {
+  cursor: ns-resize;
+}
+
+.djs-cursor-resize-ew {
+  cursor: ew-resize;
+}
+
+
+/**
+ * snapping
+ */
+.djs-snap-line {
+  stroke: rgb(255, 195, 66);
+  stroke: rgba(255, 195, 66, 0.50);
+  stroke-linecap: round;
+  stroke-width: 2px;
+  pointer-events: none;
+}
+
+/**
+ * snapping
+ */
+.djs-crosshair {
+  stroke: #555;
+  stroke-linecap: round;
+  stroke-width: 1px;
+  pointer-events: none;
+  shape-rendering: crispEdges;
+  stroke-dasharray: 5, 5;
+}
+
+/**
+ * palette
+ */
+
+.djs-palette {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+
+  box-sizing: border-box;
+  width: 48px;
+}
+
+.djs-palette .separator {
+  margin: 0 5px;
+  padding-top: 5px;
+
+  border: none;
+  border-bottom: solid 1px #DDD;
+
+  clear: both;
+}
+
+.djs-palette .entry:before {
+  vertical-align: text-bottom;
+}
+
+.djs-palette .djs-palette-toggle {
+  cursor: pointer;
+}
+
+.djs-palette .entry,
+.djs-palette .djs-palette-toggle {
+  color: #333;
+  font-size: 30px;
+
+  text-align: center;
+}
+
+.djs-palette .entry {
+  float: left;
+}
+
+.djs-palette .entry img {
+  max-width: 100%;
+}
+
+.djs-palette .djs-palette-entries:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.djs-palette .djs-palette-toggle:hover {
+  background: #666;
+}
+
+.djs-palette .entry:hover {
+  color: rgb(255, 116, 0);
+}
+
+.djs-palette .highlighted-entry {
+  color: rgb(255, 116, 0) !important;
+}
+
+.djs-palette .entry,
+.djs-palette .djs-palette-toggle {
+  width: 46px;
+  height: 46px;
+  line-height: 46px;
+  cursor: default;
+}
+
+/**
+ * Palette open / two-column layout is controlled via
+ * classes on the palette. Events to hook into palette
+ * changed life-cycle are available in addition.
+ */
+.djs-palette.two-column.open {
+  width: 94px;
+}
+
+.djs-palette:not(.open) .djs-palette-entries {
+  display: none;
+}
+
+.djs-palette:not(.open) {
+  overflow: hidden;
+}
+
+.djs-palette.open .djs-palette-toggle {
+  display: none;
+}
+
+/**
+ * context-pad
+ */
+.djs-overlay-context-pad {
+  width: 72px;
+}
+
+.djs-context-pad {
+  position: absolute;
+  display: none;
+  pointer-events: none;
+}
+
+.djs-context-pad .entry {
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  display: inline-block;
+  font-size: 22px;
+  margin: 0 2px 2px 0;
+
+  border-radius: 3px;
+
+  cursor: default;
+
+  background-color: #FEFEFE;
+  box-shadow: 0 0 2px 1px #FEFEFE;
+  pointer-events: all;
+}
+
+.djs-context-pad .entry:before {
+  vertical-align: top;
+}
+
+.djs-context-pad .entry:hover {
+  background: rgb(255, 252, 176);
+}
+
+.djs-context-pad.open {
+  display: block;
+}
+
+/**
+ * popup styles
+ */
+.djs-popup .entry {
+  line-height: 20px;
+  white-space: nowrap;
+  cursor: default;
+}
+
+/* larger font for prefixed icons */
+.djs-popup .entry:before {
+  vertical-align: middle;
+  font-size: 20px;
+}
+
+.djs-popup .entry > span {
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.djs-popup .entry:hover,
+.djs-popup .entry.active:hover {
+  background: rgb(255, 252, 176);
+}
+
+.djs-popup .entry.disabled {
+  background: inherit;
+}
+
+.djs-popup .djs-popup-header .entry {
+  display: inline-block;
+  padding: 2px 3px 2px 3px;
+
+  border: solid 1px transparent;
+  border-radius: 3px;
+}
+
+.djs-popup .djs-popup-header .entry.active {
+  color: rgb(255, 116, 0);
+  border: solid 1px rgb(255, 116, 0);
+  background-color: #F6F6F6;
+}
+
+.djs-popup-body .entry {
+  padding: 4px 10px 4px 5px;
+}
+
+.djs-popup-body .entry > span {
+  margin-left: 5px;
+}
+
+.djs-popup-body {
+  background-color: #FEFEFE;
+}
+
+.djs-popup-header {
+  border-bottom: 1px solid #DDD;
+}
+
+.djs-popup-header .entry {
+  margin: 1px;
+  margin-left: 3px;
+}
+
+.djs-popup-header .entry:last-child {
+  margin-right: 3px;
+}
+
+/**
+ * popup / palette styles
+ */
+.djs-popup, .djs-palette {
+  background: #FAFAFA;
+  border: solid 1px #CCC;
+  border-radius: 2px;
+}
+
+/**
+ * touch
+ */
+
+.djs-shape,
+.djs-connection {
+  touch-action: none;
+}
+
+.djs-segment-dragger,
+.djs-bendpoint {
+  display: none;
+}
+
+/**
+ * bendpoints
+ */
+.djs-segment-dragger .djs-visual {
+  fill: rgba(255, 255, 121, 0.2);
+  stroke-width: 1px;
+  stroke-opacity: 1;
+  stroke: rgba(255, 255, 121, 0.3);
+}
+
+.djs-bendpoint .djs-visual {
+  fill: rgba(255, 255, 121, 0.8);
+  stroke-width: 1px;
+  stroke-opacity: 0.5;
+  stroke: black;
+}
+
+.djs-segment-dragger:hover,
+.djs-bendpoints.hover .djs-segment-dragger,
+.djs-bendpoints.selected .djs-segment-dragger,
+.djs-bendpoint:hover,
+.djs-bendpoints.hover .djs-bendpoint,
+.djs-bendpoints.selected .djs-bendpoint {
+  display: block;
+}
+
+.djs-drag-active .djs-bendpoints * {
+  display: none;
+}
+
+.djs-bendpoints:not(.hover) .floating {
+  display: none;
+}
+
+.djs-segment-dragger:hover .djs-visual,
+.djs-segment-dragger.djs-dragging .djs-visual,
+.djs-bendpoint:hover .djs-visual,
+.djs-bendpoint.floating .djs-visual {
+  fill: yellow;
+  stroke-opacity: 0.5;
+  stroke: black;
+}
+
+.djs-bendpoint.floating .djs-hit {
+  pointer-events: none;
+}
+
+.djs-segment-dragger .djs-hit,
+.djs-bendpoint .djs-hit {
+  pointer-events: all;
+  fill: none;
+}
+
+.djs-segment-dragger.horizontal .djs-hit {
+  cursor: ns-resize;
+}
+
+.djs-segment-dragger.vertical .djs-hit {
+  cursor: ew-resize;
+}
+
+.djs-segment-dragger.djs-dragging .djs-hit {
+  pointer-events: none;
+}
+
+.djs-updating,
+.djs-updating > * {
+  pointer-events: none !important;
+}
+
+.djs-updating .djs-context-pad,
+.djs-updating .djs-outline,
+.djs-updating .djs-bendpoint,
+.connect-ok .djs-bendpoint,
+.connect-not-ok .djs-bendpoint,
+.drop-ok .djs-bendpoint,
+.drop-not-ok .djs-bendpoint {
+  display: none !important;
+}
+
+.djs-segment-dragger.djs-dragging,
+.djs-bendpoint.djs-dragging {
+  display: block;
+  opacity: 1.0;
+}
+
+.djs-segment-dragger.djs-dragging .djs-visual,
+.djs-bendpoint.djs-dragging .djs-visual {
+  fill: yellow;
+  stroke-opacity: 0.5;
+}
+
+
+/**
+ * tooltips
+ */
+.djs-tooltip-error {
+  font-size: 11px;
+  line-height: 18px;
+  text-align: left;
+
+  padding: 5px;
+
+  opacity: 0.7;
+}
+
+.djs-tooltip-error > * {
+  width: 160px;
+
+  background: rgb(252, 236, 240);
+  color: rgb(158, 76, 76);
+  padding: 3px 7px;
+  border-radius: 5px;
+  border-left: solid 5px rgb(174, 73, 73);
+}
+
+.djs-tooltip-error:hover {
+  opacity: 1;
+}
+
+
+/**
+ * search pad
+ */
+.djs-search-container {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+
+  width: 25%;
+  min-width: 300px;
+  max-width: 400px;
+  z-index: 10;
+
+  font-size: 1.05em;
+  opacity: 0.9;
+  background: #FAFAFA;
+  border: solid 1px #CCC;
+  border-radius: 2px;
+}
+
+.djs-search-container:not(.open) {
+  display: none;
+}
+
+.djs-search-input input {
+  font-size: 1.05em;
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+}
+
+.djs-search-input input:focus {
+  outline: none;
+  border-color: #52B415;
+}
+
+.djs-search-results {
+  position: relative;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.djs-search-results:hover {
+  /*background: #fffdd7;*/
+  cursor: pointer;
+}
+
+.djs-search-result {
+  width: 100%;
+  padding: 6px 10px;
+  background: white;
+  border-bottom: solid 1px #AAA;
+  border-radius: 1px;
+}
+
+.djs-search-highlight {
+  color: black;
+}
+
+.djs-search-result-primary {
+  margin: 0 0 10px;
+}
+
+.djs-search-result-secondary {
+  font-family: monospace;
+  margin: 0;
+}
+
+.djs-search-result:hover {
+  background: #fdffd6;
+}
+
+.djs-search-result-selected {
+  background: #fffcb0;
+}
+
+.djs-search-result-selected:hover {
+  background: #f7f388;
+}
+
+.djs-search-overlay {
+  background: yellow;
+  opacity: 0.3;
+}
+
+/**
+ * hidden styles
+ */
+.djs-element-hidden,
+.djs-element-hidden .djs-hit,
+.djs-element-hidden .djs-outline,
+.djs-label-hidden .djs-label {
+  display: none !important;
+}
+</style><style type="text/css">@font-face {
+  font-family: 'bpmn';
+  src: url(static/media/bpmn.08b5f281.eot);
+  src: url(static/media/bpmn.08b5f281.eot#iefix) format('embedded-opentype'),
+       url(static/media/bpmn.3c4c9f45.woff2) format('woff2'),
+       url(static/media/bpmn.acbc6cbd.woff) format('woff'),
+       url(static/media/bpmn.f922519e.ttf) format('truetype'),
+       url(static/media/bpmn.1381b44e.svg#bpmn) format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'bpmn';
+    src: url('../font/bpmn.svg?26374340#bpmn') format('svg');
+  }
+}
+*/
+
+ [class^="bpmn-icon-"]:before, [class*=" bpmn-icon-"]:before {
+  font-family: "bpmn";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  /* margin-right: .2em; */
+  text-align: center;
+  /* opacity: .8; */
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  /* margin-left: .2em; */
+
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.bpmn-icon-screw-wrench:before { content: '\e800'; } /* '' */
+.bpmn-icon-trash:before { content: '\e801'; } /* '' */
+.bpmn-icon-conditional-flow:before { content: '\e802'; } /* '' */
+.bpmn-icon-default-flow:before { content: '\e803'; } /* '' */
+.bpmn-icon-gateway-parallel:before { content: '\e804'; } /* '' */
+.bpmn-icon-intermediate-event-catch-cancel:before { content: '\e805'; } /* '' */
+.bpmn-icon-intermediate-event-catch-non-interrupting-message:before { content: '\e806'; } /* '' */
+.bpmn-icon-start-event-compensation:before { content: '\e807'; } /* '' */
+.bpmn-icon-start-event-non-interrupting-parallel-multiple:before { content: '\e808'; } /* '' */
+.bpmn-icon-loop-marker:before { content: '\e809'; } /* '' */
+.bpmn-icon-parallel-mi-marker:before { content: '\e80a'; } /* '' */
+.bpmn-icon-start-event-non-interrupting-signal:before { content: '\e80b'; } /* '' */
+.bpmn-icon-intermediate-event-catch-non-interrupting-timer:before { content: '\e80c'; } /* '' */
+.bpmn-icon-intermediate-event-catch-parallel-multiple:before { content: '\e80d'; } /* '' */
+.bpmn-icon-intermediate-event-catch-compensation:before { content: '\e80e'; } /* '' */
+.bpmn-icon-gateway-xor:before { content: '\e80f'; } /* '' */
+.bpmn-icon-connection:before { content: '\e810'; } /* '' */
+.bpmn-icon-end-event-cancel:before { content: '\e811'; } /* '' */
+.bpmn-icon-intermediate-event-catch-condition:before { content: '\e812'; } /* '' */
+.bpmn-icon-intermediate-event-catch-non-interrupting-parallel-multiple:before { content: '\e813'; } /* '' */
+.bpmn-icon-start-event-condition:before { content: '\e814'; } /* '' */
+.bpmn-icon-start-event-non-interrupting-timer:before { content: '\e815'; } /* '' */
+.bpmn-icon-sequential-mi-marker:before { content: '\e816'; } /* '' */
+.bpmn-icon-user-task:before { content: '\e817'; } /* '' */
+.bpmn-icon-business-rule:before { content: '\e818'; } /* '' */
+.bpmn-icon-sub-process-marker:before { content: '\e819'; } /* '' */
+.bpmn-icon-start-event-parallel-multiple:before { content: '\e81a'; } /* '' */
+.bpmn-icon-start-event-error:before { content: '\e81b'; } /* '' */
+.bpmn-icon-intermediate-event-catch-signal:before { content: '\e81c'; } /* '' */
+.bpmn-icon-intermediate-event-catch-error:before { content: '\e81d'; } /* '' */
+.bpmn-icon-end-event-compensation:before { content: '\e81e'; } /* '' */
+.bpmn-icon-subprocess-collapsed:before { content: '\e81f'; } /* '' */
+.bpmn-icon-subprocess-expanded:before { content: '\e820'; } /* '' */
+.bpmn-icon-task:before { content: '\e821'; } /* '' */
+.bpmn-icon-end-event-error:before { content: '\e822'; } /* '' */
+.bpmn-icon-intermediate-event-catch-escalation:before { content: '\e823'; } /* '' */
+.bpmn-icon-intermediate-event-catch-timer:before { content: '\e824'; } /* '' */
+.bpmn-icon-start-event-escalation:before { content: '\e825'; } /* '' */
+.bpmn-icon-start-event-signal:before { content: '\e826'; } /* '' */
+.bpmn-icon-business-rule-task:before { content: '\e827'; } /* '' */
+.bpmn-icon-manual:before { content: '\e828'; } /* '' */
+.bpmn-icon-receive:before { content: '\e829'; } /* '' */
+.bpmn-icon-call-activity:before { content: '\e82a'; } /* '' */
+.bpmn-icon-start-event-timer:before { content: '\e82b'; } /* '' */
+.bpmn-icon-start-event-message:before { content: '\e82c'; } /* '' */
+.bpmn-icon-intermediate-event-none:before { content: '\e82d'; } /* '' */
+.bpmn-icon-intermediate-event-catch-link:before { content: '\e82e'; } /* '' */
+.bpmn-icon-end-event-escalation:before { content: '\e82f'; } /* '' */
+.bpmn-icon-text-annotation:before { content: '\e830'; } /* '' */
+.bpmn-icon-bpmn-io:before { content: '\e831'; } /* '' */
+.bpmn-icon-gateway-complex:before { content: '\e832'; } /* '' */
+.bpmn-icon-gateway-eventbased:before { content: '\e833'; } /* '' */
+.bpmn-icon-gateway-none:before { content: '\e834'; } /* '' */
+.bpmn-icon-gateway-or:before { content: '\e835'; } /* '' */
+.bpmn-icon-end-event-terminate:before { content: '\e836'; } /* '' */
+.bpmn-icon-end-event-signal:before { content: '\e837'; } /* '' */
+.bpmn-icon-end-event-none:before { content: '\e838'; } /* '' */
+.bpmn-icon-end-event-multiple:before { content: '\e839'; } /* '' */
+.bpmn-icon-end-event-message:before { content: '\e83a'; } /* '' */
+.bpmn-icon-end-event-link:before { content: '\e83b'; } /* '' */
+.bpmn-icon-intermediate-event-catch-message:before { content: '\e83c'; } /* '' */
+.bpmn-icon-intermediate-event-throw-compensation:before { content: '\e83d'; } /* '' */
+.bpmn-icon-start-event-multiple:before { content: '\e83e'; } /* '' */
+.bpmn-icon-script:before { content: '\e83f'; } /* '' */
+.bpmn-icon-manual-task:before { content: '\e840'; } /* '' */
+.bpmn-icon-send:before { content: '\e841'; } /* '' */
+.bpmn-icon-service:before { content: '\e842'; } /* '' */
+.bpmn-icon-receive-task:before { content: '\e843'; } /* '' */
+.bpmn-icon-user:before { content: '\e844'; } /* '' */
+.bpmn-icon-start-event-none:before { content: '\e845'; } /* '' */
+.bpmn-icon-intermediate-event-throw-escalation:before { content: '\e846'; } /* '' */
+.bpmn-icon-intermediate-event-catch-multiple:before { content: '\e847'; } /* '' */
+.bpmn-icon-intermediate-event-catch-non-interrupting-escalation:before { content: '\e848'; } /* '' */
+.bpmn-icon-intermediate-event-throw-link:before { content: '\e849'; } /* '' */
+.bpmn-icon-start-event-non-interrupting-condition:before { content: '\e84a'; } /* '' */
+.bpmn-icon-data-object:before { content: '\e84b'; } /* '' */
+.bpmn-icon-script-task:before { content: '\e84c'; } /* '' */
+.bpmn-icon-send-task:before { content: '\e84d'; } /* '' */
+.bpmn-icon-data-store:before { content: '\e84e'; } /* '' */
+.bpmn-icon-start-event-non-interrupting-escalation:before { content: '\e84f'; } /* '' */
+.bpmn-icon-intermediate-event-throw-message:before { content: '\e850'; } /* '' */
+.bpmn-icon-intermediate-event-catch-non-interrupting-multiple:before { content: '\e851'; } /* '' */
+.bpmn-icon-intermediate-event-catch-non-interrupting-signal:before { content: '\e852'; } /* '' */
+.bpmn-icon-intermediate-event-throw-multiple:before { content: '\e853'; } /* '' */
+.bpmn-icon-start-event-non-interrupting-message:before { content: '\e854'; } /* '' */
+.bpmn-icon-ad-hoc-marker:before { content: '\e855'; } /* '' */
+.bpmn-icon-service-task:before { content: '\e856'; } /* '' */
+.bpmn-icon-task-none:before { content: '\e857'; } /* '' */
+.bpmn-icon-compensation-marker:before { content: '\e858'; } /* '' */
+.bpmn-icon-start-event-non-interrupting-multiple:before { content: '\e859'; } /* '' */
+.bpmn-icon-intermediate-event-throw-signal:before { content: '\e85a'; } /* '' */
+.bpmn-icon-intermediate-event-catch-non-interrupting-condition:before { content: '\e85b'; } /* '' */
+.bpmn-icon-participant:before { content: '\e85c'; } /* '' */
+.bpmn-icon-event-subprocess-expanded:before { content: '\e85d'; } /* '' */
+.bpmn-icon-lane-insert-below:before { content: '\e85e'; } /* '' */
+.bpmn-icon-space-tool:before { content: '\e85f'; } /* '' */
+.bpmn-icon-connection-multi:before { content: '\e860'; } /* '' */
+.bpmn-icon-lane:before { content: '\e861'; } /* '' */
+.bpmn-icon-lasso-tool:before { content: '\e862'; } /* '' */
+.bpmn-icon-lane-insert-above:before { content: '\e863'; } /* '' */
+.bpmn-icon-lane-divide-three:before { content: '\e864'; } /* '' */
+.bpmn-icon-lane-divide-two:before { content: '\e865'; } /* '' */
+.bpmn-icon-data-input:before { content: '\e866'; } /* '' */
+.bpmn-icon-data-output:before { content: '\e867'; } /* '' */
+.bpmn-icon-hand-tool:before { content: '\e868'; } /* '' */
+.bpmn-icon-group:before { content: '\e869'; } /* '' */
+.bpmn-icon-transaction:before { content: '\e8c4'; } /* '' */</style></head>
+<body class="shown animate" data-gr-c-s-loaded="true">
+  <div class="content" id="js-drop-zone">
+
+    <div class="screen intro">
+      <div class="note">
+
+        <div class="project-logo">
+          <a href="http://bpmn.io/">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58 23"><path fill="currentColor" d="M7.75 3.8v.58c0 1.7-.52 2.78-1.67 3.32C7.46 8.24 8 9.5 8 11.24v1.34c0 2.54-1.35 3.9-3.93 3.9H0V0h3.91c2.68 0 3.84 1.25 3.84 3.8zM2.59 2.35V6.7H3.6c.97 0 1.56-.42 1.56-1.74v-.92c0-1.18-.4-1.7-1.32-1.7zm0 6.7v5.07h1.48c.87 0 1.34-.4 1.34-1.63v-1.43c0-1.53-.5-2-1.67-2H2.6zm14.65-4.98v2.14c0 2.64-1.27 4.08-3.87 4.08h-1.22v6.2H9.56V0h3.82c2.59 0 3.86 1.44 3.86 4.07zm-5.09-1.71v5.57h1.22c.83 0 1.28-.37 1.28-1.55V3.91c0-1.18-.45-1.56-1.28-1.56h-1.22zm11.89 9.34L25.81 0h3.6v16.48h-2.44V4.66l-1.8 11.82h-2.45L20.8 4.83v11.65h-2.26V0h3.6zm9.56-7.15v11.93h-2.33V0h3.25l2.66 9.87V0h2.31v16.48h-2.66zm10.25 9.44v2.5h-2.5v-2.5zM50 4.16C50 1.52 51.38.02 53.93.02c2.54 0 3.93 1.5 3.93 4.14v8.37c0 2.64-1.4 4.14-3.93 4.14-2.55 0-3.93-1.5-3.93-4.14zm2.58 8.53c0 1.18.52 1.63 1.35 1.63.82 0 1.34-.45 1.34-1.63V4c0-1.17-.52-1.62-1.34-1.62-.83 0-1.35.45-1.35 1.62zM0 18.7h57.86V23H0zM45.73 0h2.6v2.58h-2.6zm2.59 16.48V4.16h-2.59v12.32z"></path></svg>
+          </a>
+        </div>
+
+        <div class="message">
+          <a href="https://demo.bpmn.io/" title="Open BPMN diagram from local file system" jsaction="click:bio.openLocal">Open</a> or <a href="https://demo.bpmn.io/new" title="Create a new BPMN diagram">create</a> a BPMN diagram.
+        </div>
+
+        <div class="samples">
+
+          <p>Use <a href="https://bpmn.io/toolkit/bpmn-js/">bpmn-js</a> to view, create and edit BPMN 2.0 diagrams in your browser.</p>
+
+          <a class="sample" href="https://demo.bpmn.io/s/start">
+            <img class="img" src="./process_files/screencast.gif">
+
+            <div class="caption">
+              What if you are hungry? Click the diagram and continue modeling.
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="screen loading">
+
+      <div class="note">
+        <div class="message">
+          <div class="spinner-border"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen error">
+      <div class="note">
+        <div class="message">
+          <p>
+            Ooops, we could not display that diagram.
+          </p>
+          <p>
+            <small>
+              You believe your input is valid <a href="http://www.omg.org/spec/BPMN/2.0/">BPMN 2.0 XML</a>?
+            </small>
+          </p>
+          <p>
+            <small>
+              Consult our <a href="https://forum.bpmn.io/" target="_blank">forum</a> or
+              <a href="https://github.com/bpmn-io/bpmn-js/issues" target="_blank">file an issue</a>
+              with the details shown below.
+            </small>
+          </p>
+        </div>
+
+        <div class="details">
+          <span>Import Error Details</span>
+          <textarea class="error-log"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="canvas" id="js-canvas"><div class="bjs-container" style="width: 100%; height: 100%; position: relative;"><a href="http://bpmn.io/" target="_blank" class="bjs-powered-by" title="Powered by bpmn.io" style="position: absolute; bottom: 15px; right: 15px; z-index: 100; color: #404040"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.02 5.57" width="53" height="21" style="vertical-align:middle"><path fill="currentColor" d="M1.88.92v.14c0 .41-.13.68-.4.8.33.14.46.44.46.86v.33c0 .61-.33.95-.95.95H0V0h.95c.65 0 .93.3.93.92zM.63.57v1.06h.24c.24 0 .38-.1.38-.43V.98c0-.28-.1-.4-.32-.4zm0 1.63v1.22h.36c.2 0 .32-.1.32-.39v-.35c0-.37-.12-.48-.4-.48H.63zM4.18.99v.52c0 .64-.31.98-.94.98h-.3V4h-.62V0h.92c.63 0 .94.35.94.99zM2.94.57v1.35h.3c.2 0 .3-.09.3-.37v-.6c0-.29-.1-.38-.3-.38h-.3zm2.89 2.27L6.25 0h.88v4h-.6V1.12L6.1 3.99h-.6l-.46-2.82v2.82h-.55V0h.87zM8.14 1.1V4h-.56V0h.79L9 2.4V0h.56v4h-.64zm2.49 2.29v.6h-.6v-.6zM12.12 1c0-.63.33-1 .95-1 .61 0 .95.37.95 1v2.04c0 .64-.34 1-.95 1-.62 0-.95-.37-.95-1zm.62 2.08c0 .28.13.39.33.39s.32-.1.32-.4V.98c0-.29-.12-.4-.32-.4s-.33.11-.33.4z"></path><path fill="currentColor" d="M0 4.53h14.02v1.04H0zM11.08 0h.63v.62h-.63zm.63 4V1h-.63v2.98z"></path></svg></a><div class="djs-container" style="position: relative; overflow: hidden; width: 100%; height: 100%;"><div class="djs-tooltip-container" style="position: absolute; width: 0px; height: 0px; transform: matrix(0.741, 0, 0, 0.741, 35.942, 11.659);"></div><div class="djs-overlay-container" style="position: absolute; width: 0px; height: 0px; transform-origin: left top; transform: matrix(0.741, 0, 0, 0.741, 35.942, 11.659);"><div class="djs-overlays" style="position: absolute; left: 940px; top: 410px;" data-container-id="Task_0farzki"></div><div class="djs-overlays" style="position: absolute; left: 940px; top: 100px;" data-container-id="Task_1937nql"></div><div class="djs-overlays" style="position: absolute; left: 370px; top: 310px;" data-container-id="TfPendingDataEntry"></div><div class="djs-overlays" style="position: absolute; left: 420px; top: 390px;" data-container-id="Flow_0nwm8b0"></div><div class="djs-overlays" style="position: absolute; left: 940px; top: 270px;" data-container-id="Task_0z7mivs"></div><div class="djs-overlays" style="position: absolute; left: 1142px; top: 202px;" data-container-id="Event_1st8sqj"></div><div class="djs-overlays" style="position: absolute; left: 317px; top: 300px;" data-container-id="SequenceFlow_1iirmi2_label"></div><div class="djs-overlays" style="position: absolute; left: 303px; top: 160px;" data-container-id="SequenceFlow_0ifa9oi_label"></div><div class="djs-overlays" style="position: absolute; left: 470px; top: 350px;" data-container-id="SequenceFlow_1ypxml4"></div><div class="djs-overlays" style="position: absolute; left: 290px; top: 120px;" data-container-id="SequenceFlow_0ifa9oi"></div><div class="djs-overlays" style="position: absolute; left: 805px; top: 325px;" data-container-id="ExclusiveGateway_0gwj45i"></div></div><svg width="100%" height="100%" style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);" data-element-id="Process_1la0q34" class=""><g class="viewport" transform="matrix(0.7411344647407532,0,0,0.7411344647407532,35.94210870477718,11.659477407626468)"><g class="layer-base" data-element-id="Process_1la0q34"><g class="djs-group"><g class="djs-element djs-connection" data-element-id="SequenceFlow_1hi6f7g" style="display: block;"><g class="djs-visual"><path d="m  470,120L660,120 L660,310 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="470,120 660,120 660,310 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="464" y="114" width="202" height="202" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="SequenceFlow_0ejef5z" style="display: block;"><g class="djs-visual"><path d="m  830,375L830,450 L940,450 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="830,375 830,450 940,450 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="824" y="369" width="122" height="87" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="SequenceFlow_0sabdh8" style="display: block;"><g class="djs-visual"><path d="m  830,325L830,310 L940,310 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="830,325 830,310 940,310 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="824" y="304" width="122" height="27" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="SequenceFlow_0rc6tgy" style="display: block;"><g class="djs-visual"><path d="m  710,350L805,350 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="710,350 805,350 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="704" y="344" width="107" height="12" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="SequenceFlow_1ypxml4" style="display: block;"><g class="djs-visual"><path d="m  470,350L610,350 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;); marker-start: url(&quot;#conditional-flow-marker-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="470,350 610,350 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="464" y="344" width="152" height="12" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="SequenceFlow_1iirmi2" style="display: block;"><g class="djs-visual"><path d="m  290,255L290,350 L370,350 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="290,255 290,350 370,350 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="284" y="249" width="92" height="107" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="SequenceFlow_0ifa9oi" style="display: block;"><g class="djs-visual"><path d="m  290,205L290,120 L370,120 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="290,205 290,120 370,120 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="284" y="114" width="92" height="97" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="SequenceFlow_06ufmnu" style="display: block;"><g class="djs-visual"><path d="m  215,230L265,230 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="215,230 265,230 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="209" y="224" width="62" height="12" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="Flow_0nwm8b0" style="display: block;"><g class="djs-visual"><path d="m  990,490L990,540 L420,540 L420,390 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="990,490 990,540 420,540 420,390 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="414" y="384" width="582" height="162" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="Flow_0c7q5k4" style="display: block;"><g class="djs-visual"><path d="m  1040,310L1160,310 L1160,238 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="1040,310 1160,310 1160,238 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="1034" y="232" width="132" height="84" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="Flow_15bhg0l" style="display: block;"><g class="djs-visual"><path d="m  1040,140L1160,140 L1160,202 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="1040,140 1160,140 1160,202 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="1034" y="134" width="132" height="74" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-connection" data-element-id="Flow_1vq9a7o" style="display: block;"><g class="djs-visual"><path d="m  940,310L830,310 L830,140 L940,140 " style="fill: none; stroke-width: 2px; stroke: black; stroke-linejoin: round; marker-end: url(&quot;#sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp&quot;);"></path></g><polyline points="940,310 830,310 830,140 940,140 " class="djs-hit djs-hit-stroke" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></polyline><rect x="824" y="134" width="122" height="182" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="TfStartEvent" style="display: block;" transform="matrix(1 0 0 1 179 212)"><g class="djs-visual"><circle cx="18" cy="18" r="18" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"></circle></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="36" height="36" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="48" height="48" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="TfStartEvent_label" style="display: block;" transform="matrix(1 0 0 1 185 255)"><g class="djs-visual"><text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 11px; font-weight: normal; fill: black;"><tspan x="0" y="9.899999999999999">Start</tspan></text></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="24" height="14" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="36" height="26" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="ExclusiveGateway_0tht538" style="display: block;" transform="matrix(1 0 0 1 265 205)"><g class="djs-visual"><polygon points="25,0 50,25 25,50 0,25" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"></polygon><path d="m 16,15 7.42857142857143,9.714285714285715 -7.42857142857143,9.714285714285715 3.428571428571429,0 5.714285714285715,-7.464228571428572 5.714285714285715,7.464228571428572 3.428571428571429,0 -7.42857142857143,-9.714285714285715 7.42857142857143,-9.714285714285715 -3.428571428571429,0 -5.714285714285715,7.464228571428572 -5.714285714285715,-7.464228571428572 -3.428571428571429,0 z" style="fill: black; stroke-width: 1px; stroke: black;"></path></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="50" height="50" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="62" height="62" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="TfRequest" style="display: block;" transform="matrix(1 0 0 1 370 80)"><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"></rect><text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: black;"><tspan x="31.65625" y="43.599999999999994">Initiate</tspan></text><path d="m 12,18 v -1.71335 c 0.352326,-0.0705 0.703932,-0.17838 1.047628,-0.32133 0.344416,-0.14465 0.665822,-0.32133 0.966377,-0.52145 l 1.19431,1.18005 1.567487,-1.57688 -1.195028,-1.18014 c 0.403376,-0.61394 0.683079,-1.29908 0.825447,-2.01824 l 1.622133,-0.01 v -2.2196 l -1.636514,0.01 c -0.07333,-0.35153 -0.178319,-0.70024 -0.323564,-1.04372 -0.145244,-0.34406 -0.321407,-0.6644 -0.522735,-0.96217 l 1.131035,-1.13631 -1.583305,-1.56293 -1.129598,1.13589 c -0.614052,-0.40108 -1.302883,-0.68093 -2.022633,-0.82247 l 0.0093,-1.61852 h -2.241173 l 0.0042,1.63124 c -0.353763,0.0736 -0.705369,0.17977 -1.049785,0.32371 -0.344415,0.14437 -0.665102,0.32092 -0.9635006,0.52046 l -1.1698628,-1.15823 -1.5667691,1.5792 1.1684265,1.15669 c -0.4026573,0.61283 -0.68308,1.29797 -0.8247287,2.01713 l -1.6588041,0.003 v 2.22174 l 1.6724648,-0.006 c 0.073327,0.35077 0.1797598,0.70243 0.3242851,1.04472 0.1452428,0.34448 0.3214064,0.6644 0.5227339,0.96066 l -1.1993431,1.19723 1.5840256,1.56011 1.1964668,-1.19348 c 0.6140517,0.40346 1.3028827,0.68232 2.0233517,0.82331 l 7.19e-4,1.69892 h 2.226848 z m 0.221462,-3.9957 c -1.788948,0.7502 -3.8576,-0.0928 -4.6097055,-1.87438 -0.7521065,-1.78321 0.090598,-3.84627 1.8802645,-4.59604 1.78823,-0.74936 3.856881,0.0929 4.608987,1.87437 0.752106,1.78165 -0.0906,3.84612 -1.879546,4.59605 z" style="fill: white; stroke-width: 1px; stroke: black;"></path><path d="m 17.2,18 c -1.788948,0.7502 -3.8576,-0.0928 -4.6097055,-1.87438 -0.7521065,-1.78321 0.090598,-3.84627 1.8802645,-4.59604 1.78823,-0.74936 3.856881,0.0929 4.608987,1.87437 0.752106,1.78165 -0.0906,3.84612 -1.879546,4.59605 z" style="fill: white; stroke-width: 0px; stroke: black;"></path><path d="m 17,22 v -1.71335 c 0.352326,-0.0705 0.703932,-0.17838 1.047628,-0.32133 0.344416,-0.14465 0.665822,-0.32133 0.966377,-0.52145 l 1.19431,1.18005 1.567487,-1.57688 -1.195028,-1.18014 c 0.403376,-0.61394 0.683079,-1.29908 0.825447,-2.01824 l 1.622133,-0.01 v -2.2196 l -1.636514,0.01 c -0.07333,-0.35153 -0.178319,-0.70024 -0.323564,-1.04372 -0.145244,-0.34406 -0.321407,-0.6644 -0.522735,-0.96217 l 1.131035,-1.13631 -1.583305,-1.56293 -1.129598,1.13589 c -0.614052,-0.40108 -1.302883,-0.68093 -2.022633,-0.82247 l 0.0093,-1.61852 h -2.241173 l 0.0042,1.63124 c -0.353763,0.0736 -0.705369,0.17977 -1.049785,0.32371 -0.344415,0.14437 -0.665102,0.32092 -0.9635006,0.52046 l -1.1698628,-1.15823 -1.5667691,1.5792 1.1684265,1.15669 c -0.4026573,0.61283 -0.68308,1.29797 -0.8247287,2.01713 l -1.6588041,0.003 v 2.22174 l 1.6724648,-0.006 c 0.073327,0.35077 0.1797598,0.70243 0.3242851,1.04472 0.1452428,0.34448 0.3214064,0.6644 0.5227339,0.96066 l -1.1993431,1.19723 1.5840256,1.56011 1.1964668,-1.19348 c 0.6140517,0.40346 1.3028827,0.68232 2.0233517,0.82331 l 7.19e-4,1.69892 h 2.226848 z m 0.221462,-3.9957 c -1.788948,0.7502 -3.8576,-0.0928 -4.6097055,-1.87438 -0.7521065,-1.78321 0.090598,-3.84627 1.8802645,-4.59604 1.78823,-0.74936 3.856881,0.0929 4.608987,1.87437 0.752106,1.78165 -0.0906,3.84612 -1.879546,4.59605 z" style="fill: white; stroke-width: 1px; stroke: black;"></path></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="100" height="80" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="112" height="92" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="TfPendingVerification" style="display: block;" transform="matrix(1 0 0 1 610 310)"><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"></rect><text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: black;"><tspan x="34.9921875" y="43.599999999999994">Verify</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" style="fill: white; stroke-width: 0.5px; stroke: black;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " style="fill: white; stroke-width: 0.5px; stroke: black;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" style="fill: black; stroke-width: 0.5px; stroke: black;"></path></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="100" height="80" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="112" height="92" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="EndEvent_0bbbzlz" style="display: block;" transform="matrix(1 0 0 1 492 1312)"><g class="djs-visual"><circle cx="18" cy="18" r="18" style="stroke: black; stroke-width: 4px; fill: white; fill-opacity: 0.95;"></circle></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="36" height="36" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="48" height="48" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="SequenceFlow_0ifa9oi_label" style="display: block;" transform="matrix(1 0 0 1 303 160)"><g class="djs-visual"><text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 11px; font-weight: normal; fill: black;"><tspan x="0" y="9.899999999999999">Submit</tspan></text></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="35" height="14" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="47" height="26" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="TfPendingDataEntry" style="display: block;" transform="matrix(1 0 0 1 370 310)"><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"></rect><text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: black;"><tspan x="21.0546875" y="43.599999999999994">Data Entry</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" style="fill: white; stroke-width: 0.5px; stroke: black;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " style="fill: white; stroke-width: 0.5px; stroke: black;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" style="fill: black; stroke-width: 0.5px; stroke: black;"></path></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="100" height="80" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="112" height="92" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="SequenceFlow_1iirmi2_label" style="display: block;" transform="matrix(1 0 0 1 317 300)"><g class="djs-visual"><text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 11px; font-weight: normal; fill: black;"><tspan x="0" y="9.899999999999999">Save</tspan></text></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="26" height="14" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="38" height="26" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="ExclusiveGateway_0gwj45i" style="display: block;" transform="matrix(1 0 0 1 805 325)"><g class="djs-visual"><polygon points="25,0 50,25 25,50 0,25" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"></polygon><path d="m 16,15 7.42857142857143,9.714285714285715 -7.42857142857143,9.714285714285715 3.428571428571429,0 5.714285714285715,-7.464228571428572 5.714285714285715,7.464228571428572 3.428571428571429,0 -7.42857142857143,-9.714285714285715 7.42857142857143,-9.714285714285715 -3.428571428571429,0 -5.714285714285715,7.464228571428572 -5.714285714285715,-7.464228571428572 -3.428571428571429,0 z" style="fill: black; stroke-width: 1px; stroke: black;"></path></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="50" height="50" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="62" height="62" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="Task_0farzki" style="display: block;" transform="matrix(1 0 0 1 940 410)"><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"></rect><text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: black;"><tspan x="31.921875" y="43.599999999999994">Repair</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" style="fill: white; stroke-width: 0.5px; stroke: black;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " style="fill: white; stroke-width: 0.5px; stroke: black;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" style="fill: black; stroke-width: 0.5px; stroke: black;"></path></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="100" height="80" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="112" height="92" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="Task_0z7mivs" style="display: block;" transform="matrix(1 0 0 1 940 270)"><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"></rect><text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: black;"><tspan x="31.328125" y="43.599999999999994">Accept</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" style="fill: white; stroke-width: 0.5px; stroke: black;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " style="fill: white; stroke-width: 0.5px; stroke: black;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" style="fill: black; stroke-width: 0.5px; stroke: black;"></path></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="100" height="80" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="112" height="92" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="Task_1937nql" style="display: block;" transform="matrix(1 0 0 1 940 100)"><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"></rect><text lineHeight="1.2" class="djs-label" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: black;"><tspan x="32.2578125" y="43.599999999999994">Reject</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" style="fill: white; stroke-width: 0.5px; stroke: black;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " style="fill: white; stroke-width: 0.5px; stroke: black;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" style="fill: black; stroke-width: 0.5px; stroke: black;"></path></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="100" height="80" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="112" height="92" class="djs-outline" style="fill: none;"></rect></g></g><g class="djs-group"><g class="djs-element djs-shape" data-element-id="Event_1st8sqj" style="display: block;" transform="matrix(1 0 0 1 1142 202)"><g class="djs-visual"><circle cx="18" cy="18" r="18" style="stroke: black; stroke-width: 4px; fill: white; fill-opacity: 0.95;"></circle></g><rect class="djs-hit djs-hit-all" x="0" y="0" width="36" height="36" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"></rect><rect x="-6" y="-6" width="48" height="48" class="djs-outline" style="fill: none;"></rect></g></g></g><g class="layer-resizers"></g><g class="layer-snap"><path d="M-100000,450 L+100000,450" class="djs-snap-line" style="display: none;"></path><path d="M 990,-100000 L 990, +100000" class="djs-snap-line" style="display: none;"></path></g><g class="layer-overlays"><g data-element-id="SequenceFlow_1hi6f7g" class="djs-bendpoints"><g class="djs-bendpoint" transform="matrix(1 0 0 1 470 120)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 660 120)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 660 310)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint floating" transform="matrix(1 0 0 1 660 216.5)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-segment-dragger horizontal" data-segment-idx="1" transform="matrix(1 0 0 1 565 120)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual" transform="matrix(1 0 0 1 83 0)"></rect><rect x="-63.5" y="-4.5" width="127" height="9" class="djs-hit"></rect></g></g><g class="djs-segment-dragger vertical" data-segment-idx="2" transform="matrix(1 0 0 1 660 215)"><g transform="matrix(6.12323e-17 1 -1 6.12323e-17 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual" transform="matrix(1 0 0 1 1.5 0)"></rect><rect x="-63.5" y="-4.5" width="127" height="9" class="djs-hit"></rect></g></g></g><g data-element-id="SequenceFlow_0ejef5z" class="djs-bendpoints"><g class="djs-segment-dragger vertical" data-segment-idx="1" transform="matrix(1 0 0 1 830 413)"><g transform="matrix(6.12323e-17 1 -1 6.12323e-17 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual" transform="matrix(1 0 0 1 3 0)"></rect><rect x="-25" y="-4.5" width="50" height="9" class="djs-hit"></rect></g></g><g class="djs-segment-dragger horizontal" data-segment-idx="2" transform="matrix(1 0 0 1 885 450)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-36.5" y="-4.5" width="73" height="9" class="djs-hit"></rect></g></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 830 375)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 830 450)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 940 450)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint floating" transform="matrix(1 0 0 1 830 416)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g></g><g data-element-id="SequenceFlow_0sabdh8" class="djs-bendpoints"><g class="djs-segment-dragger vertical" data-segment-idx="1" transform="matrix(1 0 0 1 830 318)"><g transform="matrix(6.12323e-17 1 -1 6.12323e-17 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-5" y="-4.5" width="10" height="9" class="djs-hit"></rect></g></g><g class="djs-segment-dragger horizontal" data-segment-idx="2" transform="matrix(1 0 0 1 885 310)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-36.5" y="-4.5" width="73" height="9" class="djs-hit"></rect></g></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 830 325)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 830 310)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 940 310)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint floating"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g></g><g data-element-id="SequenceFlow_1ypxml4" class="djs-bendpoints"><g class="djs-segment-dragger horizontal" data-segment-idx="1" transform="matrix(1 0 0 1 540 350)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual" transform="matrix(1 0 0 1 -48 0)"></rect><rect x="-46.5" y="-4.5" width="93" height="9" class="djs-hit"></rect></g></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 470 350)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 610 350)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint floating" transform="matrix(1 0 0 1 492 350)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g></g><g data-element-id="Flow_0nwm8b0" class="djs-bendpoints"><g class="djs-segment-dragger vertical" data-segment-idx="1" transform="matrix(1 0 0 1 990 515)"><g transform="matrix(6.12323e-17 1 -1 6.12323e-17 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-16.5" y="-4.5" width="33" height="9" class="djs-hit"></rect></g></g><g class="djs-segment-dragger horizontal" data-segment-idx="2" transform="matrix(1 0 0 1 705 540)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-190" y="-4.5" width="380" height="9" class="djs-hit"></rect></g></g><g class="djs-segment-dragger vertical" data-segment-idx="3" transform="matrix(1 0 0 1 420 465)"><g transform="matrix(6.12323e-17 1 -1 6.12323e-17 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-50" y="-4.5" width="100" height="9" class="djs-hit"></rect></g></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 990 490)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 990 540)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 420 540)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 420 390)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint floating"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g></g><g data-element-id="SequenceFlow_0rc6tgy" class="djs-bendpoints"><g class="djs-segment-dragger horizontal" data-segment-idx="1" transform="matrix(1 0 0 1 758 350)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-31.5" y="-4.5" width="63" height="9" class="djs-hit"></rect></g></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 710 350)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 805 350)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint floating"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g></g><g data-element-id="Flow_0c7q5k4" class="djs-bendpoints"><g class="djs-segment-dragger horizontal" data-segment-idx="1" transform="matrix(1 0 0 1 1100 310)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-40" y="-4.5" width="80" height="9" class="djs-hit"></rect></g></g><g class="djs-segment-dragger vertical" data-segment-idx="2" transform="matrix(1 0 0 1 1160 274)"><g transform="matrix(6.12323e-17 1 -1 6.12323e-17 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-24" y="-4.5" width="48" height="9" class="djs-hit"></rect></g></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 1040 310)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 1160 310)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 1160 238)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint floating"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g></g><g data-element-id="Flow_15bhg0l" class="djs-bendpoints"><g class="djs-segment-dragger horizontal" data-segment-idx="1" transform="matrix(1 0 0 1 1100 140)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-40" y="-4.5" width="80" height="9" class="djs-hit"></rect></g></g><g class="djs-segment-dragger vertical" data-segment-idx="2" transform="matrix(1 0 0 1 1160 171)"><g transform="matrix(6.12323e-17 1 -1 6.12323e-17 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-20.5" y="-4.5" width="41" height="9" class="djs-hit"></rect></g></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 1040 140)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 1160 140)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 1160 202)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint floating"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g></g><g data-element-id="SequenceFlow_0ifa9oi" class="djs-bendpoints"><g class="djs-bendpoint" transform="matrix(1 0 0 1 290 205)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 290 120)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 370 120)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint floating" transform="matrix(1 0 0 1 290 136)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-segment-dragger vertical" data-segment-idx="1" transform="matrix(1 0 0 1 290 163)"><g transform="matrix(6.12323e-17 1 -1 6.12323e-17 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual" transform="matrix(1 0 0 1 -27 0)"></rect><rect x="-28.5" y="-4.5" width="57" height="9" class="djs-hit"></rect></g></g><g class="djs-segment-dragger horizontal" data-segment-idx="2" transform="matrix(1 0 0 1 330 120)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-26.5" y="-4.5" width="53" height="9" class="djs-hit"></rect></g></g></g><g data-element-id="Flow_1vq9a7o" class="djs-bendpoints"><g class="djs-segment-dragger horizontal" data-segment-idx="1" transform="matrix(1 0 0 1 885 310)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual" transform="matrix(1 0 0 1 -30.5 0)"></rect><rect x="-36.5" y="-4.5" width="73" height="9" class="djs-hit"></rect></g></g><g class="djs-segment-dragger vertical" data-segment-idx="2" transform="matrix(1 0 0 1 830 225)"><g transform="matrix(6.12323e-17 1 -1 6.12323e-17 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-56.5" y="-4.5" width="113" height="9" class="djs-hit"></rect></g></g><g class="djs-segment-dragger horizontal" data-segment-idx="3" transform="matrix(1 0 0 1 885 140)"><g transform="matrix(1 0 0 1 0 0)"><rect x="-7" y="-1.5" width="14" height="3" class="djs-visual"></rect><rect x="-36.5" y="-4.5" width="73" height="9" class="djs-hit"></rect></g></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 940 310)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 830 310)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 830 140)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint" transform="matrix(1 0 0 1 940 140)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g><g class="djs-bendpoint floating" transform="matrix(1 0 0 1 854.5 310)"><circle cx="0" cy="0" r="4" class="djs-visual"></circle><circle cx="0" cy="0" r="10" class="djs-hit"></circle></g></g></g></g><rect x="-10000" y="10000" width="10" height="10" class="outer-bound-marker" style="fill: none;"></rect><rect x="10000" y="10000" width="10" height="10" class="outer-bound-marker" style="fill: none;"></rect><defs><marker id="sequenceflow-end-white-black-2lbeo7rsvspr9wivnw6kukppp" viewBox="0 0 20 20" refX="11" refY="10" markerWidth="10" markerHeight="10" orient="auto"><path d="M 1 5 L 11 10 L 1 15 Z" style="fill: black; stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000, 1; stroke: black;"></path></marker><marker id="conditional-flow-marker-white-black-2lbeo7rsvspr9wivnw6kukppp" viewBox="0 0 20 20" refX="-1" refY="10" markerWidth="10" markerHeight="10" orient="auto"><path d="M 0 10 L 8 6 L 16 10 L 8 14 Z" style="fill: white; stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000, 1; stroke: black;"></path></marker></defs></svg><div class="djs-search-container djs-draggable djs-scrollable"><div class="djs-search-input"><input type="text"></div><div class="djs-search-results"></div></div><div class="djs-palette two-column open" style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><div class="djs-palette-entries"><div class="group" data-group="tools"><div class="entry bpmn-icon-hand-tool" draggable="true" data-action="hand-tool" title="Activate the hand tool"></div><div class="entry bpmn-icon-lasso-tool" draggable="true" data-action="lasso-tool" title="Activate the lasso tool"></div><div class="entry bpmn-icon-space-tool" draggable="true" data-action="space-tool" title="Activate the create/remove space tool"></div><div class="entry bpmn-icon-connection-multi" draggable="true" data-action="global-connect-tool" title="Activate the global connect tool"></div><hr class="separator"></div><div class="group" data-group="event"><div class="entry bpmn-icon-start-event-none" draggable="true" data-action="create.start-event" title="Create StartEvent"></div><div class="entry bpmn-icon-intermediate-event-none" draggable="true" data-action="create.intermediate-event" title="Create Intermediate/Boundary Event"></div><div class="entry bpmn-icon-end-event-none" draggable="true" data-action="create.end-event" title="Create EndEvent"></div></div><div class="group" data-group="gateway"><div class="entry bpmn-icon-gateway-none" draggable="true" data-action="create.exclusive-gateway" title="Create Gateway"></div></div><div class="group" data-group="activity"><div class="entry bpmn-icon-task" draggable="true" data-action="create.task" title="Create Task"></div><div class="entry bpmn-icon-subprocess-expanded" draggable="true" data-action="create.subprocess-expanded" title="Create expanded SubProcess"></div></div><div class="group" data-group="data-object"><div class="entry bpmn-icon-data-object" draggable="true" data-action="create.data-object" title="Create DataObjectReference"></div></div><div class="group" data-group="data-store"><div class="entry bpmn-icon-data-store" draggable="true" data-action="create.data-store" title="Create DataStoreReference"></div></div><div class="group" data-group="collaboration"><div class="entry bpmn-icon-participant" draggable="true" data-action="create.participant-expanded" title="Create Pool/Participant"></div></div><div class="group" data-group="artifact"><div class="entry bpmn-icon-group" draggable="true" data-action="create.group" title="Create Group"></div></div></div><div class="djs-palette-toggle"></div></div></div></div></div>
+  </div>
+
+  <div class="io-import-export">
+
+    <ul class="io-import io-control io-control-list io-horizontal">
+      <li>
+        <button title="open BPMN diagram from local file system" jsaction="click:bio.openLocal">
+          <span class="icon-open"></span>
+        </button>
+      </li>
+      <li class="vr"></li>
+      <li>
+        <button title="create new BPMN diagram" jsaction="click:bio.createNew">
+          <span class="icon-plus-circled"></span>
+        </button>
+      </li>
+    </ul>
+
+    <ul class="io-export io-control io-control-list io-horizontal">
+      <li>
+        <a target="_blank" href="https://demo.bpmn.io/" class="download" title="Download as BPMN 2.0 file" jswidget="downloadDiagram" data-track="diagram:download-bpmn">
+          <span class="icon-download"></span>
+        </a>
+      </li>
+      <li>
+        <a target="_blank" href="https://demo.bpmn.io/" class="download" title="Download as SVG image" jswidget="downloadSVG" data-track="diagram:download-svg">
+          <span class="icon-picture"></span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="io-alerts">
+
+    <div class="io-control alert" jswidget="import-warnings-alert">
+      <div class="alert-message">
+        Diagram may not render correctly due to import warnings.
+
+        <a href="https://demo.bpmn.io/" jsaction="click:bio.showImportDetails">Show details</a>.
+      </div>
+
+      <a href="https://demo.bpmn.io/" class="close" aria-hidden="true" jsaction="click:bio.clearImportDetails">×</a>
+    </div>
+
+    <div class="io-control alert" jswidget="undo-redo-alert">
+      <div class="alert-message">
+        You edited the diagram.
+
+        <a href="https://demo.bpmn.io/" jsaction="click:bio.undo">Undo last change</a>.
+      </div>
+
+      <a href="https://demo.bpmn.io/" class="close" aria-hidden="true" jsaction="click:bio.hideUndoAlert">×</a>
+    </div>
+
+  </div>
+
+  <div class="io-about">
+
+    <ul class="io-control-list io-horizontal">
+      <li>
+        <a href="http://bpmn.io/legal/privacy.html" target="_blank" title="privacy policy">
+          privacy
+        </a>
+      </li>
+      <li>
+        <a href="http://bpmn.io/legal/terms.html" target="_blank" title="terms of use">
+          terms
+        </a>
+      </li>
+      <li>
+        <a href="http://bpmn.io/legal/imprint.html" target="_blank" title="imprint">
+          imprint
+        </a>
+      </li>
+      <li>
+        <a title="more information about this demo" jsaction="click:bio.showAbout" data-track="help:open-about">
+          about
+        </a>
+      </li>
+      <li>
+        <a href="https://forum.bpmn.io/t/8" title="report an issue or suggest improvements" target="_blank" data-track="help:open-report">
+          give feedback
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="io-editing-tools" jswidget="editing-tools" style="display: block;">
+    <ul class="io-control-list io-horizontal">
+      <li class="io-control">
+        <button title="Toggle keyboard shortcuts overlay" jsaction="click:bio.showKeyboard">
+          <span class="icon-keyboard"> </span>
+        </button>
+      </li>
+      <li class="io-control">
+        <button title="Toggle Fullscreen" jsaction="click:bio.toggleFullscreen">
+          <span class="icon-resize-full"> </span>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="io-zoom-controls">
+
+    <ul class="io-zoom-reset io-control io-control-list">
+      <li>
+        <button title="reset zoom" jsaction="click:bio.zoomReset">
+          <span class="icon-size-reset"></span>
+        </button>
+      </li>
+      <li>
+        <hr>
+      </li>
+      <li>
+        <button title="zoom in" jsaction="click:bio.zoomIn">
+          <span class="icon-plus"></span>
+        </button>
+      </li>
+      <li>
+        <hr>
+      </li>
+      <li>
+        <button href="" title="zoom out" jsaction="click:bio.zoomOut">
+          <span class="icon-minus"></span>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="io-dialog about" jswidget="about-dialog">
+
+    <div class="content">
+      <h1>About bpmn.io</h1>
+
+      <p>
+        bpmn.io offers tools to view, annotate and edit <a href="http://www.bpmn.org/">BPMN 2.0</a>, CMMN and DMN diagrams on the web. Refer to our <a href="http://bpmn.io/">project website</a> for more information.
+      </p>
+
+      <p>
+        This is a demo of <a href="https://github.com/bpmn-io/bpmn-js">bpmn-js</a> the JavaScript toolkit that powers bpmn.io.
+      </p><p>
+
+      </p><h2>Built with open-source software</h2>
+
+      <p>
+        <a href="https://github.com/bpmn-io/bpmn-js">bpmn-js</a> is built with the help of a number of open-source libraries:
+      </p>
+
+      <ul>
+        <li><a href="https://github.com/bpmn-io/bpmn-js">bpmn-js</a></li>
+        <li><a href="https://github.com/bpmn-io/diagram-js">diagram-js</a></li>
+        <li><a href="https://github.com/nikku/saxen">saxen</a></li>
+      </ul>
+
+      <p>
+        Icons are assembled using <a href="http://fontello.com/">fontello</a> from the following icon fonts:
+      </p>
+
+      <ul>
+        <li><a href="http://fontello.com/">Fontelico</a> crowdsourced, for Fontello project</li>
+        <li><a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a> by Dave Gandy</li>
+        <li><a href="http://www.entypo.com/">Entypo</a> by Daniel Bruce</li>
+        <li><a href="http://somerandomdude.com/work/iconic/">Iconic</a> by P.J. Onori</li>
+      </ul>
+
+      <a class="project-logo" href="http://bpmn.io/">
+        <span class="icon-bpmn-io"></span>
+      </a>
+
+      <p>
+        You can find all bpmn.io related open-source projects on
+        <a href="https://github.com/bpmn-io">GitHub</a>.
+      </p>
+    </div>
+  </div>
+
+  <div class="io-dialog import-warnings" jswidget="import-warnings-dialog">
+
+    <div class="content">
+      <h1>Import Warnings</h1>
+
+      <p>
+        One or more problems have been identified when trying to import the BPMN 2.0 diagram:
+      </p>
+
+      <p>
+        <textarea class="error-log"></textarea>
+      </p><p>
+
+      </p><p>
+        This may have been caused by malformed input data.
+        As a result the diagram may not render correctly.
+      </p>
+
+      <h2>Need help on this?</h2>
+
+      <p>
+        File a report in <a href="https://forum.bpmn.io/" target="_blank">our forum</a>.
+        Attach your diagram and the above error log.
+      </p>
+
+      <a class="project-logo" href="http://bpmn.io/">
+        <span class="icon-bpmn-io"></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="io-dialog keybindings-dialog" jswidget="keybindings-dialog">
+
+    <div class="content bindings-mac">
+      <h1>Keyboard Shortcuts</h1>
+      <table>
+        <tbody>
+          <tr>
+            <td>Undo</td>
+            <td class="binding">⌘ + Z</td>
+          </tr>
+          <tr>
+            <td>Redo</td>
+            <td class="binding">⌘ + ⇧ + Z</td>
+          </tr>
+          <tr>
+            <td>Select All</td>
+            <td class="binding">⌘ + A</td>
+          </tr>
+          <tr>
+            <td>Scrolling (Vertical)</td>
+            <td class="binding">⌥ + Scrolling</td>
+          </tr>
+          <tr>
+            <td>Scrolling (Horizontal)</td>
+            <td class="binding">⌥ + ⇧ + Scrolling</td>
+          </tr>
+          <tr>
+            <td>Direct Editing</td>
+            <td class="binding">E</td>
+          </tr>
+          <tr>
+            <td>Hand Tool</td>
+            <td class="binding">H</td>
+          </tr>
+          <tr>
+            <td>Lasso Tool</td>
+            <td class="binding">L</td>
+          </tr>
+          <tr>
+            <td>Space Tool</td>
+            <td class="binding">S</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="content bindings-default">
+      <h1>Keyboard Shortcuts</h1>
+      <table>
+        <tbody>
+          <tr>
+            <td>Undo</td>
+            <td class="binding"><code>ctrl + Z</code></td>
+          </tr>
+          <tr>
+            <td>Redo</td>
+            <td class="binding"><code>ctrl + ⇧ + Z</code></td>
+          </tr>
+          <tr>
+            <td>Select All</td>
+            <td class="binding"><code>ctrl + A</code></td>
+          </tr>
+          <tr>
+            <td>Scrolling (Vertical)</td>
+            <td class="binding"><code>ctrl + Scrolling</code></td>
+          </tr>
+          <tr>
+            <td>Scrolling (Horizontal)</td>
+            <td class="binding"><code>ctrl + ⇧ + Scrolling</code></td>
+          </tr>
+          <tr>
+            <td>Direct Editing</td>
+            <td class="binding"><code>E</code></td>
+          </tr>
+          <tr>
+            <td>Hand Tool</td>
+            <td class="binding"><code>H</code></td>
+          </tr>
+          <tr>
+            <td>Lasso Tool</td>
+            <td class="binding"><code>L</code></td>
+          </tr>
+          <tr>
+            <td>Space Tool</td>
+            <td class="binding"><code>S</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script async="" src="./process_files/analytics.js"></script><script src="./process_files/polyfills.js"></script>
+  <script src="./process_files/sentry.js"></script>
+  <script src="./process_files/app.js" async=""></script>
+  <script src="./process_files/analytics(1).js" async=""></script>
+
+  <!-- c53bea9fbbab6d391baa255a26ed8129b70f362c -->
+
+<input type="file" style="width: 1px; height: 1px; display: none; overflow: hidden;"><svg id="helper-svg" width="0" height="0" style="visibility: hidden; position: fixed"></svg></body></html>

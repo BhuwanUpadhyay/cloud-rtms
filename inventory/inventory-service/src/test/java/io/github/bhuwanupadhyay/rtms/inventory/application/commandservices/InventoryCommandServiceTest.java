@@ -1,10 +1,11 @@
 package io.github.bhuwanupadhyay.rtms.inventory.application.commandservices;
 
+import io.github.bhuwanupadhyay.rtms.inventory.application.outboundservices.acl.ExternalWorkflowEngineService;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.InventoryId;
 import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.InventoryDomainRepository;
 import io.github.bhuwanupadhyay.rtms.rules.ProblemAssertions;
-import io.github.bhuwanupadhyay.rtms.rules.Result;
+import io.github.bhuwanupadhyay.rtms.core.Result;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
@@ -28,10 +29,12 @@ class InventoryCommandServiceTest {
   private InventoryCommandService commandService;
   @Mock
   private InventoryDomainRepository repository;
+  @Mock
+  private ExternalWorkflowEngineService workflowEngineService;
 
   @BeforeEach
   void setUp() {
-    this.commandService = new InventoryCommandService(validator, repository);
+    this.commandService = new InventoryCommandService(validator, repository, workflowEngineService);
   }
 
   @Test

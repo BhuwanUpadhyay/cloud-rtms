@@ -1,21 +1,17 @@
-package io.github.bhuwanupadhyay.rtms.rules;
+package io.github.bhuwanupadhyay.rtms.core;
 
+import io.github.bhuwanupadhyay.rtms.rules.Problem;
 import lombok.Builder;
 
 import java.util.*;
-import java.util.function.Supplier;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Builder
 public class Result<R> {
 
   private final R result;
   private final List<Problem> problems;
-
-  public static <T> Result<T> onExecute(Supplier<Result<T>> command) {
-    Result<T> result = command.get();
-    return result.ok().map(e -> Result.<T>builder().result(e).build())
-        .orElseGet(() -> Result.<T>builder().problems(result.getProblems()).build());
-  }
 
   public List<Problem> getProblems() {
     return Collections.unmodifiableList(
@@ -29,11 +25,27 @@ public class Result<R> {
     return Optional.empty();
   }
 
+  public <T> Result<T> map(Function<R, Result<T>> func) {
+    if (isOk()) {
+      return func.apply(this.result);
+    }
+    return Result.<T>builder().problems(this.problems).build();
+  }
+
+
   public boolean isOk() {
     return Optional.ofNullable(problems).map(List::isEmpty).orElse(true) && Objects.nonNull(result);
   }
 
   public boolean isBad() {
     return !isOk();
+  }
+
+  public Result<R> peek(Consumer<R> func) {
+    if (isOk()) {
+      func.accept(this.result);
+      return Result.<R>builder().result(this.result).build();
+    }
+    return Result.<R>builder().problems(this.problems).build();
   }
 }

@@ -1,5 +1,6 @@
 package io.github.bhuwanupadhyay.rtms.rules;
 
+import io.github.bhuwanupadhyay.rtms.core.Result;
 import org.assertj.core.api.AbstractAssert;
 
 public final class ProblemAssertions {

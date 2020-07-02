@@ -1,7 +1,7 @@
 package io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest;
 
 import io.github.bhuwanupadhyay.rtms.ddd.DomainEntityNotFound;
-import io.github.bhuwanupadhyay.rtms.ddd.DomainException;
+import io.github.bhuwanupadhyay.rtms.rules.ProblemException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ public class Routers {
               } catch (DomainEntityNotFound ex) {
                 logException(ex);
                 return ServerResponse.notFound().build();
-              } catch (DomainException ex) {
+              } catch (ProblemException ex) {
                 logException(ex);
                 return ServerResponse.badRequest().build();
               } catch (Exception ex) {

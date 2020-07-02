@@ -14,24 +14,12 @@
   <dependencies>
     <dependency>
       <groupId>io.github.bhuwanupadhyay.rtms</groupId>
-      <artifactId>ddd-core</artifactId>
+      <artifactId>shared-kernel</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.bhuwanupadhyay.rtms</groupId>
-      <artifactId>business-rules</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.bhuwanupadhyay.rtms</groupId>
-      <artifactId>business-rules</artifactId>
-      <version>${project.version}</version>
-      <classifier>tests</classifier>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.github.bhuwanupadhyay.rtms</groupId>
-      <artifactId>ddd-core</artifactId>
+      <artifactId>shared-kernel</artifactId>
       <version>${project.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>

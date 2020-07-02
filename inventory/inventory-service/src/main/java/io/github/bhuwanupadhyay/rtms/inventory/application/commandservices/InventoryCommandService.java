@@ -2,11 +2,12 @@ package io.github.bhuwanupadhyay.rtms.inventory.application.commandservices;
 
 import io.github.bhuwanupadhyay.rtms.command.CommandService;
 import io.github.bhuwanupadhyay.rtms.command.WorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.core.Result;
+import io.github.bhuwanupadhyay.rtms.inventory.application.outboundservices.acl.ExternalWorkflowEngineService;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.InventoryId;
 import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.InventoryDomainRepository;
-import io.github.bhuwanupadhyay.rtms.rules.Result;
 import io.github.bhuwanupadhyay.rtms.rules.SyntaxRules;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,42 +24,28 @@ public class InventoryCommandService
 
   private final Validator validator;
   private final InventoryDomainRepository repository;
+  private final ExternalWorkflowEngineService workflowService;
 
   @Override
   @Transactional
   public Result<InventoryId> create(InventoryCreateCommand command) {
     Result<InventoryCreateCommand> syntax = new SyntaxRules<InventoryCreateCommand>(validator).apply(command);
-
-    Result<Inventory> result = syntax
-        .ok()
-        .map(c -> Result.onExecute(() -> new Inventory(this.repository.nextId()).execute(c)))
-        .orElseGet(() -> Result.<Inventory>builder().problems(syntax.getProblems()).build());
-
-    return savedResult(result);
+    return syntax
+        .map(c -> new Inventory(this.repository.nextId()).execute(c))
+        .map(inventory -> inventory.execute(workflowService.startWorkflow()))
+        .peek(repository::save)
+        .map(inventory -> Result.<InventoryId>builder().result(inventory.getId()).build());
   }
 
   @Override
   @Transactional
   public Result<InventoryId> workflow(WorkflowCommand command) {
     Result<WorkflowCommand> syntax = new SyntaxRules<WorkflowCommand>(validator).apply(command);
-
-    Result<Inventory> result = syntax
-        .ok()
-        .map(c -> Result.onExecute(() -> runWorkflow(c)))
-        .orElseGet(() -> Result.<Inventory>builder().problems(syntax.getProblems()).build());
-
-    return savedResult(result);
+    return syntax
+        .map(c -> repository.find(new InventoryId(c.getReference())).execute(c))
+        .peek(inventory -> workflowService.submitTask())
+        .peek(repository::save)
+        .map(inventory -> Result.<InventoryId>builder().result(inventory.getId()).build());
   }
 
-  private Result<Inventory> runWorkflow(WorkflowCommand command) {
-    return repository.find(new InventoryId(command.getReference())).execute(command);
-  }
-
-  private Result<InventoryId> savedResult(Result<Inventory> result) {
-    return result
-        .ok()
-        .map(repository::save)
-        .map(id -> Result.<InventoryId>builder().result(id).build())
-        .orElseGet(() -> Result.<InventoryId>builder().problems(result.getProblems()).build());
-  }
 }

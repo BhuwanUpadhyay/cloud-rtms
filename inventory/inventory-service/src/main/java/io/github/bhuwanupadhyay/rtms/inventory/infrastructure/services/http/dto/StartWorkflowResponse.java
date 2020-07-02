@@ -1,4 +1,9 @@
 package io.github.bhuwanupadhyay.rtms.inventory.infrastructure.services.http.dto;
 
-public class WorkflowResponse {
+import lombok.Data;
+
+@Data
+public class StartWorkflowResponse {
+
+  private String processInstanceId;
 }

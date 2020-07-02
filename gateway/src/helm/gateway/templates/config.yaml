@@ -21,6 +21,10 @@ data:
               uri: http://{{ .Release.Name }}-inventory-service
               predicates:
                 - Path=/inventories
+            - id: workflow-engine
+              uri: http://{{ .Release.Name }}-workflow-engine
+              predicates:
+                - Path=/workflows
         loadbalancer:
           cache:
             enabled: true

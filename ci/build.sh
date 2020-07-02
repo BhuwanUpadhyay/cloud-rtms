@@ -18,14 +18,14 @@ case ${option} in
       ;;
    --publish)
       # Publish Docker Images
-      for i in "gateway" "inventory-service" ; do
+      for i in "gateway" "workflow-engine" "inventory-service" ; do
         echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         docker push docker.io/bhuwanupadhyay/$i:"$next_version"
         echo "----------------------------------------------"
       done
 
       # Publish Helm Charts
-      for i in "gateway" "inventory/inventory-service" ; do
+      for i in "gateway" "workflow-engine" "inventory/inventory-service" ; do
         echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         HELM_CHART="$(sed 's/.*\///' <<< $i)-$next_version.tgz"
         HELM_CHART_FILE_PATH="$i/target/helm/repo/$HELM_CHART"

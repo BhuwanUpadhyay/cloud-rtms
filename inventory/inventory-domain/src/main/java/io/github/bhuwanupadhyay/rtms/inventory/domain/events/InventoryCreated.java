@@ -12,7 +12,7 @@ public class InventoryCreated extends DomainEvent {
   private final String status;
 
   public InventoryCreated(Inventory inventory) {
-    this.inventoryId = inventory.getId().getReference();
+    this.inventoryId = inventory.getId().getRefNo();
     this.inventoryName = inventory.getInventoryName().getName();
     this.status = inventory.getStatus().name();
   }

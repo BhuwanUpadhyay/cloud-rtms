@@ -17,12 +17,12 @@ import java.util.Objects;
 @Getter
 public class ProductId extends ValueObject {
 
-  @Column(name = InventoryDb.PRODUCT_ID)
+  @Column(name = InventoryDb.PRODUCT_REF_NO)
   @NotBlank(message = "{ProductId.NotBlank.message}", groups = SyntaxRule.class)
-  private String productId;
+  private String refNo;
 
-  public ProductId(String productId) {
-    this.productId = productId;
+  public ProductId(String refNo) {
+    this.refNo = refNo;
   }
 
   @Override
@@ -30,11 +30,11 @@ public class ProductId extends ValueObject {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ProductId productId = (ProductId) o;
-    return Objects.equals(this.productId, productId.productId);
+    return Objects.equals(this.refNo, productId.refNo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(productId);
+    return Objects.hash(refNo);
   }
 }

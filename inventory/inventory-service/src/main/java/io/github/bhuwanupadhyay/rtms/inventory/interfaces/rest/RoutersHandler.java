@@ -111,14 +111,14 @@ public class RoutersHandler {
 
   private InventoryIdResource toResource(InventoryId inventoryId) {
     return InventoryIdResource.builder()
-        .inventoryId(inventoryId.getReference())
+        .inventoryId(inventoryId.getRefNo())
         ._link(linkOfGet(inventoryId))
         .build();
   }
 
   private InventoryResource toResource(Inventory inventory, List<Link> links) {
     return InventoryResource.builder()
-        .inventoryId(inventory.getId().getReference())
+        .inventoryId(inventory.getId().getRefNo())
         .createdAt(iso().format(inventory.getCreatedAt()))
         .name(inventory.getInventoryName().getName())
         .productLines(
@@ -127,7 +127,7 @@ public class RoutersHandler {
                     version ->
                         ProductLineResource.builder()
                             .quantity(version.getQuantity().getQuantity())
-                            .productId(version.getProductId().getProductId())
+                            .productId(version.getProductId().getRefNo())
                             .build())
                 .collect(Collectors.toList()))
         ._links(links)
@@ -138,7 +138,7 @@ public class RoutersHandler {
     return Link.builder()
         .rel("get")
         .method("GET")
-        .path("/inventories/" + id.getReference())
+        .path("/inventories/" + id.getRefNo())
         .build();
   }
 
@@ -157,7 +157,7 @@ public class RoutersHandler {
                 Link.builder()
                     .rel(action)
                     .method("PUT")
-                    .path("/inventories/" + id.getReference() + "/" + action)
+                    .path("/inventories/" + id.getRefNo() + "/" + action)
                     .build())
         .collect(Collectors.toList());
   }

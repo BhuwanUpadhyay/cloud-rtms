@@ -1,17 +1,16 @@
 package io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates;
 
+import io.github.bhuwanupadhyay.rtms.command.RegisterWorkflowCommand;
 import io.github.bhuwanupadhyay.rtms.command.WorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.core.Result;
 import io.github.bhuwanupadhyay.rtms.ddd.AggregateRoot;
-import io.github.bhuwanupadhyay.rtms.ddd.DomainAsserts;
-import io.github.bhuwanupadhyay.rtms.ddd.DomainError;
-import io.github.bhuwanupadhyay.rtms.ddd.DomainException;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.InventoryCreated;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowRegistered;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowExecuted;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
 import io.github.bhuwanupadhyay.rtms.rules.Problem;
-import io.github.bhuwanupadhyay.rtms.rules.Result;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +40,9 @@ public class Inventory extends AggregateRoot<InventoryId> {
   @Column(name = InventoryDb.STATUS)
   private InventoryStatus status;
 
+  @Embedded
+  private WorkflowInfo workflowInfo;
+
   @ElementCollection(fetch = FetchType.LAZY)
   private List<UserComment> userComments = new ArrayList<>();
 
@@ -60,22 +62,29 @@ public class Inventory extends AggregateRoot<InventoryId> {
     return Result.<Inventory>builder().result(this).problems(problems).build();
   }
 
+  public Result<Inventory> execute(RegisterWorkflowCommand command) {
+    log.debug("Params => {}", command);
+    List<Problem> problems = new ArrayList<>();
+    this.workflowInfo = new WorkflowInfo(command.getProcessId(), command.getCurrentProcess(), command.getCurrentTask());
+    this.status = InventoryStatus.CREATED;
+    this.registerEvent(new WorkflowRegistered(this.workflowInfo));
+    log.info("Executed {} {}", command.getClass().getName(), command);
+    return Result.<Inventory>builder().result(this).problems(problems).build();
+  }
+
   public Result<Inventory> execute(WorkflowCommand command) {
     log.debug("Params => {}", command);
 
     List<Problem> problems = new ArrayList<>();
 
     if (!this.getStatus().getNextActions().contains(command.getAction())) {
-      throw new DomainException(List.of(DomainError.create(this, "WorkflowActionIsInvalid").get()));
+
     }
 
     this.userComments = Optional.ofNullable(this.userComments).orElseGet(ArrayList::new);
     this.userComments.add(new UserComment("SYSTEM", command.getAction(), command.getComment()));
 
     if (Actions.REPAIR.equals(command.getAction())) {
-      DomainAsserts.begin(command.getPayloadJson())
-          .notBlank(DomainError.create(this, "WorkflowPayloadJsonIsRequiredForRepair"))
-          .end();
       String payload = command.getPayloadJson();
     }
 
@@ -93,4 +102,5 @@ public class Inventory extends AggregateRoot<InventoryId> {
   public List<UserComment> getUserComments() {
     return Collections.unmodifiableList(this.userComments);
   }
+
 }

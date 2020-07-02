@@ -111,7 +111,7 @@
     <!-- Test -->
     <dependency>
       <groupId>io.github.bhuwanupadhyay.rtms</groupId>
-      <artifactId>business-rules</artifactId>
+      <artifactId>shared-kernel</artifactId>
       <version>${project.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>

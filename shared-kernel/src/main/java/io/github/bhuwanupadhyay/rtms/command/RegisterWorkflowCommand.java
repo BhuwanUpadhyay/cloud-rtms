@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class AssignProcessCommand {
+public class RegisterWorkflowCommand {
 
   private final String processId;
   private final String currentTask;

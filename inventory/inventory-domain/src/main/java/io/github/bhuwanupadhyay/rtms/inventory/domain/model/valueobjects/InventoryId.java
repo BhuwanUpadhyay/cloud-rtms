@@ -1,7 +1,5 @@
 package io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects;
 
-import io.github.bhuwanupadhyay.rtms.ddd.DomainAsserts;
-import io.github.bhuwanupadhyay.rtms.ddd.DomainError;
 import io.github.bhuwanupadhyay.rtms.ddd.ValueObject;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
 import io.github.bhuwanupadhyay.rtms.rules.SyntaxRule;
@@ -19,15 +17,12 @@ import java.util.Objects;
 @Getter
 public class InventoryId extends ValueObject {
 
-  @Column(name = InventoryDb.REFERENCE)
+  @Column(name = InventoryDb.REF_NO)
   @NotBlank(message = "{InventoryId.NotBlank.message}", groups = SyntaxRule.class)
-  private String reference;
+  private String refNo;
 
-  public InventoryId(String reference) {
-    DomainAsserts.begin(reference)
-        .notBlank(DomainError.create(this, "InventoryIdIsRequired"))
-        .end();
-    this.reference = reference;
+  public InventoryId(String refNo) {
+    this.refNo = refNo;
   }
 
   @Override
@@ -35,11 +30,11 @@ public class InventoryId extends ValueObject {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     InventoryId that = (InventoryId) o;
-    return Objects.equals(reference, that.reference);
+    return Objects.equals(refNo, that.refNo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(reference);
+    return Objects.hash(refNo);
   }
 }
