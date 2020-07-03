@@ -11,7 +11,16 @@ management:
 spring:
   application:
     name: workflow-engine
+  jersey:
+    application-path: /workflows
 
-server:
-  servlet:
-    context-path: /workflows
+camunda:
+  bpm:
+    admin-user:
+      id: demo
+      password: demo
+    history-level: full
+    process-engine-name: default
+    database:
+      schema-update: true
+    id-generator: strong

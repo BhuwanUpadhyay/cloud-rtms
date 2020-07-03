@@ -62,4 +62,4 @@ spring:
       - org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration
       - org.springframework.cloud.client.serviceregistry.ServiceRegistryAutoConfiguration
 app:
-  workflow-engine-url: http://localhost:8080/workflows
+  workflow-engine-url: http://localhost:8080

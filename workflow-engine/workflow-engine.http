@@ -1,0 +1,16 @@
+POST http://localhost:8080/workflows/process-definition/key/RtmProcess/start
+Content-Type: application/json
+
+{
+  "variables": {
+    "action": {
+      "value": "saveRequest",
+      "type": "string"
+    }
+  }
+}
+
+###
+GET http://localhost:8080/workflows/task?processInstanceId=1344d565-bcd7-11ea-9842-d62008305809
+
+

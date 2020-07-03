@@ -5,6 +5,7 @@ import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.InventoryId;
 import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.services.http.ExternalWorkflowEngineClient;
 import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.services.http.ExternalWorkflowEngineClient.TaskResponse;
+import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.services.http.ExternalWorkflowEngineClient.FormValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import static io.github.bhuwanupadhyay.rtms.inventory.infrastructure.services.ht
 @Service
 @RequiredArgsConstructor
 public class ExternalWorkflowEngineService {
+  public static final String ACTION = "action";
   private static final String REF_NO = "refNo";
   private static final String SOURCE_SERVICE = "sourceService";
   private static final String SAVE_REQUEST = "saveRequest";
@@ -26,10 +28,10 @@ public class ExternalWorkflowEngineService {
   private final ExternalWorkflowEngineClient workflowEngineClient;
 
   public RegisterWorkflowCommand startWorkflow(InventoryId inventoryId) {
-    Map<String, Object> vars = new HashMap<>();
-    vars.put(REF_NO, inventoryId.getRefNo());
-    vars.put(SOURCE_SERVICE, "Inventory");
-    vars.put(SAVE_REQUEST, true);
+    Map<String, FormValue> vars = new HashMap<>();
+    vars.put(REF_NO, FormValue.ofString(inventoryId.getRefNo()));
+    vars.put(SOURCE_SERVICE, FormValue.ofString("Inventory"));
+    vars.put(ACTION, FormValue.ofString("saveRequest"));
     WorkflowResponse response = workflowEngineClient.startWorkflow(PROCESS, new FormRequest(vars));
     return RegisterWorkflowCommand
         .builder()
@@ -46,7 +48,8 @@ public class ExternalWorkflowEngineService {
       throw new RuntimeException("");
     }
     TaskResponse response = taskResponse.get();
-    Map<String, Object> vars = new HashMap<>();
+    Map<String, FormValue> vars = new HashMap<>();
+    vars.put(ACTION, FormValue.ofString("saveRequest"));
     workflowEngineClient.submitForm(response.getId(), new FormRequest(vars));
   }
 
