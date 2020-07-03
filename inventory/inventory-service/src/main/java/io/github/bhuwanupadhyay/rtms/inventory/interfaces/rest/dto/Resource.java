@@ -11,7 +11,7 @@ import lombok.Value;
 @Value
 @JsonDeserialize(builder = Resource.Builder.class)
 public class Resource {
-  @Singular private final List<Link> _links;
+  @Singular private final List<Link> links;
 
   @JsonPOJOBuilder(withPrefix = "")
   public static final class Builder {}

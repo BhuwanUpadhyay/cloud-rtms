@@ -12,7 +12,7 @@ import lombok.Value;
 @JsonDeserialize(builder = InventoryIdResource.Builder.class)
 public class InventoryIdResource {
   private final String inventoryId;
-  @Singular private final List<Link> _links;
+  @Singular private final List<Link> links;
 
   @JsonPOJOBuilder(withPrefix = "")
   public static final class Builder {}

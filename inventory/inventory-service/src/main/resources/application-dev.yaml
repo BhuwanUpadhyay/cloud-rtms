@@ -8,5 +8,9 @@ spring:
         enabled: false
 server:
   port: 8082
+
+
 app:
-  workflow-engine-url: http://localhost:8081/workflows
+  workflow-engine:
+    url: http://localhost:8081
+    base-path: /workflows

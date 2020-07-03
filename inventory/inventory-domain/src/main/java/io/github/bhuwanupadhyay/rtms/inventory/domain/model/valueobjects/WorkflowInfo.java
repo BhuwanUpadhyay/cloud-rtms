@@ -29,6 +29,7 @@ public class WorkflowInfo {
     this.processId = processId;
     this.currentProcess = currentProcess;
     this.currentTask = currentTask;
+    this.workflowStatus = workflowStatus;
   }
 
   public void onAction(String action) {

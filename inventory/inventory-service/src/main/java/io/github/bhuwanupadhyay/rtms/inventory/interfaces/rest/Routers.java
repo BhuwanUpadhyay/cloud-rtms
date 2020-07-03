@@ -17,7 +17,6 @@ public class Routers {
   @Bean
   public RouterFunction<ServerResponse> restRouters(RoutersHandler handler) {
     return RouterFunctions.route()
-        .GET("/inventories/actions", handler::getActions)
         .POST("/inventories", handler::create)
         .GET("/inventories", handler::list)
         .GET("/inventories/{id}", handler::get)

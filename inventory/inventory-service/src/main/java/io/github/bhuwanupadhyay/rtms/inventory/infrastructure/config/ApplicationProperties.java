@@ -15,5 +15,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @ToString
 public class ApplicationProperties {
-  private String workflowEngineUrl;
+  private WorkflowEngine workflowEngine;
+
+  @Getter
+  @Setter
+  @ToString
+  public static class WorkflowEngine {
+    
+    private String url;
+    private String basePath;
+
+  }
 }

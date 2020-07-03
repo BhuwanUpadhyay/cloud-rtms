@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @see https://docs.camunda.org/manual/latest/reference/rest
  */
-@FeignClient(name = "workflow-engine", url = "${app.workflow-engine-url}")
+@FeignClient(name = "workflow-engine", path = "${app.workflow-engine.base-path}", url = "${app.workflow-engine.url}")
 public interface ExternalWorkflowEngineClient {
 
   @RequestMapping(method = RequestMethod.POST, value = "/process-definition/key/{key}/start")

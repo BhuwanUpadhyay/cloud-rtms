@@ -5,6 +5,7 @@ import io.github.bhuwanupadhyay.rtms.inventory.application.commandservices.Inven
 import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
+import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.config.ApplicationProperties;
 import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.repositories.jpa.InventoryQueryRepository;
 import io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest.dto.*;
 import io.github.bhuwanupadhyay.rtms.rules.ProblemException;
@@ -13,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -31,11 +31,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 public class RoutersHandler {
   private final InventoryQueryRepository queryRepository;
   private final InventoryCommandService commandService;
-
-  public Mono<ServerResponse> getActions(ServerRequest request) {
-    return ServerResponse.ok()
-        .body(fromValue(Resource.builder()._link(linkOfCreate())._link(linkOfList()).build()));
-  }
+  private final ApplicationProperties applicationProperties;
 
   public Mono<ServerResponse> create(ServerRequest request) {
     return request
@@ -113,7 +109,7 @@ public class RoutersHandler {
   private InventoryIdResource toResource(InventoryId inventoryId) {
     return InventoryIdResource.builder()
         .inventoryId(inventoryId.getRefNo())
-        ._link(linkOfGet(inventoryId))
+        .link(linkOfGet(inventoryId))
         .build();
   }
 
@@ -131,7 +127,7 @@ public class RoutersHandler {
                             .productId(version.getProductId().getRefNo())
                             .build())
                 .collect(Collectors.toList()))
-        ._links(links)
+        .links(links)
         .build();
   }
 
@@ -139,17 +135,9 @@ public class RoutersHandler {
     return Link.builder().rel("GetByRefNo").method("GET").path("/inventories/" + id.getRefNo()).build();
   }
 
-  private Link linkOfCreate() {
-    return Link.builder().rel("create").method("POST").path("/inventories").build();
-  }
-
-  private Link linkOfList() {
-    return Link.builder().rel("ListByPage").method("GET").path("/inventories").build();
-  }
-
   private List<Link> linksOfGetTask(WorkflowInfo workflowInfo) {
     return workflowInfo.getWorkflowStatus().isOpened()
-        ? List.of(Link.builder().rel("GetTaskByProcessId").method("GET").path("/workflows/task?processInstanceId=" + workflowInfo.getProcessId()).build())
+        ? List.of(Link.builder().rel("GetTaskByProcessId").method("GET").path(applicationProperties.getWorkflowEngine().getBasePath() + "/task?processInstanceId=" + workflowInfo.getProcessId()).build())
         : List.of();
   }
 

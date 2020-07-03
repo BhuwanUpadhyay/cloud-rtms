@@ -15,7 +15,7 @@ public class InventoryResource {
   private final String name;
   @Singular private final List<ProductLineResource> productLines;
   private final String createdAt;
-  @Singular private final List<Link> _links;
+  @Singular private final List<Link> links;
 
   @JsonPOJOBuilder(withPrefix = "")
   public static final class Builder {}
