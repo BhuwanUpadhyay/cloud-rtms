@@ -44,7 +44,7 @@ Feature: E2E Test - Inventories
     And match $.links[0].rel == 'reSaveRequest'
     And match $.links[1].rel == 'requestProceed'
 
-  # PUT ---> action -> reSaveRequest
+  # PUT ---> action -> requestProceed
     * def ACTION = $.links[1].path
     And request
     """
