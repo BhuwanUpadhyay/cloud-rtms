@@ -41,14 +41,27 @@ Feature: E2E Test - Inventories
     And match $.name == 'Los Vegas Inventory'
     And match $.productLines[0].quantity == 20
     And match $.productLines[0].productId == 'PRODUCT 1'
+    And match $.links[0].rel == 'DataEntry'
 
-  # GET ---> task
-    * def GET_TASK = $.links[0].path
-    * def PROCESS_ID = getTaskInfoByIndex(GET_TASK, 1)
-    * def TASK_URI = getTaskInfoByIndex(GET_TASK, 0)
-    Given path TASK_URI
-    * param processInstanceId = PROCESS_ID
+  # PUT ---> action
+    * def ACTION = $.links[0].path
+    And request
+    """
+      {
+        "confirm" : "YES",
+        "comment" : "My action."
+      }
+    """
+    Given path ACTION
+    When method PUT
+    Then status 200
+
+  # GET ---> inventory
+    Given path inventoryBase,'/',ID
     When method GET
     Then status 200
-    And match $[0].name == 'DataEntry'
-    And match $[0].processInstanceId == PROCESS_ID
+    And match $.inventoryId == ID
+    And match $.name == 'Los Vegas Inventory'
+    And match $.productLines[0].quantity == 20
+    And match $.productLines[0].productId == 'PRODUCT 1'
+    And match $.links[0].name == 'Verify'

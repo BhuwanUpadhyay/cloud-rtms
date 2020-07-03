@@ -2,6 +2,7 @@ package io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest;
 
 import io.github.bhuwanupadhyay.rtms.command.WorkflowCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.application.commandservices.InventoryCommandService;
+import io.github.bhuwanupadhyay.rtms.inventory.application.queryservices.WorkflowTaskQueryService;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
@@ -32,10 +33,11 @@ public class RoutersHandler {
   private final InventoryQueryRepository queryRepository;
   private final InventoryCommandService commandService;
   private final ApplicationProperties applicationProperties;
+  private final WorkflowTaskQueryService workflowTaskQueryService;
 
   public Mono<ServerResponse> create(ServerRequest request) {
     return request
-        .bodyToMono(CreateInventoryResource.class)
+        .bodyToMono(InventoryRequest.class)
         .flatMap(
             r -> commandService.create(toCommand(r))
                 .ok()
@@ -69,22 +71,22 @@ public class RoutersHandler {
         .findOne(new InventoryId(id))
         .map(
             inventory ->
-                toResource(inventory, linksOfGetTask(inventory.getWorkflowInfo())))
+                toResource(inventory, linksOfGetTask(inventory)))
         .map(inventoryResource -> ServerResponse.ok().body(fromValue(inventoryResource)))
         .orElseGet(() -> ServerResponse.notFound().build());
   }
 
   public Mono<ServerResponse> workflow(ServerRequest request) {
     return request
-        .bodyToMono(WorkflowResource.class)
+        .bodyToMono(WorkflowRequest.class)
         .flatMap(
-            r -> commandService.workflow(toCommand(request.pathVariable("id"), r))
+            r -> commandService.workflow(toCommand(request, r))
                 .ok()
                 .map(id -> ServerResponse.status(HttpStatus.OK).body(fromValue(toResource(id)))).orElseThrow(ProblemException::new)
         );
   }
 
-  private InventoryCreateCommand toCommand(CreateInventoryResource it) {
+  private InventoryCreateCommand toCommand(InventoryRequest it) {
     return InventoryCreateCommand.builder()
         .inventoryName(new InventoryName(it.getName()))
         .productLines(
@@ -97,10 +99,12 @@ public class RoutersHandler {
         .build();
   }
 
-  private WorkflowCommand toCommand(String id, WorkflowResource resource) {
+  private WorkflowCommand toCommand(ServerRequest request, WorkflowRequest resource) {
     return WorkflowCommand.builder()
-        .reference(id)
-        .action(resource.getAction())
+        .reference(request.pathVariable("id"))
+        .action(request.pathVariable("action"))
+        .taskId(request.pathVariable("taskId"))
+        .confirm(resource.getConfirm())
         .comment(resource.getComment())
         .payloadJson(resource.getPayloadJson())
         .build();
@@ -135,10 +139,16 @@ public class RoutersHandler {
     return Link.builder().rel("GetByRefNo").method("GET").path("/inventories/" + id.getRefNo()).build();
   }
 
-  private List<Link> linksOfGetTask(WorkflowInfo workflowInfo) {
-    return workflowInfo.getWorkflowStatus().isOpened()
-        ? List.of(Link.builder().rel("GetTaskByProcessId").method("GET").path(applicationProperties.getWorkflowEngine().getBasePath() + "/task?processInstanceId=" + workflowInfo.getProcessId()).build())
-        : List.of();
+  private List<Link> linksOfGetTask(Inventory inventory) {
+    WorkflowInfo workflowInfo = inventory.getWorkflowInfo();
+    if (workflowInfo.getWorkflowStatus().isOpened()) {
+      return workflowTaskQueryService.getTaskInfos(workflowInfo)
+          .stream()
+          .map(taskInfo -> Link.builder()
+              .rel(taskInfo.getName()).method("PUT")
+              .path("/inventories/" + inventory.getId().getRefNo() + "/tasks/" + taskInfo.getId() + "/" + taskInfo.getName()).build()).collect(Collectors.toList());
+    }
+    return List.of();
   }
 
   private DateTimeFormatter iso() {

@@ -30,6 +30,7 @@ public interface ExternalWorkflowEngineClient {
   @Getter
   class TaskResponse {
     private String id;
+    private String name;
   }
 
   @Getter

@@ -8,6 +8,7 @@ import lombok.Getter;
 public class WorkflowCommand implements Command {
 
   private final String reference;
+  private final String taskId;
   private final String action;
   private final String confirm;
   private final String comment;

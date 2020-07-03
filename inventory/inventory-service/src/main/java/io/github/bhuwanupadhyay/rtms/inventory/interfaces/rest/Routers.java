@@ -20,7 +20,7 @@ public class Routers {
         .POST("/inventories", handler::create)
         .GET("/inventories", handler::list)
         .GET("/inventories/{id}", handler::get)
-        .PUT("/inventories/{id}/{action}", handler::workflow)
+        .PUT("/inventories/{id}/tasks/{taskId}/{action}", handler::workflow)
         .filter(
             (request, next) -> {
               try {

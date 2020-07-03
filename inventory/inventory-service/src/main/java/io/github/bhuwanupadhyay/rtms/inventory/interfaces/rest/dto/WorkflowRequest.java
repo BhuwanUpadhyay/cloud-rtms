@@ -7,12 +7,13 @@ import lombok.Value;
 
 @Builder(builderClassName = "Builder")
 @Value
-@JsonDeserialize(builder = WorkflowResource.Builder.class)
-public class WorkflowResource {
-  private final String action;
+@JsonDeserialize(builder = WorkflowRequest.Builder.class)
+public class WorkflowRequest {
+  private final String confirm;
   private final String payloadJson;
   private final String comment;
 
   @JsonPOJOBuilder(withPrefix = "")
-  public static final class Builder {}
+  public static final class Builder {
+  }
 }
