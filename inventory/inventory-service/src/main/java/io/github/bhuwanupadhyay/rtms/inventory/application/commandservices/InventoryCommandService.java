@@ -43,7 +43,7 @@ public class InventoryCommandService
     Result<WorkflowCommand> syntax = new SyntaxRules<WorkflowCommand>(validator).apply(command);
     return syntax
         .map(c -> repository.find(new InventoryId(c.getReference())).execute(c))
-        .peek(workflowService::submitTask)
+        .peek(e -> workflowService.submitTask(command))
         .peek(repository::save)
         .map(e -> Result.<InventoryId>builder().result(e.getId()).build());
   }

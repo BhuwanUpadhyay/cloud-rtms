@@ -41,10 +41,11 @@ Feature: E2E Test - Inventories
     And match $.name == 'Los Vegas Inventory'
     And match $.productLines[0].quantity == 20
     And match $.productLines[0].productId == 'PRODUCT 1'
-    And match $.links[0].rel == 'DataEntry'
+    And match $.links[0].rel == 'reSaveRequest'
+    And match $.links[1].rel == 'requestProceed'
 
-  # PUT ---> action
-    * def ACTION = $.links[0].path
+  # PUT ---> action -> reSaveRequest
+    * def ACTION = $.links[1].path
     And request
     """
       {
@@ -64,4 +65,6 @@ Feature: E2E Test - Inventories
     And match $.name == 'Los Vegas Inventory'
     And match $.productLines[0].quantity == 20
     And match $.productLines[0].productId == 'PRODUCT 1'
-    And match $.links[0].name == 'Verify'
+    And match $.links[0].rel == 'accept'
+    And match $.links[1].rel == 'reject'
+    And match $.links[2].rel == 'repair'

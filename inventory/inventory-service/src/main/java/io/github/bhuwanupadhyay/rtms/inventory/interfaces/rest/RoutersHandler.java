@@ -2,7 +2,7 @@ package io.github.bhuwanupadhyay.rtms.inventory.interfaces.rest;
 
 import io.github.bhuwanupadhyay.rtms.command.WorkflowCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.application.commandservices.InventoryCommandService;
-import io.github.bhuwanupadhyay.rtms.inventory.application.queryservices.WorkflowTaskQueryService;
+import io.github.bhuwanupadhyay.rtms.inventory.application.queryservices.WorkflowQueryService;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
@@ -32,8 +32,7 @@ import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 public class RoutersHandler {
   private final InventoryQueryRepository queryRepository;
   private final InventoryCommandService commandService;
-  private final ApplicationProperties applicationProperties;
-  private final WorkflowTaskQueryService workflowTaskQueryService;
+  private final WorkflowQueryService workflowQueryService;
 
   public Mono<ServerResponse> create(ServerRequest request) {
     return request
@@ -136,17 +135,17 @@ public class RoutersHandler {
   }
 
   private Link linkOfGet(InventoryId id) {
-    return Link.builder().rel("GetByRefNo").method("GET").path("/inventories/" + id.getRefNo()).build();
+    return Link.builder().rel("self").method("GET").path("/inventories/" + id.getRefNo()).build();
   }
 
   private List<Link> linksOfGetTask(Inventory inventory) {
     WorkflowInfo workflowInfo = inventory.getWorkflowInfo();
     if (workflowInfo.getWorkflowStatus().isOpened()) {
-      return workflowTaskQueryService.getTaskInfos(workflowInfo)
+      return workflowQueryService.getActions(workflowInfo)
           .stream()
-          .map(taskInfo -> Link.builder()
-              .rel(taskInfo.getName()).method("PUT")
-              .path("/inventories/" + inventory.getId().getRefNo() + "/tasks/" + taskInfo.getId() + "/" + taskInfo.getName()).build()).collect(Collectors.toList());
+          .map(info -> Link.builder()
+              .rel(info.getAction()).method("PUT")
+              .path("/inventories/" + inventory.getId().getRefNo() + "/tasks/" + info.getTaskId() + "/" + info.getAction()).build()).collect(Collectors.toList());
     }
     return List.of();
   }

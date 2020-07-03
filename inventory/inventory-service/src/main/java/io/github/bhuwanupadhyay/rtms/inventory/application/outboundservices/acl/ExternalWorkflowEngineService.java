@@ -1,6 +1,7 @@
 package io.github.bhuwanupadhyay.rtms.inventory.application.outboundservices.acl;
 
 import io.github.bhuwanupadhyay.rtms.command.RegisterWorkflowCommand;
+import io.github.bhuwanupadhyay.rtms.command.WorkflowCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.aggregates.Inventory;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.InventoryId;
 import io.github.bhuwanupadhyay.rtms.inventory.infrastructure.services.http.ExternalWorkflowEngineClient;
@@ -40,16 +41,10 @@ public class ExternalWorkflowEngineService {
         .build();
   }
 
-  public void submitTask(Inventory inventory) {
-    List<TaskResponse> tasks = workflowEngineClient.getTasks(inventory.getWorkflowInfo().getProcessId());
-    Optional<TaskResponse> taskResponse = tasks.stream().findFirst();
-    if (taskResponse.isEmpty()) {
-      throw new RuntimeException("");
-    }
-    TaskResponse response = taskResponse.get();
+  public void submitTask(WorkflowCommand command) {
     Map<String, FormValue> vars = new HashMap<>();
-    vars.put(ACTION, FormValue.ofString("saveRequest"));
-    workflowEngineClient.submitForm(response.getId(), new FormRequest(vars));
+    vars.put(ACTION, FormValue.ofString(command.getAction()));
+    workflowEngineClient.submitForm(command.getTaskId(), new FormRequest(vars));
   }
 
 }

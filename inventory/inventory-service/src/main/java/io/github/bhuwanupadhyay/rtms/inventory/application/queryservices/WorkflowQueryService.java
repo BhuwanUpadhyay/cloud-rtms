@@ -13,16 +13,17 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class WorkflowTaskQueryService {
+public class WorkflowQueryService {
 
   private final ExternalWorkflowEngineClient workflowEngineClient;
 
-  public List<TaskInfo> getTaskInfos(WorkflowInfo workflowInfo) {
+  public List<ActionInfo> getActions(WorkflowInfo workflowInfo) {
     List<TaskResponse> tasks = workflowEngineClient.getTasks(workflowInfo.getProcessId());
     return Optional.ofNullable(tasks)
         .orElseGet(ArrayList::new)
         .stream()
-        .map(TaskInfo::new)
+        .map(ActionInfo::create)
+        .flatMap(List::stream)
         .collect(Collectors.toList());
   }
 

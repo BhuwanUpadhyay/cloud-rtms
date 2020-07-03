@@ -34,9 +34,6 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${action=='accept'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:userTask id="Verify" name="Verify">
-      <bpmn:extensionElements>
-        <camunda:taskListener delegateExpression="${userTaskListener}" event="complete" />
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1hi6f7g</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_09wfddh</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0rc6tgy</bpmn:outgoing>
@@ -46,32 +43,8 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1hi6f7g" sourceRef="Initiate" targetRef="Verify" />
     <bpmn:endEvent id="EndEvent_0bbbzlz" />
-    <bpmn:userTask id="Reject" name="Reject">
-      <bpmn:extensionElements>
-        <camunda:taskListener delegateExpression="${userTaskListener}" event="complete" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0b4fp72</bpmn:incoming>
-      <bpmn:outgoing>Flow_15bhg0l</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:userTask id="Repair" name="Repair">
-      <bpmn:extensionElements>
-        <camunda:taskListener delegateExpression="${userTaskListener}" event="complete" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0ejef5z</bpmn:incoming>
-      <bpmn:outgoing>Flow_0nwm8b0</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:userTask id="Accept" name="Accept">
-      <bpmn:extensionElements>
-        <camunda:taskListener delegateExpression="${userTaskListener}" event="complete" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0sabdh8</bpmn:incoming>
-      <bpmn:outgoing>Flow_0c7q5k4</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_0nwm8b0" sourceRef="Repair" targetRef="DataEntry" />
     <bpmn:userTask id="DataEntry" name="DataEntry">
-      <bpmn:extensionElements>
-        <camunda:taskListener delegateExpression="${userTaskListener}" event="complete" />
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1iirmi2</bpmn:incoming>
       <bpmn:incoming>Flow_0nwm8b0</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_04oub4s</bpmn:incoming>
@@ -101,6 +74,18 @@
     <bpmn:sequenceFlow id="SequenceFlow_04oub4s" sourceRef="ExclusiveGateway_17t1h1n" targetRef="DataEntry">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${action=='reSaveRequest'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Reject" name="Reject" camunda:delegateExpression="${initiateTaskListener}">
+      <bpmn:incoming>SequenceFlow_0b4fp72</bpmn:incoming>
+      <bpmn:outgoing>Flow_15bhg0l</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Accept" name="Accept" camunda:delegateExpression="${initiateTaskListener}">
+      <bpmn:incoming>SequenceFlow_0sabdh8</bpmn:incoming>
+      <bpmn:outgoing>Flow_0c7q5k4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Repair" name="Repair" camunda:delegateExpression="${initiateTaskListener}">
+      <bpmn:incoming>SequenceFlow_0ejef5z</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nwm8b0</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="RtmProcess">
@@ -183,15 +168,6 @@
       <bpmndi:BPMNShape id="ExclusiveGateway_0gwj45i_di" bpmnElement="ExclusiveGateway_0gwj45i" isMarkerVisible="true">
         <dc:Bounds x="805" y="325" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_1pcicod_di" bpmnElement="Repair">
-        <dc:Bounds x="940" y="410" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_1jn5d2s_di" bpmnElement="Accept">
-        <dc:Bounds x="940" y="270" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_01w829z_di" bpmnElement="Reject">
-        <dc:Bounds x="940" y="100" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1st8sqj_di" bpmnElement="ProcessEnd">
         <dc:Bounds x="1142" y="202" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -220,6 +196,15 @@
         <di:waypoint x="450" y="410" />
         <di:waypoint x="450" y="390" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1v3qv2t_di" bpmnElement="Reject">
+        <dc:Bounds x="940" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1128z0e_di" bpmnElement="Accept">
+        <dc:Bounds x="940" y="270" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0p154ea_di" bpmnElement="Repair">
+        <dc:Bounds x="940" y="410" width="100" height="80" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
