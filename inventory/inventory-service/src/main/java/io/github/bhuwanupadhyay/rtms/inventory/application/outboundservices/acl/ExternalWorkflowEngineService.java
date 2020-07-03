@@ -23,7 +23,7 @@ public class ExternalWorkflowEngineService {
   public static final String ACTION = "action";
   private static final String REF_NO = "refNo";
   private static final String SOURCE_SERVICE = "sourceService";
-  private static final String PROCESS = "RtmsProcess";
+  private static final String PROCESS = "RtmProcess";
   private final ExternalWorkflowEngineClient workflowEngineClient;
 
   public RegisterWorkflowCommand startWorkflow(InventoryId inventoryId) {

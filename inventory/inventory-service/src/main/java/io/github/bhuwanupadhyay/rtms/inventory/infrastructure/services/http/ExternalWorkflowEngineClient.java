@@ -3,6 +3,7 @@ package io.github.bhuwanupadhyay.rtms.inventory.infrastructure.services.http;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Map;
  *
  * @see https://docs.camunda.org/manual/latest/reference/rest
  */
+@FeignClient(name = "workflow-engine", url = "${app.workflow-engine-url}")
 public interface ExternalWorkflowEngineClient {
 
   @RequestMapping(method = RequestMethod.POST, value = "/process-definition/key/{key}/start")
