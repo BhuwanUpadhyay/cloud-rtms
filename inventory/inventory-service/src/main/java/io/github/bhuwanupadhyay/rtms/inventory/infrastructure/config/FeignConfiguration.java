@@ -8,24 +8,20 @@ import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.FormHttpMessageConverter;
 
 @Configuration
 public class FeignConfiguration {
 
-  private final ObjectFactory<HttpMessageConverters> messageConverters = HttpMessageConverters::new;
-
   @Bean
   public Encoder feignEncoder() {
-    return new SpringEncoder(messageConverters);
+    ObjectFactory<HttpMessageConverters> objectFactory = () -> new HttpMessageConverters(new FormHttpMessageConverter());
+    return new SpringEncoder(objectFactory);
   }
 
   @Bean
   public Decoder feignDecoder() {
-    return new SpringDecoder(messageConverters);
+    return new SpringDecoder(HttpMessageConverters::new);
   }
-//
-//  @Bean
-//  public RequestInterceptor requestInterceptor() {
-//    return new BasicAuthRequestInterceptor("admin", "admin");
-//  }
+
 }
