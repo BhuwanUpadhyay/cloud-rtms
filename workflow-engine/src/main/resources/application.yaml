@@ -1,0 +1,21 @@
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  server:
+    port: ${server.port}
+    servlet:
+      context-path: /actuator
+
+spring:
+  application:
+    name: workflow-engine
+
+server:
+  servlet:
+    context-path: /workflows

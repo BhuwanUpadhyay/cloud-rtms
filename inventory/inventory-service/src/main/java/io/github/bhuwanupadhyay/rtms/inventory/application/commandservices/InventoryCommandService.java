@@ -32,9 +32,9 @@ public class InventoryCommandService
     Result<InventoryCreateCommand> syntax = new SyntaxRules<InventoryCreateCommand>(validator).apply(command);
     return syntax
         .map(c -> new Inventory(this.repository.nextId()).execute(c))
-        .map(inventory -> inventory.execute(workflowService.startWorkflow()))
+        .map(e -> e.execute(workflowService.startWorkflow(e.getId())))
         .peek(repository::save)
-        .map(inventory -> Result.<InventoryId>builder().result(inventory.getId()).build());
+        .map(e -> Result.<InventoryId>builder().result(e.getId()).build());
   }
 
   @Override
@@ -43,9 +43,9 @@ public class InventoryCommandService
     Result<WorkflowCommand> syntax = new SyntaxRules<WorkflowCommand>(validator).apply(command);
     return syntax
         .map(c -> repository.find(new InventoryId(c.getReference())).execute(c))
-        .peek(inventory -> workflowService.submitTask())
+        .peek(workflowService::submitTask)
         .peek(repository::save)
-        .map(inventory -> Result.<InventoryId>builder().result(inventory.getId()).build());
+        .map(e -> Result.<InventoryId>builder().result(e.getId()).build());
   }
 
 }

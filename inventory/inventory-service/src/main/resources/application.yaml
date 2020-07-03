@@ -5,52 +5,25 @@
 # ===================================================================
 
 management:
-
   endpoints:
     web:
-      base-path: /actuator
+      base-path: /
       exposure:
-        include: ['configprops', 'env', 'health', 'info', 'logfile', 'loggers', 'prometheus', 'threaddump']
+        include: '*'
   endpoint:
     health:
       show-details: always
-      roles: 'ROLE_ADMIN'
-  info:
-    git:
-      mode: full
-  health:
-    mail:
-      enabled: false
-  metrics:
-    export:
-      # Prometheus is the default metrics backend
-      prometheus:
-        enabled: true
-        step: 60
-    enable:
-      http: true
-      jvm: true
-      logback: true
-      process: true
-      system: true
-    distribution:
-      percentiles-histogram:
-        all: true
-      percentiles:
-        all: 0, 0.5, 0.75, 0.95, 0.99, 1.0
-    tags:
-      application: ${spring.application.name}
-    web:
-      server:
-        request:
-          autotime:
-            enabled: true
+  server:
+    port: ${server.port}
+    servlet:
+      context-path: /actuator
 
 spring:
   application:
     name: inventory-service
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
+    enabled: false
   jpa:
     open-in-view: false
     properties:
@@ -71,7 +44,7 @@ spring:
     #      hibernate.cache.hazelcast.instance_name: ${spring.application.name}
     #      hibernate.cache.hazelcast.use_lite_member: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
@@ -88,3 +61,9 @@ spring:
           group: ${spring.application.name}
     consul:
       enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration
+      - org.springframework.cloud.client.serviceregistry.ServiceRegistryAutoConfiguration
+app:
+  workflow-engine-url: http://localhost:8080/workflows
