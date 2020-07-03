@@ -5,7 +5,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -15,18 +18,17 @@ import java.util.Map;
  *
  * @see https://docs.camunda.org/manual/latest/reference/rest
  */
-@FeignClient(name = "workflow-engine", url = "${app.workflow-engine-url}")
+@FeignClient(name = "workflow-engine", path = "/workflows", url = "${app.workflow-engine-url}")
 public interface ExternalWorkflowEngineClient {
 
-  @PostMapping("/process-definition/key/{key}/start")
-  WorkflowResponse startWorkflow(@PathVariable("key") String processName, @RequestBody FormRequest form);
+  @RequestMapping(method = RequestMethod.POST, value = "/process-definition/key/{key}/start")
+  WorkflowResponse startWorkflow(@PathVariable("key") String processName, FormRequest form);
 
-
-  @GetMapping("/task")
+  @RequestMapping(method = RequestMethod.GET, value = "/task")
   List<TaskResponse> getTasks(@RequestParam("processInstanceId") String processId);
 
-  @PostMapping("/task/{id}/submit-form")
-  void submitForm(@PathVariable("id") String taskId, @RequestBody FormRequest form);
+  @RequestMapping(method = RequestMethod.POST, value = "/task/{id}/submit-form")
+  void submitForm(@PathVariable("id") String taskId, FormRequest form);
 
   @JsonIgnoreProperties(ignoreUnknown = true)
   @Getter
@@ -43,7 +45,7 @@ public interface ExternalWorkflowEngineClient {
     public static FormValue ofBoolean(boolean v) {
       return new FormValue(v, "boolean");
     }
-    
+
     public static FormValue ofString(String v) {
       return new FormValue(v, "string");
     }
@@ -53,8 +55,6 @@ public interface ExternalWorkflowEngineClient {
   @RequiredArgsConstructor
   class FormRequest {
     private final Map<String, FormValue> variables;
-
-
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
