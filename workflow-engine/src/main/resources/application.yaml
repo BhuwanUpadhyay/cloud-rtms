@@ -1,16 +1,12 @@
 management:
   endpoints:
     web:
-      base-path: /
+      base-path: /actuator
       exposure:
         include: '*'
   endpoint:
     health:
       show-details: always
-  server:
-    port: ${server.port}
-    servlet:
-      context-path: /actuator
 
 spring:
   application:

@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBoot {
+public class WorkflowEngineApplication {
   public static void main(String[] args) {
-    SpringApplication.run(SpringBoot.class, args);
+    SpringApplication.run(WorkflowEngineApplication.class, args);
   }
 }
