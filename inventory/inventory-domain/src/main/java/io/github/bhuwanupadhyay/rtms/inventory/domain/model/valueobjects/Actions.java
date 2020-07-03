@@ -2,10 +2,11 @@ package io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects;
 
 public interface Actions {
   String REPAIR = "repair";
-  String BACK_REPAIR = "backRepair";
-  String SUBMIT = "submit";
-  String APPROVE = "approve";
   String ACCEPT = "accept";
   String REJECT = "reject";
-  String SUSPEND = "suspend";
+  String VERIFY = "verify";
+  String SAVE_REQUEST = "saveRequest";
+  String RE_SAVE_REQUEST = "reSaveRequest";
+  String PROCEED = "proceed";
+  String REQUEST_PROCEED = "requestProceed";
 }

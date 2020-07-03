@@ -98,7 +98,9 @@
     <bpmn:sequenceFlow id="SequenceFlow_09wfddh" sourceRef="ExclusiveGateway_17t1h1n" targetRef="Verify">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${action=='requestProceed'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_04oub4s" sourceRef="ExclusiveGateway_17t1h1n" targetRef="DataEntry" />
+    <bpmn:sequenceFlow id="SequenceFlow_04oub4s" sourceRef="ExclusiveGateway_17t1h1n" targetRef="DataEntry">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${action=='reSaveRequest'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="RtmProcess">

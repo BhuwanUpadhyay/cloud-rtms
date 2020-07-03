@@ -14,4 +14,5 @@ public interface InventoryDb {
   String PROCESS_ID = "PROCESS_ID";
   String CURRENT_TASK = "CURRENT_TASK";
   String CURRENT_PROCESS = "CURRENT_PROCESS";
+  String WORKFLOW_STATUS = "WORKFLOW_STATUS";
 }

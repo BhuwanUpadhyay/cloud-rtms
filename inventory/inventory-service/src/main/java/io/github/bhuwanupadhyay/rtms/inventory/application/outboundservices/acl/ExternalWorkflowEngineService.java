@@ -23,7 +23,6 @@ public class ExternalWorkflowEngineService {
   public static final String ACTION = "action";
   private static final String REF_NO = "refNo";
   private static final String SOURCE_SERVICE = "sourceService";
-  private static final String SAVE_REQUEST = "saveRequest";
   private static final String PROCESS = "RtmsProcess";
   private final ExternalWorkflowEngineClient workflowEngineClient;
 

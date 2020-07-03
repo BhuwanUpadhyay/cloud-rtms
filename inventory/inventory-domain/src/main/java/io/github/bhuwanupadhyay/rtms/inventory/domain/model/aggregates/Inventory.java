@@ -6,8 +6,8 @@ import io.github.bhuwanupadhyay.rtms.core.Result;
 import io.github.bhuwanupadhyay.rtms.ddd.AggregateRoot;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.commands.InventoryCreateCommand;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.InventoryCreated;
-import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowRegistered;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowExecuted;
+import io.github.bhuwanupadhyay.rtms.inventory.domain.events.WorkflowRegistered;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.InventoryDb;
 import io.github.bhuwanupadhyay.rtms.inventory.domain.model.valueobjects.*;
 import io.github.bhuwanupadhyay.rtms.rules.Problem;
@@ -55,7 +55,7 @@ public class Inventory extends AggregateRoot<InventoryId> {
     List<Problem> problems = new ArrayList<>();
     this.inventoryName = command.getInventoryName();
     this.productLines.addAll(command.getProductLines());
-    this.status = InventoryStatus.CREATED;
+    this.status = InventoryStatus.INITIAL;
     this.setCreatedAt(LocalDateTime.now());
     this.registerEvent(new InventoryCreated(this));
     log.info("Executed {} {}", command.getClass().getName(), command);
@@ -65,8 +65,7 @@ public class Inventory extends AggregateRoot<InventoryId> {
   public Result<Inventory> execute(RegisterWorkflowCommand command) {
     log.debug("Params => {}", command);
     List<Problem> problems = new ArrayList<>();
-    this.workflowInfo = new WorkflowInfo(command.getProcessId(), command.getCurrentProcess(), command.getCurrentTask());
-    this.status = InventoryStatus.CREATED;
+    this.workflowInfo = new WorkflowInfo(command.getProcessId(), command.getCurrentProcess(), command.getCurrentTask(), WorkflowStatus.SAVED);
     this.registerEvent(new WorkflowRegistered(this.workflowInfo));
     log.info("Executed {} {}", command.getClass().getName(), command);
     return Result.<Inventory>builder().result(this).problems(problems).build();
@@ -74,13 +73,7 @@ public class Inventory extends AggregateRoot<InventoryId> {
 
   public Result<Inventory> execute(WorkflowCommand command) {
     log.debug("Params => {}", command);
-
     List<Problem> problems = new ArrayList<>();
-
-    if (!this.getStatus().getNextActions().contains(command.getAction())) {
-
-    }
-
     this.userComments = Optional.ofNullable(this.userComments).orElseGet(ArrayList::new);
     this.userComments.add(new UserComment("SYSTEM", command.getAction(), command.getComment()));
 
@@ -88,7 +81,7 @@ public class Inventory extends AggregateRoot<InventoryId> {
       String payload = command.getPayloadJson();
     }
 
-    this.status = this.getStatus().nextStatus(command.getAction());
+    this.workflowInfo.onAction(command.getAction());
     this.registerEvent(new WorkflowExecuted(command.getAction(), this.getStatus().name()));
     log.debug("Executed {} {}", command.getClass().getName(), command);
 
