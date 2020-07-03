@@ -1,50 +1,12 @@
 spring:
   cloud:
-    consul:
-      discovery:
-        instance-id: "${spring.application.name}:${random.int[1,999999]}"
-        register-health-check: true
-        health-check-path: /actuator/health
-      enabled: true
-      host: localhost
-      port: 8500
     gateway:
       routes:
+        - id: workflow-engine
+          uri: http://localhost:8081
+          predicates:
+            - Path=/workflows/**
         - id: inventory-service
-          uri: lb://inventory-service
+          uri: http://localhost:8082
           predicates:
-            - Path=/inventories
-        - id: customer-service
-          uri: lb://cusotmer-service
-          predicates:
-            - Path=/customers
-        - id: payment-service
-          uri: lb://payment-service
-          predicates:
-            - Path=/payments
-        - id: order-service
-          uri: lb://order-service
-          predicates:
-            - Path=/orders
-        - id: notification-service
-          uri: lb://notification-service
-          predicates:
-            - Path=/notifications
-      default-filters:
-        - TokenRelay
-    loadbalancer:
-      cache:
-        enabled: true
-  security:
-    oauth2:
-      client:
-        provider:
-          oidc:
-            issuer-uri: http://localhost:8180/auth/realms/rtms
-            user-name-attribute: preferred_username
-        registration:
-          oidc:
-            client-id: gateway
-            client-secret: b44f1ffa-45a7-4c8a-a9b2-0dd0372a325e
-            grant-type: authorization_code,refresh_token
-#            redirect-uri: http://localhost:4300/rtms
+            - Path=/inventories/**

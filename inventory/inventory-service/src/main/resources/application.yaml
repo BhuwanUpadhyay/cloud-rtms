@@ -57,9 +57,10 @@ spring:
           group: ${spring.application.name}
     consul:
       enabled: false
-  autoconfigure:
-    exclude:
-      - org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration
-      - org.springframework.cloud.client.serviceregistry.ServiceRegistryAutoConfiguration
-app:
-  workflow-engine-url: http://localhost:8080
+    loadbalancer:
+      cache:
+        enabled: false
+      ribbon:
+        enabled: false
+      retry:
+        enabled: false

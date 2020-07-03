@@ -1,16 +1,24 @@
-POST http://localhost:8080/workflows/process-definition/key/RtmProcess/start
+POST http://localhost:8081/workflows/process-definition/key/RtmProcess/start
 Content-Type: application/json
 
 {
   "variables": {
+    "refNo": {
+      "value": "4d8972bd-2de9-4896-b370-78de29327a7b",
+      "type": "string"
+    },
     "action": {
       "value": "saveRequest",
+      "type": "string"
+    },
+    "sourceService": {
+      "value": "Inventory",
       "type": "string"
     }
   }
 }
 
 ###
-GET http://localhost:8080/workflows/task?processInstanceId=1344d565-bcd7-11ea-9842-d62008305809
+GET http://localhost:8081/workflows/task?processInstanceId=1344d565-bcd7-11ea-9842-d62008305809
 
 

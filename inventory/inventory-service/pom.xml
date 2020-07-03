@@ -66,9 +66,13 @@
       <artifactId>postgresql</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
     </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.cloud</groupId>-->
+<!--      <artifactId>spring-cloud-starter-stream-kafka</artifactId>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>com.github.ben-manes.caffeine</groupId>
       <artifactId>caffeine</artifactId>
@@ -127,7 +131,6 @@
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-stream-test-support</artifactId>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>au.com.dius</groupId>
@@ -139,11 +142,6 @@
       <groupId>au.com.dius</groupId>
       <artifactId>pact-jvm-provider-maven</artifactId>
       <version>${pact-jvm-provider-junit5.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
